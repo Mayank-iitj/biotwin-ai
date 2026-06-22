@@ -110,7 +110,7 @@ export default function CalendarPage() {
               {/* Calendar grid */}
               <div className="grid grid-cols-7 gap-1">
                 {days.map((day, index) => {
-                  const dateStr = day ? formatDate(day) : null
+                  const dateStr = day ? formatDate(day) : ''
                   const dayEvents = day ? getEventsForDate(dateStr) : []
                   const isSelected = day && dateStr === selectedDate
                   const isToday = day && dateStr === '2026-06-22'

@@ -113,7 +113,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-3xl mx-auto text-med-gray-green/70 text-lg sm:text-xl leading-relaxed mb-12"
           >
-            Construct your personalized "Digital Human Twin" mapping blood work, wearables, and lifestyle inputs. Predict multi-organ disease risks, simulate interventions, and discuss insights with a dedicated AI Health Coach.
+            Construct your personalized &quot;Digital Human Twin&quot; mapping blood work, wearables, and lifestyle inputs. Predict multi-organ disease risks, simulate interventions, and discuss insights with a dedicated AI Health Coach.
           </motion.p>
 
           <motion.div
@@ -366,7 +366,7 @@ export default function Home() {
       <section className="py-24 px-4 border-t border-med-gray-green/10 relative">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl sm:text-3xl font-display font-semibold italic text-med-cream leading-relaxed mb-8">
-            "BioTwin AI helped me identify high metabolic risk indicators and make actionable shifts. Having an AI coach grounded in my data made it easy."
+            &quot;BioTwin AI helped me identify high metabolic risk indicators and make actionable shifts. Having an AI coach grounded in my data made it easy.&quot;
           </h2>
           <div className="flex items-center justify-center gap-3">
             <div className="w-10 h-10 rounded-full bg-med-lime flex items-center justify-center font-bold text-med-dark text-lg">
