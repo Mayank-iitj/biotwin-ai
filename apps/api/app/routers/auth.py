@@ -1,5 +1,5 @@
 """Authentication router"""
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -12,12 +12,26 @@ import uuid
 from app.core.database import get_db
 from app.core.config import settings
 from app.models.user import User
-from app.schemas.auth import Token, TokenData, UserCreate, UserResponse
+from app.schemas.auth import Token, TokenData, UserCreate, UserResponse, GoogleAuthRequest
+
+from authlib.integrations.starlette_client import OAuth, OAuthError
+from starlette.requests import Request
+from starlette.responses import RedirectResponse
 
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
+oauth = OAuth()
+oauth.register(
+    name='google',
+    client_id=settings.GOOGLE_CLIENT_ID,
+    client_secret=settings.GOOGLE_CLIENT_SECRET,
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_kwargs={
+        'scope': 'openid email profile'
+    }
+)
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
@@ -154,6 +168,150 @@ async def refresh_token(
     )
 
 
+@router.post("/google", response_model=Token)
+async def google_login(
+    auth_request: GoogleAuthRequest,
+    db: AsyncSession = Depends(get_db)
+):
+    import httpx
+    # 1. Fetch info from Google tokeninfo endpoint
+    tokeninfo_url = f"https://oauth2.googleapis.com/tokeninfo?id_token={auth_request.id_token}"
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(tokeninfo_url, timeout=10.0)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Failed to communicate with Google: {str(e)}"
+        )
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Google token"
+        )
+
+    payload = response.json()
+
+    # 2. Verify Issuer
+    if payload.get("iss") not in ["accounts.google.com", "https://accounts.google.com"]:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Google token issuer"
+        )
+
+    # 3. Verify Audience if configured
+    if settings.GOOGLE_CLIENT_ID:
+        if payload.get("aud") != settings.GOOGLE_CLIENT_ID:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Google token audience mismatch"
+            )
+
+    email = payload.get("email")
+    if not email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email not provided in Google account token"
+        )
+
+    full_name = payload.get("name")
+
+    # 4. Find or create user
+    result = await db.execute(select(User).where(User.email == email))
+    user = result.scalar_one_or_none()
+
+    if not user:
+        # Create a new user with Google email (no password hash initially)
+        user = User(
+            email=email,
+            password_hash=None,
+            full_name=full_name
+        )
+        db.add(user)
+        await db.commit()
+        await db.refresh(user)
+
+        # Seed initial data for new user
+        from app.core.seed import seed_user_data
+        await seed_user_data(user.id, db)
+    
+    # 5. Generate application JWT tokens
+    access_token = create_access_token(data={"sub": str(user.id)})
+    refresh_token = create_refresh_token(data={"sub": str(user.id)})
+
+    return Token(
+        access_token=access_token,
+        refresh_token=refresh_token,
+        token_type="bearer"
+    )
+
+
 @router.post("/logout")
 async def logout(current_user: User = Depends(get_current_user)):
     return {"message": "Successfully logged out"}
+
+
+@router.get("/google/login")
+async def google_login(request: Request):
+    """Redirect to Google's consent screen"""
+    redirect_uri = "http://localhost:8000/api/v1/auth/google/callback"
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+
+@router.get("/google/callback")
+async def google_callback(request: Request, db: AsyncSession = Depends(get_db)):
+    """Handle Google's redirect and issue local JWT"""
+    try:
+        token = await oauth.google.authorize_access_token(request)
+    except OAuthError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Could not authenticate with Google: {str(e)}"
+        )
+
+    user_info = token.get("userinfo")
+    if not user_info:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Failed to retrieve user info from Google"
+        )
+
+    email = user_info.get("email")
+    google_id = user_info.get("sub")
+    full_name = user_info.get("name")
+
+    # Check if user exists
+    result = await db.execute(select(User).where(User.email == email))
+    user = result.scalar_one_or_none()
+
+    if not user:
+        # Create new user
+        user = User(
+            email=email,
+            full_name=full_name,
+            oauth_provider="google",
+            oauth_provider_id=google_id
+        )
+        db.add(user)
+        await db.commit()
+        await db.refresh(user)
+
+        from app.core.seed import seed_user_data
+        # Seed initial data for new user
+        await seed_user_data(user.id, db)
+    else:
+        # Update existing user if they don't have oauth set
+        if not user.oauth_provider:
+            user.oauth_provider = "google"
+            user.oauth_provider_id = google_id
+            await db.commit()
+            await db.refresh(user)
+
+    # Generate tokens
+    access_token = create_access_token(data={"sub": str(user.id)})
+    refresh_token = create_refresh_token(data={"sub": str(user.id)})
+
+    # Redirect to frontend callback page
+    frontend_callback_url = f"http://localhost:3000/auth/callback?access_token={access_token}&refresh_token={refresh_token}"
+    return RedirectResponse(url=frontend_callback_url)

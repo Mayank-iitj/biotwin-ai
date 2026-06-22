@@ -68,6 +68,13 @@ class ApiClient {
     return response.json()
   }
 
+  async loginWithGoogle(idToken: string) {
+    return this.request<{ access_token: string; refresh_token: string }>('/api/v1/auth/google', {
+      method: 'POST',
+      body: { id_token: idToken },
+    })
+  }
+
   async refreshToken(refreshToken: string) {
     return this.request<{ access_token: string; refresh_token: string }>('/api/v1/auth/refresh', {
       method: 'POST',

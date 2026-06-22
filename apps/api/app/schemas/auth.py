@@ -13,6 +13,10 @@ class TokenData(BaseModel):
     user_id: Optional[str] = None
 
 
+class GoogleAuthRequest(BaseModel):
+    id_token: str
+
+
 class UserCreate(BaseModel):
     email: EmailStr
     password: str

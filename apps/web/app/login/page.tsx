@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Shield, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth-context'
+import GoogleAuthButton from '../components/GoogleAuthButton'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -119,6 +120,19 @@ export default function LoginPage() {
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/10"></div>
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-med-dark px-2 text-white/40">Or continue with</span>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <GoogleAuthButton />
+          </div>
 
           <div className="mt-6 text-center">
             <p className="text-white/60">

@@ -34,6 +34,13 @@ class Settings(BaseSettings):
     # Groq API Key
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
 
+    # Google OAuth
+    GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "")
+
+    # OAuth
+    GOOGLE_CLIENT_SECRET: str = os.getenv("GOOGLE_CLIENT_SECRET", "")
+    SESSION_SECRET_KEY: str = os.getenv("SESSION_SECRET_KEY", "oauth-session-secret-change-in-production")
+
     # Storage
     STORAGE_BUCKET: str = os.getenv("STORAGE_BUCKET", "biotwin-uploads")
 

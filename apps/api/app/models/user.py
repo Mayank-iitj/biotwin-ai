@@ -22,6 +22,8 @@ class User(Base):
     sex: Mapped[str | None] = mapped_column(String(10), nullable=True)
     height_cm: Mapped[float | None] = mapped_column(Numeric(5, 2), nullable=True)
     weight_kg: Mapped[float | None] = mapped_column(Numeric(5, 2), nullable=True)
+    oauth_provider: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    oauth_provider_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
     disclaimer_acknowledged_at: Mapped[datetime.datetime | None] = mapped_column(
         DateTime(timezone=True),
         nullable=True
