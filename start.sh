@@ -3,4 +3,4 @@
 set -o errexit
 
 echo "Starting FastAPI backend server..."
-cd apps/api && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+cd apps/api && python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
