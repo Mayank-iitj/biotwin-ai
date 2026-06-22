@@ -4,12 +4,9 @@
   "private": true,
   "packageManager": "npm@11.7.0",
   "workspaces": ["apps/*", "packages/*"],
-  "bin": {
-    "uvicorn": "./uvicorn-wrapper.sh"
-  },
   "scripts": {
     "dev": "docker-compose -f infra/docker/docker-compose.yml up",
-    "build": "(pip install -r apps/api/requirements.txt || pip3 install -r apps/api/requirements.txt || echo 'pip not found, skipping') && turbo run build",
+    "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint"
   },

@@ -9,14 +9,13 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
-COPY apps/api/requirements.txt .
+COPY apps/web/requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY apps/api/app ./app
-COPY apps/api/ml_models ./ml_models
+COPY apps/web/api/app ./app
 
 # Expose port
 EXPOSE 8000
