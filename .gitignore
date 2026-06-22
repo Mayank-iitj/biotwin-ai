@@ -55,3 +55,6 @@ ENV/
 
 # OS
 Thumbs.db
+
+# Turborepo
+.turbo/
