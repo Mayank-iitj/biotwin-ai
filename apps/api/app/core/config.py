@@ -1,0 +1,51 @@
+"""Application configuration"""
+from pydantic_settings import BaseSettings
+from typing import List
+import os
+
+
+class Settings(BaseSettings):
+    # App
+    APP_NAME: str = "BioTwin AI"
+    DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
+
+    # Database
+    DATABASE_URL: str = os.getenv(
+        "DATABASE_URL",
+        "postgresql+asyncpg://postgres:postgres@localhost:5432/biotwin"
+    )
+
+    # JWT
+    JWT_SECRET: str = os.getenv("JWT_SECRET", "dev-secret-change-in-production")
+    JWT_ALGORITHM: str = "HS256"
+    JWT_EXPIRATION_MINUTES: int = 30
+    REFRESH_TOKEN_EXPIRATION_DAYS: int = 7
+
+    # Supabase (optional)
+    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
+    SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY", "")
+
+    # Redis
+    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379")
+
+    # Gemini API Key
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
+
+    # Groq API Key
+    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
+
+    # Storage
+    STORAGE_BUCKET: str = os.getenv("STORAGE_BUCKET", "biotwin-uploads")
+
+    # CORS
+    CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://localhost:3001",
+    ]
+
+    class Config:
+        env_file = ".env"
+        case_sensitive = True
+
+
+settings = Settings()

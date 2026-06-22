@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 83.5 92.3% 4.9%; /* #0f1901 */
+  --foreground: 60 20% 98.8%; /* #fdfdfc */
+  
+  --med-dark: #0f1901;
+  --med-lime: #cfff92;
+  --med-cream: #fdfdfc;
+  --med-gray-green: #e9ebe0;
+  --med-olive: #555f4a;
+}
+
+body {
+  color: var(--med-cream);
+  background-color: var(--med-dark);
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(207, 255, 146, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(207, 255, 146, 0.05) 0%, transparent 45%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+@layer components {
+  .glass-card {
+    background-color: rgba(14, 25, 1, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(233, 235, 224, 0.15);
+    border-radius: 12px;
+  }
+
+  .risk-low {
+    background-color: rgba(207, 255, 146, 0.12);
+    color: var(--med-lime);
+    border: 1px solid rgba(207, 255, 146, 0.25);
+  }
+
+  .risk-moderate {
+    background-color: rgba(234, 179, 8, 0.12);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.25);
+  }
+
+  .risk-high {
+    background-color: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+  }
+
+  .btn-primary {
+    background-color: var(--med-lime);
+    color: var(--med-dark);
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px; /* Medureon style rounded-full buttons */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 14px 0 rgba(207, 255, 146, 0.15);
+  }
+
+  .btn-primary:hover {
+    background-color: rgba(207, 255, 146, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px 0 rgba(207, 255, 146, 0.25);
+  }
+
+  .input-field {
+    background-color: rgba(233, 235, 224, 0.04);
+    border: 1px solid rgba(233, 235, 224, 0.12);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    color: var(--med-cream);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .input-field::placeholder {
+    color: rgba(233, 235, 224, 0.4);
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: rgba(207, 255, 146, 0.5);
+    background-color: rgba(233, 235, 224, 0.08);
+    box-shadow: 0 0 0 2px rgba(207, 255, 146, 0.15);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(135deg, var(--med-cream) 30%, var(--med-lime) 100%);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(14, 25, 1, 0.2);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--med-olive);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--med-gray-green);
+  }
+}

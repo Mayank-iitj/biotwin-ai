@@ -1,0 +1,42 @@
+services:
+  # FastAPI Backend Service
+  - type: web
+    name: biotwin-api
+    env: docker
+    dockercontext: .
+    dockerfilePath: infra/docker/Dockerfile.api
+    plan: starter
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: biotwin-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: biotwin-redis
+          property: connectionString
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: '["*"]'
+
+  # Redis Service (optional but configured for Celery/caching compatibility)
+  - type: redis
+    name: biotwin-redis
+    plan: starter
+    ipAllowList: [] # Only allow internal connections
+
+databases:
+  # PostgreSQL Database Service
+  - name: biotwin-db
+    databaseName: biotwin
+    user: postgres
+    plan: starter
