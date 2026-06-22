@@ -255,7 +255,7 @@ async def logout(current_user: User = Depends(get_current_user)):
 @router.get("/google/login")
 async def google_login(request: Request):
     """Redirect to Google's consent screen"""
-    redirect_uri = "http://localhost:8000/api/v1/auth/google/callback"
+    redirect_uri = f"{settings.API_URL}/api/v1/auth/google/callback"
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 
@@ -313,5 +313,5 @@ async def google_callback(request: Request, db: AsyncSession = Depends(get_db)):
     refresh_token = create_refresh_token(data={"sub": str(user.id)})
 
     # Redirect to frontend callback page
-    frontend_callback_url = f"http://localhost:3000/auth/callback?access_token={access_token}&refresh_token={refresh_token}"
+    frontend_callback_url = f"{settings.FRONTEND_URL}/auth/callback?access_token={access_token}&refresh_token={refresh_token}"
     return RedirectResponse(url=frontend_callback_url)

@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     # App
     APP_NAME: str = "BioTwin AI"
     DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
+    API_URL: str = os.getenv("API_URL", "http://localhost:8000")
+    FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:3000")
 
     # Database
     DATABASE_URL: str = os.getenv(
