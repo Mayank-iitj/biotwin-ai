@@ -180,34 +180,48 @@ export default function Home() {
                 </button>
               </div>
 
-              <div className="glass-card p-6 min-h-[300px] flex flex-col justify-center">
-                {activeTab === 'vitals' ? (
-                  <div className="space-y-5">
-                    <h3 className="text-lg font-display font-bold text-med-cream mb-4">Biometric Synced Telemetry</h3>
-                    {mockVitals.map((vital, i) => (
-                      <div key={i} className="flex justify-between items-center py-2.5 border-b border-med-gray-green/10 last:border-0">
-                        <span className="text-med-gray-green/80 font-medium">{vital.name}</span>
-                        <div className="text-right">
-                          <span className={`block font-bold font-display ${vital.color}`}>{vital.value}</span>
-                          <span className="text-xs text-med-gray-green/50">{vital.status}</span>
+              <div className="relative group overflow-hidden glass-card p-6 min-h-[300px] flex flex-col justify-between hover:border-med-lime/30 transition-all duration-500">
+                {/* Shimmer Shine Overlay */}
+                <div className="absolute top-0 -left-[100%] h-full w-[50%] z-10 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/15 to-transparent transition-all duration-1000 group-hover:left-[150%] pointer-events-none" />
+
+                <div className="flex-1">
+                  {activeTab === 'vitals' ? (
+                    <div className="space-y-5">
+                      <h3 className="text-lg font-display font-bold text-med-cream mb-4">Biometric Synced Telemetry</h3>
+                      {mockVitals.map((vital, i) => (
+                        <div key={i} className="flex justify-between items-center py-2.5 border-b border-med-gray-green/10 last:border-0">
+                          <span className="text-med-gray-green/80 font-medium">{vital.name}</span>
+                          <div className="text-right">
+                            <span className={`block font-bold font-display ${vital.color}`}>{vital.value}</span>
+                            <span className="text-xs text-med-gray-green/50">{vital.status}</span>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-display font-bold text-med-cream mb-4">ML Engine Assessment</h3>
-                    {mockRisks.map((item, i) => (
-                      <div key={i} className={`p-4 rounded-xl border flex justify-between items-center ${item.bg}`}>
-                        <div>
-                          <span className="block font-semibold text-med-cream text-sm">{item.disease}</span>
-                          <span className={`text-xs ${item.color} font-medium`}>{item.status}</span>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-display font-bold text-med-cream mb-4">ML Engine Assessment</h3>
+                      {mockRisks.map((item, i) => (
+                        <div key={i} className={`p-4 rounded-xl border flex justify-between items-center ${item.bg}`}>
+                          <div>
+                            <span className="block font-semibold text-med-cream text-sm">{item.disease}</span>
+                            <span className={`text-xs ${item.color} font-medium`}>{item.status}</span>
+                          </div>
+                          <span className={`text-2xl font-bold font-display ${item.color}`}>{item.risk}</span>
                         </div>
-                        <span className={`text-2xl font-bold font-display ${item.color}`}>{item.risk}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-med-gray-green/10 relative z-20">
+                  <Link 
+                    href="/twin" 
+                    className="w-full block text-center py-3 bg-med-lime text-med-dark font-bold text-sm rounded-full shadow-lg shadow-med-lime/10 hover:scale-[1.02] hover:bg-med-lime/90 active:scale-[0.98] transition-all duration-300"
+                  >
+                    Interact with 3D Twin &rarr;
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

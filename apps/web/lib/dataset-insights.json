@@ -1,0 +1,53 @@
+{
+  "diabetes_cohorts": {
+    "healthy": {
+      "glucose": 111.0,
+      "bp": 70.9,
+      "bmi": 31.0,
+      "count": 475
+    },
+    "diabetic": {
+      "glucose": 142.6,
+      "bp": 75.2,
+      "bmi": 35.3,
+      "count": 249
+    }
+  },
+  "cardio_cohorts": {
+    "negative": {
+      "systolic": 119.6,
+      "diastolic": 78.2,
+      "weight": 71.6,
+      "count": 34734
+    },
+    "positive": {
+      "systolic": 133.8,
+      "diastolic": 84.6,
+      "weight": 76.7,
+      "count": 34013
+    }
+  },
+  "sleep_disorder_profiles": {
+    "None": {
+      "sleep_duration": 7.36,
+      "sleep_quality": 7.6,
+      "stress_level": 5.1,
+      "steps": 6852,
+      "count": 219
+    },
+    "Sleep Apnea": {
+      "sleep_duration": 7.03,
+      "sleep_quality": 7.2,
+      "stress_level": 5.7,
+      "steps": 7619,
+      "count": 78
+    },
+    "Insomnia": {
+      "sleep_duration": 6.59,
+      "sleep_quality": 6.5,
+      "stress_level": 5.9,
+      "steps": 5901,
+      "count": 77
+    }
+  }
+}

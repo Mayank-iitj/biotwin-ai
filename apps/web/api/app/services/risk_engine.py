@@ -75,7 +75,8 @@ class RiskEngine:
                 "trestbps": float(blood.get("Systolic BP", 120)),
                 "chol": float(blood.get("LDL", 100) + blood.get("HDL", 50)),
                 "smoking": 1.0 if lifestyle.get("smoking") else 0.0,
-                "family_history": 1.0 if any("heart" in str(f).lower() for f in family) else 0.0
+                "family_history": 1.0 if any("heart" in str(f).lower() for f in family) else 0.0,
+                "sleep_hours": float(lifestyle.get("sleep_hours", 7.5))
             }
         elif disease == "diabetes":
             weight = lifestyle.get("weight_kg", 70)
@@ -105,7 +106,8 @@ class RiskEngine:
                 "diastolic": float(blood.get("Diastolic BP", 80)),
                 "sodium": float(blood.get("Sodium", 140)),
                 "bmi": float(weight / (1.7 ** 2)),
-                "family_hypertension": 1.0 if any("hypertension" in str(f).lower() for f in family) else 0.0
+                "family_hypertension": 1.0 if any("hypertension" in str(f).lower() for f in family) else 0.0,
+                "sleep_hours": float(lifestyle.get("sleep_hours", 7.5))
             }
         elif disease == "obesity":
             weight = lifestyle.get("weight_kg", 70)
@@ -130,6 +132,7 @@ class RiskEngine:
             chol = features.get("chol", 150.0)
             smoking = features.get("smoking", 0.0)
             family_history = features.get("family_history", 0.0)
+            sleep_hours = features.get("sleep_hours", 7.5)
 
             score += min(max(age - 30, 0), 50) * 0.004
             score += min(max(trestbps - 120, 0), 80) * 0.003
@@ -138,6 +141,8 @@ class RiskEngine:
                 score += 0.15
             if family_history > 0:
                 score += 0.10
+            if sleep_hours < 6.5:
+                score += 0.08
 
         elif disease == "diabetes":
             hba1c = features.get("hba1c", 5.5)
@@ -173,6 +178,7 @@ class RiskEngine:
             sodium = features.get("sodium", 140.0)
             bmi = features.get("bmi", 22.0)
             family_hypertension = features.get("family_hypertension", 0.0)
+            sleep_hours = features.get("sleep_hours", 7.5)
 
             score += min(max(systolic - 120, 0), 80) * 0.007
             score += min(max(diastolic - 80, 0), 50) * 0.008
@@ -180,6 +186,8 @@ class RiskEngine:
             score += min(max(bmi - 24, 0), 30) * 0.01
             if family_hypertension > 0:
                 score += 0.08
+            if sleep_hours < 6.5:
+                score += 0.10
 
         elif disease == "obesity":
             bmi = features.get("bmi", 22.0)

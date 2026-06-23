@@ -458,6 +458,131 @@ export default function DashboardPage() {
                 </div>
               </div>
 
+              {/* Population Cohort Benchmarking */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 }}
+                className="glass-card p-6 border border-white/10 mt-8 relative overflow-hidden"
+              >
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                      <Brain className="w-5 h-5 text-primary-400" />
+                      Population Cohort Benchmarking
+                    </h3>
+                    <p className="text-white/50 text-sm">Compare your biometrics against standard clinical and lifestyle datasets (70K+ subjects)</p>
+                  </div>
+                  <span className="text-xs px-2.5 py-1 bg-white/5 rounded-full border border-white/10 text-white/70">
+                    Real-time dataset sync
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Glucose Comparison */}
+                  <div className="bg-slate-950/40 border border-white/5 rounded-2xl p-5">
+                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase text-primary-300">Blood Glucose (Diabetes Dataset)</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">Your Level</span>
+                          <span className="text-primary-400 font-bold">95 mg/dL</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-primary-500 rounded-full" style={{ width: '66.6%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">Healthy Cohort (Avg)</span>
+                          <span className="text-white font-medium">111.0 mg/dL</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-risk-low rounded-full" style={{ width: '77.8%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">Diabetic Cohort (Avg)</span>
+                          <span className="text-white font-medium text-risk-high">142.6 mg/dL</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-risk-high rounded-full" style={{ width: '100%' }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* BP Comparison */}
+                  <div className="bg-slate-950/40 border border-white/5 rounded-2xl p-5">
+                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase text-primary-300">Blood Pressure (Cardio Dataset)</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">Your Level (Systolic)</span>
+                          <span className="text-primary-400 font-bold">118 mmHg</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-primary-500 rounded-full" style={{ width: '88.1%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">Cardio Negative (Healthy)</span>
+                          <span className="text-white font-medium">119.6 mmHg</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-risk-low rounded-full" style={{ width: '89.3%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">Cardio Positive (High Risk)</span>
+                          <span className="text-white font-medium text-risk-high">133.8 mmHg</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-risk-high rounded-full" style={{ width: '100%' }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sleep Comparison */}
+                  <div className="bg-slate-950/40 border border-white/5 rounded-2xl p-5">
+                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase text-primary-300">Sleep (Sleep & Lifestyle Dataset)</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">Your Sleep Duration</span>
+                          <span className="text-primary-400 font-bold">7.9 hrs</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-primary-500 rounded-full" style={{ width: '92.9%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">No Disorder Group (Avg)</span>
+                          <span className="text-white font-medium">7.36 hrs</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-risk-low rounded-full" style={{ width: '86.5%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-white/60">Insomnia Cohort (Avg)</span>
+                          <span className="text-white font-medium text-risk-high">6.59 hrs</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-risk-high rounded-full" style={{ width: '77.5%' }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
               {/* Quick Actions */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
