@@ -227,10 +227,10 @@ export default function HumanBodyViewer({
   return (
     <div
       ref={containerRef}
-      className={`relative ${className}`}
+      className={`relative w-full h-full ${className}`}
     >
       {/* Sketchfab 3D Model Embed */}
-      <div className="relative w-full aspect-[3/4] bg-gradient-to-b from-med-dark/30 to-med-dark/80 border border-med-gray-green/15 rounded-xl overflow-hidden">
+      <div className="relative w-full h-full bg-gradient-to-b from-med-dark/30 to-med-dark/80 border border-med-gray-green/15 rounded-xl overflow-hidden">
         {/* Dynamic status badge when falling back to 2D */}
         {loadTimedOut && viewMode === '2d' && (
           <div className="absolute top-4 left-4 z-10 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/25 text-yellow-500 text-[10px] font-semibold flex items-center gap-1.5 backdrop-blur-sm">
