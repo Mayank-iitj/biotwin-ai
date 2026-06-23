@@ -1,11 +1,16 @@
-export const historicalHealthData = [
-  { month: 'Jan', heartRate: 72, bloodPressure: 120, sleep: 7.2, activity: 65 },
-  { month: 'Feb', heartRate: 74, bloodPressure: 122, sleep: 6.8, activity: 50 },
-  { month: 'Mar', heartRate: 70, bloodPressure: 118, sleep: 7.5, activity: 80 },
-  { month: 'Apr', heartRate: 68, bloodPressure: 115, sleep: 8.0, activity: 90 },
-  { month: 'May', heartRate: 65, bloodPressure: 112, sleep: 8.2, activity: 95 },
-  { month: 'Jun', heartRate: 66, bloodPressure: 114, sleep: 7.9, activity: 85 },
-]
+import fitbitData from './fitbit-data-merged.json'
+
+// Map real Fitbit data to the format expected by the charts
+export const historicalHealthData = fitbitData.map(stat => ({
+  month: stat.date.substring(5), // e.g., "03-12"
+  heartRate: stat.heart_rate_avg,
+  bloodPressure: 118, // Normal baseline BP
+  sleep: stat.sleep_hours,
+  activity: Math.min(Math.round((stat.active_minutes / 300) * 100), 100), // Normalize active minutes to a score of 100
+  steps: stat.steps,
+  calories: stat.calories,
+  weight: stat.weight_kg,
+}))
 
 export const biomarkerData = [
   { name: 'Cholesterol (LDL)', value: 110, target: 100, unit: 'mg/dL', status: 'elevated' },
@@ -21,8 +26,22 @@ export const riskDistribution = [
   { name: 'High Risk', value: 10, fill: '#ef4444' },
 ]
 
-export const recentActivities = [
-  { id: 1, action: 'Uploaded Blood Report', date: '2 days ago', icon: 'file' },
-  { id: 2, action: 'Completed 10k steps', date: 'Yesterday', icon: 'activity' },
-  { id: 3, action: 'Simulated Mediterranean Diet', date: 'Today', icon: 'trending' },
-]
+export const recentActivities = fitbitData.slice(-10).reverse().map((stat, idx) => {
+  let action = `Logged ${stat.steps.toLocaleString()} steps`
+  let icon = 'activity'
+  
+  if (stat.sleep_hours > 0 && idx % 3 === 1) {
+    action = `Slept for ${stat.sleep_hours} hours`
+    icon = 'moon'
+  } else if (stat.calories > 3200 && idx % 3 === 2) {
+    action = `Burned ${stat.calories.toLocaleString()} kcal`
+    icon = 'trending'
+  }
+
+  return {
+    id: idx + 1,
+    action,
+    date: stat.date,
+    icon,
+  }
+})

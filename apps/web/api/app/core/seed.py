@@ -10,22 +10,53 @@ from app.models.risk import RiskAssessment
 from app.models.recommendation import Recommendation
 from app.services.risk_engine import RiskEngine
 
+import os
+import json
+
 async def seed_user_data(user_id: uuid.UUID, db: AsyncSession):
-    """Seed dummy data for a new user to populate the dashboard."""
+    """Seed real Fitbit data if available, otherwise fallback to dummy data."""
     
-    # 1. Lifestyle Log
-    lifestyle = LifestyleLog(
-        user_id=user_id,
-        log_date=datetime.utcnow().date(),
-        sleep_hours=random.uniform(5.5, 8.5),
-        exercise_minutes=random.randint(10, 60),
-        smoking=random.choice([True, False, False, False]),
-        alcohol_units=random.randint(0, 10),
-        weight_kg=random.uniform(60.0, 95.0),
-        diet_quality_score=random.randint(40, 90),
-        calories=random.randint(1800, 3000)
-    )
-    db.add(lifestyle)
+    # Try to load real Fitbit data
+    fitbit_path = os.path.join(os.path.dirname(__file__), "..", "..", "..", "lib", "fitbit-data-merged.json")
+    fitbit_records = []
+    if os.path.exists(fitbit_path):
+        try:
+            with open(fitbit_path, "r") as f:
+                fitbit_records = json.load(f)
+        except Exception:
+            pass
+
+    # 1. Lifestyle Logs
+    lifestyle = None
+    if fitbit_records:
+        for rec in fitbit_records:
+            log_date = datetime.strptime(rec["date"], "%Y-%m-%d").date()
+            lifestyle = LifestyleLog(
+                user_id=user_id,
+                log_date=log_date,
+                sleep_hours=rec["sleep_hours"],
+                exercise_minutes=rec["active_minutes"],
+                smoking=False,
+                alcohol_units=0,
+                weight_kg=rec["weight_kg"],
+                diet_quality_score=75,
+                calories=rec["calories"]
+            )
+            db.add(lifestyle)
+    else:
+        # Fallback lifestyle log
+        lifestyle = LifestyleLog(
+            user_id=user_id,
+            log_date=datetime.utcnow().date(),
+            sleep_hours=random.uniform(5.5, 8.5),
+            exercise_minutes=random.randint(10, 60),
+            smoking=random.choice([True, False, False, False]),
+            alcohol_units=random.randint(0, 10),
+            weight_kg=random.uniform(60.0, 95.0),
+            diet_quality_score=random.randint(40, 90),
+            calories=random.randint(1800, 3000)
+        )
+        db.add(lifestyle)
 
     # 2. Family History
     conditions = ["diabetes", "hypertension", "heart_disease", "ckd", "obesity"]
@@ -69,41 +100,53 @@ async def seed_user_data(user_id: uuid.UUID, db: AsyncSession):
             value=value,
             unit=unit,
             reference_range=ref,
-            is_abnormal=False # Simplified
+            is_abnormal=False
         )
         db.add(br_value)
         
     # 4. Wearable Data
-    now = datetime.utcnow()
-    for i in range(7):
-        wd = WearableData(
-            user_id=user_id,
-            source="dummy",
-            metric_type="heart_rate",
-            value=random.uniform(60, 100),
-            recorded_at=now - timedelta(days=i)
-        )
-        db.add(wd)
+    if fitbit_records:
+        for rec in fitbit_records:
+            log_date = datetime.strptime(rec["date"], "%Y-%m-%d").date()
+            recorded_at = datetime.combine(log_date, datetime.min.time())
+            wd = WearableData(
+                user_id=user_id,
+                source="fitbit",
+                metric_type="heart_rate",
+                value=rec["heart_rate_avg"],
+                recorded_at=recorded_at
+            )
+            db.add(wd)
+    else:
+        now = datetime.utcnow()
+        for i in range(7):
+            wd = WearableData(
+                user_id=user_id,
+                source="dummy",
+                metric_type="heart_rate",
+                value=random.uniform(60, 100),
+                recorded_at=now - timedelta(days=i)
+            )
+            db.add(wd)
     await db.commit()
 
     # 5. Risk Assessment (via RiskEngine)
-    # We must gather features the same way risk.py does.
     features = {
         "blood_markers": {m[0]: m[1] for m in markers},
         "lifestyle": {
-            "exercise_minutes": lifestyle.exercise_minutes,
-            "sleep_hours": lifestyle.sleep_hours,
-            "smoking": lifestyle.smoking,
-            "alcohol_units": lifestyle.alcohol_units,
-            "weight_kg": lifestyle.weight_kg,
-            "calories": lifestyle.calories,
-            "diet_quality_score": lifestyle.diet_quality_score
+            "exercise_minutes": lifestyle.exercise_minutes if lifestyle else 30,
+            "sleep_hours": lifestyle.sleep_hours if lifestyle else 7.5,
+            "smoking": lifestyle.smoking if lifestyle else False,
+            "alcohol_units": lifestyle.alcohol_units if lifestyle else 0,
+            "weight_kg": lifestyle.weight_kg if lifestyle else 75.0,
+            "calories": lifestyle.calories if lifestyle else 2000,
+            "diet_quality_score": lifestyle.diet_quality_score if lifestyle else 70
         },
         "family_history": user_conditions
     }
     
-    engine = RiskEngine()
-    assessments = await engine.assess_all(user_id, features)
+    engine_inst = RiskEngine()
+    assessments = await engine_inst.assess_all(user_id, features)
     
     for assessment in assessments:
         db_assessment = RiskAssessment(
@@ -117,7 +160,7 @@ async def seed_user_data(user_id: uuid.UUID, db: AsyncSession):
         )
         db.add(db_assessment)
         
-    # 6. Dummy Recommendations
+    # 6. Recommendations
     recs = [
         Recommendation(
             user_id=user_id,
