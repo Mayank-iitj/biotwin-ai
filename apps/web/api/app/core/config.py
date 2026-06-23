@@ -62,6 +62,18 @@ class Settings(BaseSettings):
             self.DATABASE_URL = self.DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
         elif self.DATABASE_URL.startswith("postgresql://"):
             self.DATABASE_URL = self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+        
+        # Add FRONTEND_URL to CORS_ORIGINS
+        if self.FRONTEND_URL and self.FRONTEND_URL not in self.CORS_ORIGINS:
+            self.CORS_ORIGINS.append(self.FRONTEND_URL)
+            
+        # Parse optional comma-separated CORS_ORIGINS from env
+        env_origins = os.getenv("CORS_ORIGINS")
+        if env_origins:
+            for origin in env_origins.split(","):
+                origin = origin.strip()
+                if origin and origin not in self.CORS_ORIGINS:
+                    self.CORS_ORIGINS.append(origin)
 
 
 settings = Settings()
