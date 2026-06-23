@@ -1,0 +1,737 @@
+[
+  {
+    "id": "report-blood-0",
+    "report_date": "2016-03-13",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=2 months, frequency=50 times, total volume=12500 mL",
+    "markers": [
+      {
+        "id": "marker-0-1",
+        "marker": "Hemoglobin",
+        "value": 19.1,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": true
+      },
+      {
+        "id": "marker-0-2",
+        "marker": "Hematocrit",
+        "value": 57.2,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": true
+      },
+      {
+        "id": "marker-0-3",
+        "marker": "Platelet Count",
+        "value": 318,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-0-4",
+        "marker": "Donation Frequency",
+        "value": 50,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-0-5",
+        "marker": "Total Volume Donated",
+        "value": 12500,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-1",
+    "report_date": "2016-05-12",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=0 months, frequency=13 times, total volume=3250 mL",
+    "markers": [
+      {
+        "id": "marker-1-1",
+        "marker": "Hemoglobin",
+        "value": 15.5,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-1-2",
+        "marker": "Hematocrit",
+        "value": 46.4,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-1-3",
+        "marker": "Platelet Count",
+        "value": 246,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-1-4",
+        "marker": "Donation Frequency",
+        "value": 13,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-1-5",
+        "marker": "Total Volume Donated",
+        "value": 3250,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-2",
+    "report_date": "2016-04-12",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=1 months, frequency=17 times, total volume=4000 mL",
+    "markers": [
+      {
+        "id": "marker-2-1",
+        "marker": "Hemoglobin",
+        "value": 15.8,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-2-2",
+        "marker": "Hematocrit",
+        "value": 47.5,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-2-3",
+        "marker": "Platelet Count",
+        "value": 253,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-2-4",
+        "marker": "Donation Frequency",
+        "value": 17,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-2-5",
+        "marker": "Total Volume Donated",
+        "value": 4000,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-3",
+    "report_date": "2016-03-13",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=2 months, frequency=20 times, total volume=5000 mL",
+    "markers": [
+      {
+        "id": "marker-3-1",
+        "marker": "Hemoglobin",
+        "value": 16.1,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-3-2",
+        "marker": "Hematocrit",
+        "value": 48.2,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-3-3",
+        "marker": "Platelet Count",
+        "value": 258,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-3-4",
+        "marker": "Donation Frequency",
+        "value": 20,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-3-5",
+        "marker": "Total Volume Donated",
+        "value": 5000,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-4",
+    "report_date": "2016-04-12",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=1 months, frequency=24 times, total volume=6000 mL",
+    "markers": [
+      {
+        "id": "marker-4-1",
+        "marker": "Hemoglobin",
+        "value": 16.6,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-4-2",
+        "marker": "Hematocrit",
+        "value": 49.6,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-4-3",
+        "marker": "Platelet Count",
+        "value": 267,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-4-4",
+        "marker": "Donation Frequency",
+        "value": 24,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-4-5",
+        "marker": "Total Volume Donated",
+        "value": 6000,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-5",
+    "report_date": "2016-01-13",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=4 months, frequency=4 times, total volume=1000 mL",
+    "markers": [
+      {
+        "id": "marker-5-1",
+        "marker": "Hemoglobin",
+        "value": 14.4,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-5-2",
+        "marker": "Hematocrit",
+        "value": 43.1,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-5-3",
+        "marker": "Platelet Count",
+        "value": 224,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-5-4",
+        "marker": "Donation Frequency",
+        "value": 4,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": true
+      },
+      {
+        "id": "marker-5-5",
+        "marker": "Total Volume Donated",
+        "value": 1000,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-6",
+    "report_date": "2016-03-13",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=2 months, frequency=7 times, total volume=1750 mL",
+    "markers": [
+      {
+        "id": "marker-6-1",
+        "marker": "Hemoglobin",
+        "value": 14.8,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-6-2",
+        "marker": "Hematocrit",
+        "value": 44.3,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-6-3",
+        "marker": "Platelet Count",
+        "value": 232,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-6-4",
+        "marker": "Donation Frequency",
+        "value": 7,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-6-5",
+        "marker": "Total Volume Donated",
+        "value": 1750,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-7",
+    "report_date": "2016-04-12",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=1 months, frequency=12 times, total volume=3000 mL",
+    "markers": [
+      {
+        "id": "marker-7-1",
+        "marker": "Hemoglobin",
+        "value": 15.3,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-7-2",
+        "marker": "Hematocrit",
+        "value": 46.0,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-7-3",
+        "marker": "Platelet Count",
+        "value": 243,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-7-4",
+        "marker": "Donation Frequency",
+        "value": 12,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-7-5",
+        "marker": "Total Volume Donated",
+        "value": 3000,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-8",
+    "report_date": "2016-03-13",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=2 months, frequency=9 times, total volume=2250 mL",
+    "markers": [
+      {
+        "id": "marker-8-1",
+        "marker": "Hemoglobin",
+        "value": 15.0,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-8-2",
+        "marker": "Hematocrit",
+        "value": 44.9,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-8-3",
+        "marker": "Platelet Count",
+        "value": 236,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-8-4",
+        "marker": "Donation Frequency",
+        "value": 9,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-8-5",
+        "marker": "Total Volume Donated",
+        "value": 2250,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-9",
+    "report_date": "2015-12-14",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=5 months, frequency=46 times, total volume=11500 mL",
+    "markers": [
+      {
+        "id": "marker-9-1",
+        "marker": "Hemoglobin",
+        "value": 18.6,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": true
+      },
+      {
+        "id": "marker-9-2",
+        "marker": "Hematocrit",
+        "value": 55.5,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": true
+      },
+      {
+        "id": "marker-9-3",
+        "marker": "Platelet Count",
+        "value": 307,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-9-4",
+        "marker": "Donation Frequency",
+        "value": 46,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-9-5",
+        "marker": "Total Volume Donated",
+        "value": 11500,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-10",
+    "report_date": "2016-01-13",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=4 months, frequency=23 times, total volume=5750 mL",
+    "markers": [
+      {
+        "id": "marker-10-1",
+        "marker": "Hemoglobin",
+        "value": 16.3,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-10-2",
+        "marker": "Hematocrit",
+        "value": 48.8,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-10-3",
+        "marker": "Platelet Count",
+        "value": 262,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-10-4",
+        "marker": "Donation Frequency",
+        "value": 23,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-10-5",
+        "marker": "Total Volume Donated",
+        "value": 5750,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-11",
+    "report_date": "2016-05-12",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=0 months, frequency=3 times, total volume=750 mL",
+    "markers": [
+      {
+        "id": "marker-11-1",
+        "marker": "Hemoglobin",
+        "value": 14.5,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-11-2",
+        "marker": "Hematocrit",
+        "value": 43.4,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-11-3",
+        "marker": "Platelet Count",
+        "value": 226,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-11-4",
+        "marker": "Donation Frequency",
+        "value": 3,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": true
+      },
+      {
+        "id": "marker-11-5",
+        "marker": "Total Volume Donated",
+        "value": 750,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": true
+      }
+    ]
+  },
+  {
+    "id": "report-blood-12",
+    "report_date": "2016-03-13",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=2 months, frequency=10 times, total volume=2500 mL",
+    "markers": [
+      {
+        "id": "marker-12-1",
+        "marker": "Hemoglobin",
+        "value": 15.1,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-12-2",
+        "marker": "Hematocrit",
+        "value": 45.2,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-12-3",
+        "marker": "Platelet Count",
+        "value": 238,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-12-4",
+        "marker": "Donation Frequency",
+        "value": 10,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-12-5",
+        "marker": "Total Volume Donated",
+        "value": 2500,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-13",
+    "report_date": "2016-04-12",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=1 months, frequency=13 times, total volume=3250 mL",
+    "markers": [
+      {
+        "id": "marker-13-1",
+        "marker": "Hemoglobin",
+        "value": 15.4,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-13-2",
+        "marker": "Hematocrit",
+        "value": 46.2,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-13-3",
+        "marker": "Platelet Count",
+        "value": 245,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-13-4",
+        "marker": "Donation Frequency",
+        "value": 13,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-13-5",
+        "marker": "Total Volume Donated",
+        "value": 3250,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  },
+  {
+    "id": "report-blood-14",
+    "report_date": "2016-03-13",
+    "status": "parsed",
+    "file_url": "https://example.com/blood_donation_report.pdf",
+    "extracted_text": "Blood donation history: recency=2 months, frequency=6 times, total volume=1500 mL",
+    "markers": [
+      {
+        "id": "marker-14-1",
+        "marker": "Hemoglobin",
+        "value": 14.7,
+        "unit": "g/dL",
+        "reference_range": "13.8 - 17.2",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-14-2",
+        "marker": "Hematocrit",
+        "value": 44.0,
+        "unit": "%",
+        "reference_range": "40.7 - 50.3",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-14-3",
+        "marker": "Platelet Count",
+        "value": 230,
+        "unit": "k/uL",
+        "reference_range": "150 - 450",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-14-4",
+        "marker": "Donation Frequency",
+        "value": 6,
+        "unit": "times",
+        "reference_range": "Target: >5",
+        "is_abnormal": false
+      },
+      {
+        "id": "marker-14-5",
+        "marker": "Total Volume Donated",
+        "value": 1500,
+        "unit": "mL",
+        "reference_range": "Target: >1000",
+        "is_abnormal": false
+      }
+    ]
+  }
+]

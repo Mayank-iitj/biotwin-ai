@@ -69,40 +69,87 @@ async def seed_user_data(user_id: uuid.UUID, db: AsyncSession):
         )
         db.add(fh)
 
-    # 3. Blood Report
-    blood_report = BloodReport(
-        user_id=user_id,
-        report_date=datetime.utcnow().date(),
-        status="parsed",
-        file_url="https://example.com/dummy_report.pdf",
-        extracted_text="Dummy blood report content"
-    )
-    db.add(blood_report)
-    await db.commit() # commit to get blood_report id
-    await db.refresh(blood_report)
+    # 3. Blood Reports
+    blood_reports_path = os.path.join(os.path.dirname(__file__), "..", "..", "..", "lib", "blood-reports-parsed.json")
+    parsed_blood_reports = []
+    if os.path.exists(blood_reports_path):
+        try:
+            with open(blood_reports_path, "r") as f:
+                parsed_blood_reports = json.load(f)
+        except Exception:
+            pass
 
-    # Blood Report Values
-    markers = [
-        ("HbA1c", random.uniform(4.5, 7.5), "%", "4.0-5.6"),
-        ("Fasting Glucose", random.uniform(80, 140), "mg/dL", "70-99"),
-        ("LDL", random.uniform(80, 160), "mg/dL", "<100"),
-        ("HDL", random.uniform(30, 70), "mg/dL", ">40"),
-        ("Systolic BP", random.uniform(110, 150), "mmHg", "<120"),
-        ("Diastolic BP", random.uniform(70, 95), "mmHg", "<80"),
-        ("Sodium", random.uniform(130, 150), "mEq/L", "135-145"),
-        ("Creatinine", random.uniform(0.6, 1.5), "mg/dL", "0.7-1.3"),
-        ("eGFR", random.uniform(50, 120), "mL/min", ">90")
-    ]
-    for marker, value, unit, ref in markers:
-        br_value = BloodReportValue(
-            blood_report_id=blood_report.id,
-            marker=marker,
-            value=value,
-            unit=unit,
-            reference_range=ref,
-            is_abnormal=False
+    risk_markers = {
+        "HbA1c": 5.5,
+        "Fasting Glucose": 100,
+        "LDL": 100,
+        "HDL": 50,
+        "Systolic BP": 120,
+        "Diastolic BP": 80,
+        "Sodium": 140,
+        "Creatinine": 1.0,
+        "eGFR": 95
+    }
+
+    if parsed_blood_reports:
+        for r_data in parsed_blood_reports:
+            blood_report = BloodReport(
+                user_id=user_id,
+                report_date=datetime.strptime(r_data["report_date"], "%Y-%m-%d").date(),
+                status=r_data["status"],
+                file_url=r_data["file_url"],
+                extracted_text=r_data["extracted_text"]
+            )
+            db.add(blood_report)
+            await db.commit()
+            await db.refresh(blood_report)
+            
+            for m_data in r_data["markers"]:
+                br_value = BloodReportValue(
+                    blood_report_id=blood_report.id,
+                    marker=m_data["marker"],
+                    value=m_data["value"],
+                    unit=m_data["unit"],
+                    reference_range=m_data["reference_range"],
+                    is_abnormal=m_data["is_abnormal"]
+                )
+                db.add(br_value)
+                risk_markers[m_data["marker"]] = m_data["value"]
+    else:
+        # Fallback blood report
+        blood_report = BloodReport(
+            user_id=user_id,
+            report_date=datetime.utcnow().date(),
+            status="parsed",
+            file_url="https://example.com/dummy_report.pdf",
+            extracted_text="Dummy blood report content"
         )
-        db.add(br_value)
+        db.add(blood_report)
+        await db.commit()
+        await db.refresh(blood_report)
+
+        fallback_markers = [
+            ("HbA1c", random.uniform(4.5, 7.5), "%", "4.0-5.6"),
+            ("Fasting Glucose", random.uniform(80, 140), "mg/dL", "70-99"),
+            ("LDL", random.uniform(80, 160), "mg/dL", "<100"),
+            ("HDL", random.uniform(30, 70), "mg/dL", ">40"),
+            ("Systolic BP", random.uniform(110, 150), "mmHg", "<120"),
+            ("Diastolic BP", random.uniform(70, 95), "mmHg", "<80"),
+            ("Sodium", random.uniform(130, 150), "mEq/L", "135-145"),
+            ("Creatinine", random.uniform(0.6, 1.5), "mg/dL", "0.7-1.3"),
+            ("eGFR", random.uniform(50, 120), "mL/min", ">90")
+        ]
+        for marker, value, unit, ref in fallback_markers:
+            br_value = BloodReportValue(
+                blood_report_id=blood_report.id,
+                marker=marker,
+                value=value,
+                unit=unit,
+                reference_range=ref,
+                is_abnormal=False
+            )
+            db.add(br_value)
+            risk_markers[marker] = value
         
     # 4. Wearable Data
     if fitbit_records:
@@ -132,7 +179,7 @@ async def seed_user_data(user_id: uuid.UUID, db: AsyncSession):
 
     # 5. Risk Assessment (via RiskEngine)
     features = {
-        "blood_markers": {m[0]: m[1] for m in markers},
+        "blood_markers": risk_markers,
         "lifestyle": {
             "exercise_minutes": lifestyle.exercise_minutes if lifestyle else 30,
             "sleep_hours": lifestyle.sleep_hours if lifestyle else 7.5,

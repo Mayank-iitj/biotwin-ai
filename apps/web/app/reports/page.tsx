@@ -6,6 +6,8 @@ import { FileText, Upload, Download, Eye, Trash2, Search, Calendar, AlertCircle,
 import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth-context'
 
+import parsedReports from '@/lib/blood-reports-parsed.json'
+
 export default function ReportsPage() {
   const { token } = useAuth()
   const [reports, setReports] = useState<any[]>([])
@@ -15,9 +17,20 @@ export default function ReportsPage() {
 
   useEffect(() => {
     async function loadData() {
-      if (!token) return
       try {
-        const data = await api.getBloodReports(token)
+        let data = []
+        if (token && token !== 'bypass-token-for-dev') {
+          try {
+            data = await api.getBloodReports(token)
+          } catch (err) {
+            console.error('API load failed, falling back to parsed reports:', err)
+          }
+        }
+        
+        if (!data || data.length === 0) {
+          data = parsedReports
+        }
+
         setReports(data)
         if (data.length > 0) {
           setSelectedReport(data[0])
