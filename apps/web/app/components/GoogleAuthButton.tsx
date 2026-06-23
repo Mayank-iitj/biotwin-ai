@@ -1,12 +1,17 @@
 'use client'
 
 import React from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/auth-context'
 
 export default function GoogleAuthButton({ text = "Sign in with Google" }: { text?: string }) {
+  const router = useRouter()
+  const { login } = useAuth()
+
   const handleGoogleLogin = () => {
-    // Redirect to backend Google login endpoint
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
-    window.location.href = `${apiUrl}/api/v1/auth/google/login`
+    // Bypass backend completely for frontend-only deployment
+    login('mock-google-token')
+    router.push('/dashboard')
   }
 
   return (

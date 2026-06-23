@@ -21,11 +21,9 @@ class HealthCoach:
     """LLM-powered health coach with RAG grounding using Gemini"""
 
     def __init__(self):
+        self.enabled = bool(settings.GEMINI_API_KEY or settings.GROQ_API_KEY)
         if settings.GEMINI_API_KEY:
             genai.configure(api_key=settings.GEMINI_API_KEY)
-            self.enabled = True
-        else:
-            self.enabled = False
 
     async def stream_response(
         self,
@@ -169,6 +167,8 @@ class HealthCoach:
 {COACH_DISCLAIMER}
 
 Your role:
+- You operate alongside an interactive 3D Digital Twin of the user's body.
+- When explaining health risks or factors, explicitly reference the affected organs and encourage the user to explore them in the 3D model.
 - Explain health risk scores in plain, understandable language
 - Discuss lifestyle factors that contribute to disease risk
 - Provide evidence-based wellness recommendations

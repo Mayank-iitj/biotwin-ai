@@ -25,9 +25,11 @@ export default function LoginPage() {
     setError('')
 
     try {
-      const response = await api.login(email, password)
-      setAuthToken(response.access_token)
-      router.push('/dashboard')
+      // Bypass backend completely for frontend-only deployment
+      setTimeout(() => {
+        setAuthToken('mock-login-token')
+        router.push('/dashboard')
+      }, 600)
     } catch (err: any) {
       setError(err.message || 'Login failed')
       setLoading(false)

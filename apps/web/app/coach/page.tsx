@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, Send, Bot, User, Sparkles, AlertCircle } from 'lucide-react'
-import { api } from '@/lib/api'
-import { useAuth } from '@/lib/auth-context'
+import { biomarkerData, historicalHealthData } from '@/lib/mock-data'
 
 interface Message {
   id: string
@@ -21,11 +20,9 @@ const SUGGESTED_QUESTIONS = [
 ]
 
 export default function CoachPage() {
-  const { token } = useAuth()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [sessionId, setSessionId] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
@@ -35,42 +32,13 @@ export default function CoachPage() {
   useEffect(scrollToBottom, [messages])
 
   useEffect(() => {
-    async function initSession() {
-      if (!token) return
-      try {
-        const sessions = await api.getChatSessions(token)
-        let activeSessionId = null
-        if (sessions.length > 0) {
-          activeSessionId = sessions[0].id
-        } else {
-          const newSession = await api.createChatSession(token)
-          activeSessionId = newSession.id
-        }
-        
-        setSessionId(activeSessionId)
-        
-        // Load history
-        const history = await api.getChatMessages(token, activeSessionId)
-        if (history && history.length > 0) {
-          setMessages(history.map((m: any) => ({
-            id: m.id,
-            role: m.role,
-            content: m.content
-          })))
-        } else {
-           setMessages([
-             { id: 'welcome', role: 'assistant', content: "Hello! I'm your BioTwin AI Health Coach. I'm here to help you understand your health risks and provide personalized guidance based on your Digital Twin. How can I assist you today?" }
-           ])
-        }
-      } catch (err) {
-        console.error("Failed to init chat session:", err)
-      }
-    }
-    initSession()
-  }, [token])
+    setMessages([
+      { id: 'welcome', role: 'assistant', content: "Hello! I'm your BioTwin AI Health Coach. I'm here to help you understand your health risks and provide personalized guidance based on your Digital Twin. How can I assist you today?" }
+    ])
+  }, [])
 
   const sendMessage = async () => {
-    if (!input.trim() || loading || !sessionId || !token) return
+    if (!input.trim() || loading) return
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -87,13 +55,15 @@ export default function CoachPage() {
     setMessages(prev => [...prev, { id: aiMessageId, role: 'assistant', content: '' }])
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/coach/sessions/${sessionId}/messages`, {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ content: currentInput })
+        body: JSON.stringify({ 
+          messages: [...messages, userMessage].map(m => ({ role: m.role, content: m.content })),
+          contextData: { biomarkerData, historicalHealthData }
+        })
       })
 
       if (!response.ok) {
@@ -113,11 +83,13 @@ export default function CoachPage() {
           
           for (const line of lines) {
             if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === '[DONE]') break;
               try {
-                const data = JSON.parse(line.slice(6))
-                if (data.content) {
+                const data = JSON.parse(dataStr)
+                if (data.choices?.[0]?.delta?.content) {
                   setMessages(prev => prev.map(m => 
-                    m.id === aiMessageId ? { ...m, content: m.content + data.content } : m
+                    m.id === aiMessageId ? { ...m, content: m.content + data.choices[0].delta.content } : m
                   ))
                 }
               } catch (e) {
@@ -190,7 +162,7 @@ export default function CoachPage() {
                     placeholder="Ask your health coach..."
                     className="input-field flex-1"
                   />
-                  <button onClick={sendMessage} disabled={loading || !input.trim() || !sessionId} className="btn-primary px-4">
+                  <button onClick={sendMessage} disabled={loading || !input.trim()} className="btn-primary px-4">
                     <Send className="w-5 h-5" />
                   </button>
                 </div>

@@ -170,13 +170,7 @@ export default function HumanBodyViewer({
   const [loadTimedOut, setLoadTimedOut] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!iframeLoaded && viewMode === '3d') {
-        setLoadTimedOut(true)
-        setViewMode('2d')
-      }
-    }, 4500)
-    return () => clearTimeout(timer)
+    // 2D fallback timeout removed to ensure 3D model is visible every time
   }, [iframeLoaded, viewMode])
 
   // Map risk data to organs
@@ -250,7 +244,7 @@ export default function HumanBodyViewer({
           {viewMode === '3d' && (
             <iframe
               title="Human Body Anatomy"
-              src="https://sketchfab.com/models/9b0b079953b840bc9a13f524b60041e4/embed?autostart=1&ui_infos=0&ui_inspector=0&ui_watermark=0&ui_watermark_link=0"
+              src="https://sketchfab.com/models/9b0b079953b840bc9a13f524b60041e4/embed?autostart=1&ui_infos=0&ui_inspector=0&ui_watermark=0&ui_watermark_link=0&ui_annotations=0&camera=0"
               allow="autoplay; fullscreen; xr-spatial-tracking"
               className={`w-full h-full transition-opacity duration-500 ${iframeLoaded ? 'opacity-100' : 'opacity-0'}`}
               style={{ border: 'none' }}
@@ -275,54 +269,6 @@ export default function HumanBodyViewer({
           )}
         </div>
 
-        {/* Organ Hotspots Overlay */}
-        <div className="absolute inset-0 pointer-events-none">
-          {organRiskMap.map((organ) => (
-            <motion.button
-              key={organ.id}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.5, type: 'spring' }}
-              className="absolute pointer-events-auto"
-              style={{
-                // Position based on organ (simplified mapping)
-                left: organ.id === 'brain' ? '50%' :
-                      organ.id === 'heart' ? '45%' :
-                      organ.id === 'liver' ? '55%' :
-                      organ.id === 'kidneys' ? '48%' :
-                      organ.id === 'pancreas' ? '52%' : '50%',
-                top: organ.id === 'brain' ? '12%' :
-                    organ.id === 'heart' ? '28%' :
-                    organ.id === 'liver' ? '38%' :
-                    organ.id === 'kidneys' ? '42%' :
-                    organ.id === 'pancreas' ? '36%' : '60%',
-                transform: 'translate(-50%, -50%)'
-              }}
-              onClick={() => handleOrganClick(organ)}
-            >
-              <motion.div
-                animate={{
-                  scale: [1, 1.2, 1],
-                  boxShadow: [
-                    `0 0 0 0 ${getRiskColor(organ.riskBand)}`,
-                    `0 0 0 8px ${getRiskColor(organ.riskBand)}00`,
-                    `0 0 0 0 ${getRiskColor(organ.riskBand)}`
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-8 h-8 rounded-full flex items-center justify-center"
-                style={{
-                  backgroundColor: `${getRiskColor(organ.riskBand)}20`,
-                  border: `2px solid ${getRiskColor(organ.riskBand)}`
-                }}
-              >
-                <span style={{ color: getRiskColor(organ.riskBand) }}>
-                  {organ.icon}
-                </span>
-              </motion.div>
-            </motion.button>
-          ))}
-        </div>
 
         {/* Controls Overlay */}
         <div className="absolute top-4 right-4 flex flex-col gap-2">

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, Activity, Brain, Shield, MessageCircle, TrendingUp, ChevronRight, Menu, X, Sparkles } from 'lucide-react'
 import Link from 'next/link'
+import HumanBodyViewer from './components/HumanBodyViewer'
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -147,25 +148,18 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Visual Column */}
             <div className="lg:col-span-7 flex justify-center">
-              <div className="relative w-full max-w-md aspect-[3/4] rounded-2xl border border-med-gray-green/15 bg-med-dark/60 p-6 flex flex-col items-center justify-center">
+              <div className="relative w-full max-w-md">
                 {/* Simulated twin avatar glow */}
-                <div className="absolute w-52 h-96 rounded-full bg-med-lime/10 blur-3xl pointer-events-none" />
-                <div className="relative w-full h-full flex flex-col justify-between items-center text-center">
-                  <div className="text-med-gray-green/50 text-xs tracking-widest uppercase mt-4">interactive mockup</div>
-                  
-                  {/* Glowing twin skeleton mock */}
-                  <div className="w-48 h-80 relative flex items-center justify-center">
-                    <Activity className="w-36 h-36 text-med-lime animate-pulse opacity-40 absolute" />
-                    <Heart className="w-10 h-10 text-med-lime absolute animate-bounce" style={{ top: '35%' }} />
-                    <Brain className="w-10 h-10 text-med-lime absolute animate-pulse" style={{ top: '10%' }} />
-                    <Shield className="w-16 h-16 text-med-lime/20 absolute" />
-                  </div>
-
-                  <div className="mb-4">
-                    <p className="text-med-lime font-display font-semibold">BioTwin Sandbox Engine</p>
-                    <p className="text-xs text-med-gray-green/50">Simulated 3D body viewer active</p>
-                  </div>
-                </div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-96 rounded-full bg-med-lime/10 blur-3xl pointer-events-none" />
+                <HumanBodyViewer
+                  riskData={{
+                    cvd: 0.12,
+                    diabetes: 0.18,
+                    hypertension: 0.24,
+                    ckd: 0.04
+                  }}
+                  className="w-full shadow-2xl shadow-med-lime/5"
+                />
               </div>
             </div>
 
