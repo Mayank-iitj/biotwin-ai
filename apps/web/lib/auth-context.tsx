@@ -18,16 +18,18 @@ const AuthContext = createContext<AuthContextType>({
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(null)
+  const [token, setToken] = useState<string | null>('bypass-token-for-dev')
   const [isInitialized, setIsInitialized] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
     // Check local storage on mount
-    const storedToken = localStorage.getItem('biotwin_token')
-    if (storedToken) {
-      setToken(storedToken)
+    let storedToken = localStorage.getItem('biotwin_token')
+    if (!storedToken) {
+      storedToken = 'bypass-token-for-dev'
+      localStorage.setItem('biotwin_token', storedToken)
     }
+    setToken(storedToken)
     setIsInitialized(true)
   }, [])
 
@@ -37,9 +39,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const logout = () => {
-    localStorage.removeItem('biotwin_token')
-    setToken(null)
-    router.push('/login')
+    // Since sign-in is removed, logout redirects back to dashboard/home
+    router.push('/dashboard')
   }
 
   // Prevent flashing unauthenticated content if token check hasn't run
@@ -48,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, isAuthenticated: !!token }}>
+    <AuthContext.Provider value={{ token, login, logout, isAuthenticated: true }}>
       {children}
     </AuthContext.Provider>
   )

@@ -19,6 +19,10 @@ export default function LoginPage() {
 
   const { login: setAuthToken } = useAuth()
 
+  useEffect(() => {
+    router.replace('/dashboard')
+  }, [router])
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)

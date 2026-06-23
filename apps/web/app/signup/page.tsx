@@ -22,6 +22,10 @@ export default function SignupPage() {
 
   const { login: setAuthToken } = useAuth()
 
+  useEffect(() => {
+    router.replace('/dashboard')
+  }, [router])
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
