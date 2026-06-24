@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Heart, Activity, Brain, Shield, TrendingUp, MessageCircle, Calendar, FileText, Settings, LogOut, Menu, X, Bell, Droplet, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 import HumanBodyViewer from '../components/HumanBodyViewer'
+import GradientBlinds from '../components/GradientBlinds'
 import Link from 'next/link'
 import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth-context'
@@ -213,11 +214,22 @@ export default function DashboardPage() {
                       </span>
                     </div>
                     
-                    <div className="flex-1 w-full relative min-h-[400px]">
-                      <HumanBodyViewer
-                        riskData={riskDataMap}
-                        onOrganClick={handleOrganClick}
-                        className="h-full rounded-lg border border-white/5"
+                    <div className="flex-1 w-full relative min-h-[400px] rounded-lg border border-white/5 overflow-hidden">
+                      <GradientBlinds
+                        gradientColors={['#0f172a', '#3b82f6', '#0f172a']}
+                        angle={0}
+                        noise={0.3}
+                        blindCount={16}
+                        blindMinWidth={60}
+                        spotlightRadius={0.5}
+                        spotlightSoftness={1}
+                        spotlightOpacity={1}
+                        mouseDampening={0.15}
+                        distortAmount={0}
+                        shineDirection="left"
+                        mixBlendMode="lighten"
+                        className="h-full w-full"
+                        dpr={1}
                       />
                     </div>
                   </div>
