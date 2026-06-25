@@ -1,15 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Heart, Activity, Brain, Shield, TrendingUp, MessageCircle, Calendar, FileText, Settings, LogOut, Menu, X, Bell, Droplet, ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Heart, Activity, Brain, Shield, TrendingUp, MessageCircle, Calendar, FileText, Settings, LogOut, Menu, X, Bell, Droplet, ArrowUpRight, ArrowDownRight, BookOpen, Zap } from 'lucide-react'
 import HumanBodyViewer from '../components/HumanBodyViewer'
 import GradientBlinds from '../components/GradientBlinds'
+import DiseaseImpactViewer from '../components/DiseaseImpactViewer'
 import Link from 'next/link'
 import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth-context'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts'
 import { historicalHealthData, biomarkerData, riskDistribution, recentActivities } from '@/lib/mock-data'
+import { getDiseaseById, DiseaseData } from '@/lib/disease-data'
 
 function getRiskColor(band: 'low' | 'moderate' | 'high' | string) {
   switch (band.toLowerCase()) {
@@ -71,6 +73,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export default function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selectedOrgan, setSelectedOrgan] = useState<string | null>(null)
+  const [activeDiseaseViewer, setActiveDiseaseViewer] = useState<DiseaseData | null>(null)
   
   const { token, logout } = useAuth()
   const [loading, setLoading] = useState(false) // Removed initial loading state
@@ -144,6 +147,10 @@ export default function DashboardPage() {
           <Link href="/calendar" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 hover:border hover:border-white/10 transition-all">
             <Calendar className="w-5 h-5" />
             <span className="font-medium">Calendar</span>
+          </Link>
+          <Link href="/conditions" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 hover:border hover:border-white/10 transition-all">
+            <BookOpen className="w-5 h-5" />
+            <span className="font-medium">Conditions</span>
           </Link>
         </nav>
 
@@ -427,7 +434,7 @@ export default function DashboardPage() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.8 + index * 0.1 }}
-                      className={`glass-card p-5 border ${getRiskColor(card.risk_band)} hover:-translate-y-1 transition-transform duration-300 shadow-lg`}
+                      className={`glass-card p-5 border ${getRiskColor(card.risk_band)} hover:-translate-y-1 transition-transform duration-300 shadow-lg flex flex-col`}
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
@@ -452,7 +459,19 @@ export default function DashboardPage() {
                           className={`h-full rounded-full ${card.risk_band === 'low' ? 'bg-risk-low' : card.risk_band === 'moderate' ? 'bg-risk-moderate' : 'bg-risk-high'}`}
                         />
                       </div>
-                      <p className="text-white/50 text-xs leading-relaxed">{getRiskDescription(card.disease)}</p>
+                      <p className="text-white/50 text-xs leading-relaxed mb-4">{getRiskDescription(card.disease)}</p>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => {
+                          const d = getDiseaseById(card.disease)
+                          if (d) setActiveDiseaseViewer(d)
+                        }}
+                        className="mt-auto flex items-center justify-center gap-2 w-full py-2 rounded-xl text-xs font-semibold border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all"
+                      >
+                        <Zap className="w-3.5 h-3.5" />
+                        View Body Impact
+                      </motion.button>
                     </motion.div>
                   )) : (
                     // Mock Risk Cards if API has no data
@@ -652,6 +671,16 @@ export default function DashboardPage() {
           onClick={() => setSidebarOpen(false)}
         />
       )}
+
+      {/* Disease Impact Viewer Modal */}
+      <AnimatePresence>
+        {activeDiseaseViewer && (
+          <DiseaseImpactViewer
+            disease={activeDiseaseViewer}
+            onClose={() => setActiveDiseaseViewer(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }

@@ -12,6 +12,8 @@ A production-grade preventive healthcare platform that constructs a personalized
 - **AI Health Coach** - Claude-powered chat grounded in your personal health data
 - **Blood Report Analysis** - Upload and parse blood work results
 - **Wearable Integration** - Sync with Fitbit, Apple Health, Google Fit
+- **Disease Intelligence Library** - 133+ conditions with body impact maps, symptoms, medications, diet plans, workout recommendations, and precautions (powered by 3 medical datasets: DiseaseD1, DiseaseD2, DiseaseD3)
+- **Symptom Checker** - Select from 131 real symptoms to identify possible conditions with confidence scoring and severity-based emergency alerts
 
 ## Tech Stack
 

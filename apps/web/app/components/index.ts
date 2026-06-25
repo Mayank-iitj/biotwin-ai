@@ -1,3 +1,6 @@
 export { default as HumanBodyViewer, HumanBodyViewerSkeleton } from './HumanBodyViewer'
 export { default as LoadingScreen, PageLoader } from './Loading'
 export * from './UI'
+export { default as DiseaseImpactViewer } from './DiseaseImpactViewer'
+export { default as ExtendedDiseasePanel } from './ExtendedDiseasePanel'
+export { default as SymptomChecker } from './SymptomChecker'
