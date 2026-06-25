@@ -30,37 +30,9 @@ function DiseaseBodyMap({ disease, selectedZone, onZoneClick }: {
         className="w-full max-w-[220px] mx-auto"
         style={{ filter: 'drop-shadow(0 0 20px rgba(0,0,0,0.5))' }}
       >
-        {/* Body outline */}
-        {/* Head */}
-        <circle cx="100" cy="65" r="22" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
-        <circle cx="100" cy="65" r="15" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1" strokeDasharray="2 2" />
-        {/* Spine */}
-        <line x1="100" y1="87" x2="100" y2="260" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
-        {/* Neck */}
-        <path d="M85 92 Q100 100 115 92" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
-        {/* Torso */}
-        <path d="M70 115 C70 115 50 125 50 145 C50 170 60 210 65 250 C68 270 75 280 80 300 L120 300 C125 280 132 270 135 250 C140 210 150 170 150 145 C150 125 130 115 130 115 Z"
-          fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-        {/* Ribcage */}
-        <path d="M72 150 Q100 160 128 150" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-        <path d="M70 175 Q100 185 130 175" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-        <path d="M68 200 Q100 210 132 200" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-        {/* Pelvis */}
-        <path d="M78 300 Q100 315 122 300 L126 325 Q100 335 74 325 Z" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-        {/* Left Arm */}
-        <path d="M70 115 L45 200 L30 270" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-        <circle cx="45" cy="200" r="3" fill="rgba(255,255,255,0.15)" />
-        <circle cx="30" cy="270" r="2" fill="rgba(255,255,255,0.15)" />
-        {/* Right Arm */}
-        <path d="M130 115 L155 200 L170 270" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-        <circle cx="155" cy="200" r="3" fill="rgba(255,255,255,0.15)" />
-        <circle cx="170" cy="270" r="2" fill="rgba(255,255,255,0.15)" />
-        {/* Left Leg */}
-        <path d="M82 325 L78 400 L75 480" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-        <circle cx="78" cy="400" r="3.5" fill="rgba(255,255,255,0.15)" />
-        {/* Right Leg */}
-        <path d="M118 325 L122 400 L125 480" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-        <circle cx="122" cy="400" r="3.5" fill="rgba(255,255,255,0.15)" />
+        {/* Image bodymap */}
+        <image href="/images/bodymap.png" x="-50" y="0" width="300" height="500" preserveAspectRatio="xMidYMid meet" style={{ filter: 'opacity(0.8)' }} />
+
 
         {/* Disease Hotspots */}
         {disease.affectedBodyZones.map((zone) => {

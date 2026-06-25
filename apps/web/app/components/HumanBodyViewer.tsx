@@ -26,53 +26,9 @@ function VectorBody() {
       <line x1="100" y1="20" x2="100" y2="480" className="stroke-med-lime/5" strokeWidth="1" strokeDasharray="3 3" />
       <line x1="20" y1="250" x2="180" y2="250" className="stroke-med-lime/5" strokeWidth="1" strokeDasharray="3 3" />
       
-      {/* Stylized Human Body Path */}
-      {/* Head */}
-      <circle cx="100" cy="65" r="22" className="fill-none stroke-current" strokeWidth="1.5" />
-      <circle cx="100" cy="65" r="15" className="fill-none stroke-current/30" strokeWidth="1" strokeDasharray="2 2" />
-      
-      {/* Spine/Core */}
-      <line x1="100" y1="87" x2="100" y2="260" className="stroke-current" strokeWidth="2" />
-      
-      {/* Neck/Collar */}
-      <path d="M85 92 Q100 100 115 92" className="fill-none stroke-current" strokeWidth="1.5" />
-      
-      {/* Chest / Torso Outline */}
-      <path d="M70 115 C70 115 50 125 50 145 C50 170 60 210 65 250 C68 270 75 280 80 300 L120 300 C125 280 132 270 135 250 C140 210 150 170 150 145 C150 125 130 115 130 115 Z" className="fill-none stroke-current" strokeWidth="1.5" />
-      
-      {/* Ribcage detail lines */}
-      <path d="M72 150 Q100 160 128 150" className="fill-none stroke-current/40" strokeWidth="1" />
-      <path d="M70 175 Q100 185 130 175" className="fill-none stroke-current/40" strokeWidth="1" />
-      <path d="M68 200 Q100 210 132 200" className="fill-none stroke-current/40" strokeWidth="1" />
-      <path d="M66 225 Q100 235 134 225" className="fill-none stroke-current/40" strokeWidth="1" />
-      
-      {/* Pelvis */}
-      <path d="M78 300 Q100 315 122 300 L126 325 Q100 335 74 325 Z" className="fill-none stroke-current" strokeWidth="1.5" />
-      
-      {/* Left Arm */}
-      <path d="M70 115 L45 200 L30 270" className="fill-none stroke-current" strokeWidth="1.5" />
-      <circle cx="45" cy="200" r="3" className="fill-current" />
-      <circle cx="30" cy="270" r="2" className="fill-current" />
-      
-      {/* Right Arm */}
-      <path d="M130 115 L155 200 L170 270" className="fill-none stroke-current" strokeWidth="1.5" />
-      <circle cx="155" cy="200" r="3" className="fill-current" />
-      <circle cx="170" cy="270" r="2" className="fill-current" />
-      
-      {/* Left Leg */}
-      <path d="M82 325 L78 400 L75 480" className="fill-none stroke-current" strokeWidth="1.5" />
-      <circle cx="78" cy="400" r="3.5" className="fill-current" />
-      
-      {/* Right Leg */}
-      <path d="M118 325 L122 400 L125 480" className="fill-none stroke-current" strokeWidth="1.5" />
-      <circle cx="122" cy="400" r="3.5" className="fill-current" />
+      {/* Image bodymap */}
+      <image href="/images/bodymap.png" x="-50" y="0" width="300" height="500" preserveAspectRatio="xMidYMid meet" style={{ filter: 'opacity(0.8)' }} />
 
-      {/* Brain details inside head */}
-      <path d="M96 55 Q100 50 104 55 Q108 60 104 65 Q100 70 96 65 Q92 60 96 55" className="fill-none stroke-current/50" strokeWidth="1" />
-      
-      {/* Heart details in chest */}
-      <path d="M95 132 C92 125 85 125 85 132 C85 140 95 148 95 148 C95 148 105 140 105 132 C105 125 98 125 95 132 Z" className="fill-current text-red-500/30" />
-      <path d="M95 132 C92 125 85 125 85 132 C85 140 95 148 95 148 C95 148 105 140 105 132 C105 125 98 125 95 132 Z" className="fill-none stroke-red-500/80" strokeWidth="1" />
     </svg>
   )
 }
