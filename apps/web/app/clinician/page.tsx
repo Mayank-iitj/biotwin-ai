@@ -166,7 +166,7 @@ export default function ClinicianDashboard() {
           <div className="bg-gray-900 rounded-xl p-5 border border-red-900/50 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
             <h2 className="text-lg font-semibold mb-2 text-red-400">Active Alert</h2>
-            <p className="text-white text-sm">Predicted hyperglycemic excursion (>180 mg/dL) in ~30 min.</p>
+            <p className="text-white text-sm">Predicted hyperglycemic excursion (&gt;180 mg/dL) in ~30 min.</p>
             <p className="text-xs text-gray-400 mt-2">P = {streamData[streamData.length - 1]?.prob?.toFixed(2) || 0.85}</p>
           </div>
           
