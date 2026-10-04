@@ -58,3 +58,9 @@ Thumbs.db
 
 # Turborepo
 .turbo/
+
+ml/synth/synthea-with-dependencies.jar
+ml/data/
+.venv/
+__pycache__/
+apps/api/venv/
