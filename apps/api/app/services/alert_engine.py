@@ -26,6 +26,10 @@ class AlertEngine:
         if not alert_type:
             return None
             
+        from datetime import datetime
+        if isinstance(ts, str):
+            ts = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+        
         date_str = ts.strftime('%Y-%m-%d')
         
         # Check refractory period

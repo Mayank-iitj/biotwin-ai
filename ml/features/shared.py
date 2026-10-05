@@ -48,11 +48,21 @@ def extract_features(sensor_window: pd.DataFrame, static_features: dict) -> dict
     meal_events = sensor_window[sensor_window['meal_carbs'] > 0]
     mins_since_meal = 360 # default to 6 hours if no meal
     last_meal_carbs = 0
+    from datetime import datetime
+    
     if not meal_events.empty:
-        last_meal_idx = meal_events.index[-1]
         last_meal_time = meal_events['timestamp'].iloc[-1]
-        mins_since_meal = (last_row['timestamp'] - last_meal_time).total_seconds() / 60.0
         last_meal_carbs = meal_events['meal_carbs'].iloc[-1]
+        
+        last_ts = last_row.get('timestamp')
+        if isinstance(last_ts, str):
+            last_ts = datetime.fromisoformat(last_ts.replace("Z", "+00:00"))
+            
+        last_meal = last_meal_time
+        if isinstance(last_meal, str):
+            last_meal = datetime.fromisoformat(last_meal.replace("Z", "+00:00"))
+            
+        mins_since_meal = (last_ts - last_meal).total_seconds() / 60.0
         
     features = {
         'patient_id': last_row['patient_id'],

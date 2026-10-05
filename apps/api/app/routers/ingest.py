@@ -44,8 +44,8 @@ async def process_patient_stream(patient_id: str, readings: List[dict]):
     # Broadcast prediction
     if prediction:
         seq_counter += 1
-        # Convert timestamp to iso format for json serialization
-        prediction['timestamp'] = last_ts.isoformat()
+        # Convert timestamp to iso format for json serialization if needed
+        prediction['timestamp'] = last_ts if isinstance(last_ts, str) else last_ts.isoformat()
         await stream_manager.broadcast_to_patient(patient_id, {
             "type": "prediction",
             "patient_id": patient_id,

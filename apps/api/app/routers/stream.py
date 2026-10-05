@@ -1,5 +1,5 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Request
-from sse_starlette.sse import EventSourceResponse
+
 from typing import Dict, List
 import asyncio
 import json

@@ -166,6 +166,17 @@ async def optimize_t2d(req: OptimizeRequest):
         "risk_delta": risk_delta
     }
 
+from ..services.counterfactual import find_counterfactual
+
+class CounterfactualRequest(BaseModel):
+    patient_id: str
+    current_state: dict
+
+@simulate_router.post("/counterfactual")
+async def get_counterfactual(req: CounterfactualRequest):
+    """Counterfactual: Find smallest intervention to prevent excursion"""
+    return find_counterfactual(req.patient_id, req.current_state)
+
 class LongTermRequest(BaseModel):
     patient_id: str
     years: int = 5

@@ -44,8 +44,9 @@ services:
       redis:
         condition: service_healthy
     volumes:
-      - ../../apps/web/api:/app
-    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+      - ../../apps/api:/app/apps/api
+      - ../../ml:/app/ml
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
 
   web:
     build:

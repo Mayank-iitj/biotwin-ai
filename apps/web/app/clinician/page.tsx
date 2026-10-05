@@ -42,24 +42,32 @@ export default function ClinicianDashboard() {
 
   useEffect(() => {
     if (!selectedPatient || !isPlaying) return;
-    const es = new EventSource(`/api/v1/stream/${selectedPatient.id}`);
-    es.onmessage = (e) => {
+    const wsUrl = window.location.protocol === 'https:' 
+      ? `wss://${window.location.host}/api/v1/stream/patients/${selectedPatient.id}` 
+      : `ws://${window.location.host}/api/v1/stream/patients/${selectedPatient.id}`;
+      
+    const ws = new WebSocket(wsUrl);
+    
+    ws.onmessage = (e) => {
       try {
-        const parsed = JSON.parse(e.data.replace(/'/g, '"'));
+        const parsedWrapper = JSON.parse(e.data);
+        if (parsedWrapper.type !== 'prediction') return;
+        const parsed = parsedWrapper.payload;
+        
         const timeStr = new Date(parsed.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
         
         setStreamData(prev => {
           const newPoint = {
             time: timeStr,
-            glucose: parsed.glucose_mgdl,
-            hr: parsed.heart_rate,
-            prob: parsed.prediction?.prob_hyper || 0
+            glucose: parsed.glucose_mgdl || 0,
+            hr: parsed.heart_rate || 0,
+            prob: parsed.prediction?.prob_hyper || parsed.probability || 0
           };
           return [...prev.slice(-30), newPoint]; 
         });
       } catch (err) {}
     };
-    return () => es.close();
+    return () => ws.close();
   }, [selectedPatient, isPlaying]);
 
   useEffect(() => {

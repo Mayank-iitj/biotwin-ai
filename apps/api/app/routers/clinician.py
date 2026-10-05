@@ -12,50 +12,73 @@ class ChatRequest(BaseModel):
     patient_id: str
 
 import re
+import json
+import httpx
+
+NVIDIA_API_KEY = "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"
 
 @router.post("/chat")
 async def clinician_chat(req: ChatRequest):
-    """Conversational Clinician Copilot - Dynamic Parsing"""
-    query = req.query.lower()
-    
-    # Defaults
-    medication = "Metformin"
-    walk_mins = 0
-    meal_carbs = 70
-    
-    # Extract medication
-    if "semaglutide" in query or "ozempic" in query:
-        medication = "Semaglutide"
-    elif "insulin" in query:
-        medication = "Insulin"
-        
-    # Extract walk minutes (e.g. "15 mins", "walk 20m")
-    walk_match = re.search(r'(\d+)\s*(min|m\b)', query)
-    if walk_match:
-        walk_mins = int(walk_match.group(1))
-        
-    # Extract carbs (e.g. "50g carbs", "50 carbs")
-    carbs_match = re.search(r'(\d+)\s*(g|carbs)', query)
-    if carbs_match:
-        meal_carbs = int(carbs_match.group(1))
-        
-    if medication != "Metformin" or walk_mins > 0 or meal_carbs != 70:
-        return {
-            "reply": f"Understood. Simulating the effect of {medication}, with {meal_carbs}g of carbs and a {walk_mins}-minute post-meal walk. I've updated the Digital Twin trajectories below.",
-            "action": {
-                "type": "SIMULATE",
-                "params": {
-                    "medication": medication,
-                    "post_meal_walk_mins": walk_mins,
-                    "meal_carbs": meal_carbs
-                }
-            }
-        }
-    
-    return {
-        "reply": "I can help you simulate interventions. Try asking: 'What if we switch to Semaglutide and they walk 20 mins?'",
-        "action": None
+    """Conversational Clinician Copilot - LLM Powered via NVIDIA NIM"""
+    system_prompt = """
+    You are BioTwin AI Copilot, assisting a clinician with a Digital Twin. 
+    The clinician might ask to simulate an intervention. 
+    Extract the following parameters from their query if present:
+    - medication (e.g. Semaglutide, Insulin, Metformin)
+    - walk_mins (integer, minutes of walking)
+    - meal_carbs (integer, grams of carbs)
+
+    Respond ONLY with a valid JSON object (no markdown, no backticks, no other text) matching this schema:
+    {
+      "reply": "Your conversational, clinical response",
+      "action": {
+         "type": "SIMULATE",
+         "params": {
+             "medication": "Metformin", // default
+             "post_meal_walk_mins": 0, // default
+             "meal_carbs": 70 // default
+         }
+      } // Or set "action": null if no intervention is requested
     }
+    """
+
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(
+                "https://integrate.api.nvidia.com/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {NVIDIA_API_KEY}",
+                    "Content-Type": "application/json"
+                },
+                json={
+                    "model": "deepseek-ai/deepseek-v4.1-flash",
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": req.query}
+                    ],
+                    "temperature": 0.1,
+                    "max_tokens": 1024,
+                    "stream": False
+                },
+                timeout=15.0
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            content = data["choices"][0]["message"]["content"]
+            
+            # Clean up potential markdown formatting from LLM response
+            content = content.replace("```json", "").replace("```", "").strip()
+            
+            parsed = json.loads(content)
+            return parsed
+            
+    except Exception as e:
+        print(f"LLM Chat Error: {e}")
+        # Fallback if API fails
+        return {
+            "reply": "I'm having trouble connecting to my AI brain right now. Please adjust the parameters manually on the dashboard.",
+            "action": None
+        }
 
 # Mocking the synthetic patients list for now
 @router.get("/patients")

@@ -14,7 +14,7 @@ from datetime import datetime
 from app.core.config import settings
 from app.core.database import engine, Base
 from app.routers import auth, users, health_data, twin, risk, simulate, recommendations, coach, dashboard, privacy
-from app.routers import clinician, predictions, stream, t2d_twin, ingest
+from app.routers import clinician, predictions, stream, t2d_twin, ingest, cohort, exports, monitoring, model_info
 
 # Configure logging
 logging.basicConfig(
@@ -123,6 +123,10 @@ app.include_router(t2d_twin.simulate_router, prefix="/api/v1/simulate/t2d", tags
 app.include_router(clinician.audit_router, prefix="/api/v1/audit", tags=["Audit"])
 app.include_router(predictions.model_router, prefix="/api/v1/model", tags=["Model Info"])
 app.include_router(ingest.router, prefix="/api/v1/ingest", tags=["Ingestion"])
+app.include_router(cohort.router, prefix="/api/v1/cohort", tags=["Cohort"])
+app.include_router(exports.router, prefix="/api/v1/export", tags=["Exports"])
+app.include_router(monitoring.router, prefix="/api/v1/monitoring", tags=["Monitoring"])
+app.include_router(model_info.router, prefix="/api/v1/model-info", tags=["Model Info API"])
 
 # Root endpoint
 @app.get("/")

@@ -4,7 +4,7 @@ import time
 import random
 from datetime import datetime
 
-API_URL = "http://localhost:8001/api/v1/ingest/readings"
+API_URL = "http://localhost:8000/api/v1/ingest/readings"
 
 async def send_payload(client, patient_id):
     payload = [{
@@ -20,8 +20,11 @@ async def send_payload(client, patient_id):
     }]
     try:
         response = await client.post(API_URL, json={"readings": payload})
+        if response.status_code != 200:
+            print(f"Error {response.status_code}: {response.text}")
         return response.status_code
-    except:
+    except Exception as e:
+        print(f"Exception: {e}")
         return 500
 
 async def load_test():

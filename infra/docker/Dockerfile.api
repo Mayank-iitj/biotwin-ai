@@ -9,13 +9,19 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
-COPY apps/web/requirements.txt .
+COPY apps/api/requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY apps/web/api/app ./app
+# Copy application code and ML artifacts
+COPY apps/api ./apps/api
+COPY ml ./ml
+
+# Set PYTHONPATH
+ENV PYTHONPATH=/app/apps/api
+
+WORKDIR /app/apps/api
 
 # Expose port
 EXPOSE 8000

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Removed standalone output to fix NFT tracing errors
+  output: 'standalone',
   // Image optimization
   images: {
     remotePatterns: [
