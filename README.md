@@ -24,7 +24,6 @@
 
 ## 👥 Team & Affiliation
 * **Team Name:** Apex
-* **Team Members:** [INSERT TEAM MEMBERS]
 * **College/Incubator Information:** IIT Jodhpur
 
 ---
