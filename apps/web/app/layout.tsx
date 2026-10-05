@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
 }
 
-import { AuthProvider } from '../lib/auth-context'
+import AuthProvider from './components/AuthProvider'
 
 export default function RootLayout({
   children,
