@@ -1,5 +1,10 @@
 # Changelog
 
+## Master Build Prompt v2 Progress
+- **Phase 0 (Audit)**: Audited repo, updated `CURRENT_STATE.md`.
+- **Phase 1 (Data)**: Implemented `meal_library.py` (Indian context, GI, Carbs), updated `generate_ehr.py` (region, 60/25/15 target split), updated `cgm_simulator.py` to use meal library and GI-based absorption, created `sanity_report.py`, created `live_producer.py`. Tests passing.
+- **Phase 2 (Features)**: Created `shared.py` for parity between batch and streaming features. Wrote `test_parity.py` proving identical outputs. Updated `build_windows.py` to include targets for Quantile Forecaster.
+- **Phase 3 (Models)**: Refactored `train.py` to output `quantile_models` (+30, +60, +90, +120 mins), `hypo_model.pkl` (Hypo60), and Risk Tier thresholds. Evaluated ablation (started).
 ## Phase 1: Data Layer
 - Implemented `generate_ehr.py` to handle Synthea downloads, generation, and Indian demographic processing.
 - Implemented `cgm_simulator.py` to create dynamic time-series data using a simplified Bergman Minimal Model.

@@ -62,8 +62,8 @@ def main():
     xgb_model.fit(X_train, y_train, eval_set=[(X_val, y_val)], verbose=10)
     
     print("Calibrating Fusion Model...")
-    calibrated_xgb = CalibratedClassifierCV(xgb_model, method='isotonic', cv='prefit')
-    calibrated_xgb.fit(X_val, y_val)
+    calibrated_xgb = CalibratedClassifierCV(xgb_model, method='isotonic', cv=2)
+    calibrated_xgb.fit(X_train, y_train)
     joblib.dump(calibrated_xgb, os.path.join(ARTIFACTS_DIR, 'fusion_model.pkl'))
     
     # Calculate Thresholds for Risk Tiers (85% recall for high tier)
