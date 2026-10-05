@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: biotwin-api
+    env: docker
+    dockerfilePath: infra/docker/Dockerfile.api
+    dockerContext: .
+    autoDeploy: false
+    envVars:
+      - key: DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        # Replace with a Render PostgreSQL database connection string in the dashboard, or use sqlite for demo
+        value: sqlite+aiosqlite:///./biotwin.db
+      - key: CORS_ORIGINS
+        value: https://bbiotwin.vercel.app
+      - key: PORT
+        value: "8000"
+      - key: NVIDIA_API_KEY
+        sync: false
