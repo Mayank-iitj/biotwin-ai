@@ -47,7 +47,8 @@ class Settings(BaseSettings):
     STORAGE_BUCKET: str = os.getenv("STORAGE_BUCKET", "biotwin-uploads")
 
     # CORS
-    CORS_ORIGINS: List[str] = [
+    CORS_ORIGINS_STR: str = os.getenv("CORS_ORIGINS", "")
+    ALLOWED_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://localhost:3001",
     ]
@@ -63,17 +64,16 @@ class Settings(BaseSettings):
         elif self.DATABASE_URL.startswith("postgresql://"):
             self.DATABASE_URL = self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
         
-        # Add FRONTEND_URL to CORS_ORIGINS
-        if self.FRONTEND_URL and self.FRONTEND_URL not in self.CORS_ORIGINS:
-            self.CORS_ORIGINS.append(self.FRONTEND_URL)
+        # Add FRONTEND_URL to ALLOWED_ORIGINS
+        if self.FRONTEND_URL and self.FRONTEND_URL not in self.ALLOWED_ORIGINS:
+            self.ALLOWED_ORIGINS.append(self.FRONTEND_URL)
             
         # Parse optional comma-separated CORS_ORIGINS from env
-        env_origins = os.getenv("CORS_ORIGINS")
-        if env_origins:
-            for origin in env_origins.split(","):
+        if self.CORS_ORIGINS_STR:
+            for origin in self.CORS_ORIGINS_STR.split(","):
                 origin = origin.strip()
-                if origin and origin not in self.CORS_ORIGINS:
-                    self.CORS_ORIGINS.append(origin)
+                if origin and origin not in self.ALLOWED_ORIGINS:
+                    self.ALLOWED_ORIGINS.append(origin)
 
 
 settings = Settings()
