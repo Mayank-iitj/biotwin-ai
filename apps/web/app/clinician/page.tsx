@@ -191,7 +191,7 @@ export default function ClinicianDashboard() {
           <div className="bg-gray-900 rounded-xl p-5 border border-gray-800 h-64 overflow-hidden relative">
              <h2 className="text-sm font-medium absolute top-3 left-3 z-10 text-gray-400">System Impact</h2>
              <div className="absolute inset-0 scale-75 mt-8">
-                <HumanBodyViewer conditions={['t2d', 'hypertension']} />
+                <HumanBodyViewer riskData={{ diabetes: 0.8, hypertension: 0.6 }} />
              </div>
           </div>
         </div>
