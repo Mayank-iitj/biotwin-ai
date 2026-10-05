@@ -54,15 +54,25 @@ def process_data():
     # 1. Adapt Patients to Indian context
     # Adjust names / ethincity as proxy, but here we just add explicit traits
     patients_df['indian_diet'] = np.random.choice(
-        ['vegetarian', 'non-vegetarian'], 
+        ['vegetarian', 'non-vegetarian', 'eggetarian'], 
         size=len(patients_df), 
-        p=[0.4, 0.6]
+        p=[0.4, 0.5, 0.1]
+    )
+    patients_df['region'] = np.random.choice(
+        ['north', 'south', 'east', 'west'],
+        size=len(patients_df),
+        p=[0.3, 0.3, 0.2, 0.2]
     )
     
     # Generate Polygenic Risk Score (PRS) in [0, 1]
-    # Make it slightly correlated with having diabetes in the conditions table
-    diabetics = conditions_df[conditions_df['DESCRIPTION'].str.contains('Diabetes', na=False, case=False)]['PATIENT'].unique()
-    patients_df['has_t2d'] = patients_df['Id'].isin(diabetics)
+    # Enforce requested mix: T2D ~60%, pre-diabetic ~25%, at-risk ~15%
+    status_choices = ['t2d', 'pre_diabetic', 'at_risk']
+    patients_df['diabetes_status'] = np.random.choice(
+        status_choices, 
+        size=len(patients_df), 
+        p=[0.60, 0.25, 0.15]
+    )
+    patients_df['has_t2d'] = patients_df['diabetes_status'] == 't2d'
     
     patients_df['polygenic_risk_score'] = np.where(
         patients_df['has_t2d'],
@@ -98,11 +108,15 @@ def process_data():
     # Impute missing with reasonable Indian demographic defaults
     merged['bmi'] = merged['bmi'].fillna(pd.Series(np.random.normal(24, 3, size=len(merged)), index=merged.index))
     merged['hba1c'] = merged['hba1c'].fillna(pd.Series(
-        np.where(merged['has_t2d'], np.random.normal(7.5, 1.0, size=len(merged)), np.random.normal(5.2, 0.4, size=len(merged))),
+        np.where(merged['has_t2d'], np.random.normal(7.5, 1.0, size=len(merged)),
+                 np.where(merged['diabetes_status'] == 'pre_diabetic', np.random.normal(6.0, 0.4, size=len(merged)),
+                          np.random.normal(5.2, 0.4, size=len(merged)))),
         index=merged.index
     ))
     merged['fasting_glucose'] = merged['fasting_glucose'].fillna(pd.Series(
-        np.where(merged['has_t2d'], np.random.normal(140, 20, size=len(merged)), np.random.normal(90, 10, size=len(merged))),
+        np.where(merged['has_t2d'], np.random.normal(140, 20, size=len(merged)),
+                 np.where(merged['diabetes_status'] == 'pre_diabetic', np.random.normal(110, 10, size=len(merged)),
+                          np.random.normal(90, 10, size=len(merged)))),
         index=merged.index
     ))
     

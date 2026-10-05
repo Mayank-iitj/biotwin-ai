@@ -61,6 +61,13 @@ def build_features():
         lambda x: (x.shift(-12).rolling(12, min_periods=1).min() < 70).astype(int)
     )
     
+    # Future glucose targets for quantile forecaster (+30, +60, +90, +120 min)
+    # 5 min intervals = 6, 12, 18, 24 steps
+    sensors['g_plus_30'] = grouped['glucose_mgdl'].transform(lambda x: x.shift(-6))
+    sensors['g_plus_60'] = grouped['glucose_mgdl'].transform(lambda x: x.shift(-12))
+    sensors['g_plus_90'] = grouped['glucose_mgdl'].transform(lambda x: x.shift(-18))
+    sensors['g_plus_120'] = grouped['glucose_mgdl'].transform(lambda x: x.shift(-24))
+    
     # Merge with static EHR vector
     print("Merging with static EHR data...")
     # Handle missing age 

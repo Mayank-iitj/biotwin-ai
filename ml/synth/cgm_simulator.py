@@ -6,15 +6,7 @@ from tqdm import tqdm
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 PROCESSED_DIR = os.path.join(DATA_DIR, 'processed')
 
-def get_indian_meal_carbs():
-    # Roti/Rice/Dal/Poha/Idli etc.
-    meals = {
-        'breakfast': np.random.normal(50, 15), # Idli, Poha
-        'lunch': np.random.normal(80, 20),     # Rice, Roti, Dal, Sabzi
-        'snack': np.random.normal(30, 10),     # Chai, biscuits, samosa
-        'dinner': np.random.normal(70, 20)     # Roti, Sabzi
-    }
-    return {k: max(0, v) for k, v in meals.items()}
+from synth.meal_library import sample_meal
 
 def simulate_patient(patient, days=30, seed=42):
     np.random.seed(seed)
@@ -28,6 +20,8 @@ def simulate_patient(patient, days=30, seed=42):
     fasting_glucose = patient.get('fasting_glucose', 90 if not has_t2d else 140)
     bmi = patient.get('bmi', 24)
     hba1c = patient.get('hba1c', 5.2 if not has_t2d else 7.5)
+    diet_type = patient.get('indian_diet', 'vegetarian')
+    region = patient.get('region', 'north')
     
     # Bergman model approx parameters
     # Insulin sensitivity decreases with higher BMI, HbA1c
@@ -58,16 +52,21 @@ def simulate_patient(patient, days=30, seed=42):
         daily_si_adj = 0.8 if poor_sleep else 1.0
         
         # Meals for the day
-        meals = get_indian_meal_carbs()
+        meals = {}
+        for m in ['breakfast', 'lunch', 'snack', 'dinner']:
+            meals[m] = sample_meal(diet_type, region, m)
+            
         meal_absorption = np.zeros(steps_per_day)
         
-        for meal_name, carb_amt in meals.items():
+        for meal_name, meal_info in meals.items():
+            carb_amt = meal_info['carbs']
+            gi_factor = max(0.1, meal_info['gi'] / 50.0) # avoid division by zero
             t_idx = meal_times[meal_name] + np.random.randint(-6, 6) # +/- 30 mins
-            # Absorption curve (Gamma-like)
-            for j in range(24): # 2 hours absorption
+            # Absorption curve (Gamma-like) modified by GI
+            for j in range(36): # up to 3 hours absorption
                 if t_idx + j < steps_per_day:
-                    meal_absorption[t_idx + j] += carb_amt * (j/24.0) * np.exp(-j/4.0)
-                    
+                    meal_absorption[t_idx + j] += carb_amt * (j/(24.0/gi_factor)) * np.exp(-j/(4.0/gi_factor))
+
         for step in range(steps_per_day):
             time_of_day_idx = step
             
