@@ -307,7 +307,7 @@ export default function ClinicianDashboard() {
                     </div>
                   ) : (
                     <div className="h-full flex items-center justify-center text-gray-500 text-sm">
-                      Adjust sliders and click "Run Simulation" to see projected trajectories.
+                      Adjust sliders and click &quot;Run Simulation&quot; to see projected trajectories.
                     </div>
                   )}
                </div>
