@@ -11,27 +11,49 @@ class ChatRequest(BaseModel):
     query: str
     patient_id: str
 
+import re
+
 @router.post("/chat")
 async def clinician_chat(req: ChatRequest):
-    """Conversational Clinician Copilot"""
+    """Conversational Clinician Copilot - Dynamic Parsing"""
     query = req.query.lower()
     
-    # Simple heuristic to mock LLM behavior
+    # Defaults
+    medication = "Metformin"
+    walk_mins = 0
+    meal_carbs = 70
+    
+    # Extract medication
     if "semaglutide" in query or "ozempic" in query:
+        medication = "Semaglutide"
+    elif "insulin" in query:
+        medication = "Insulin"
+        
+    # Extract walk minutes (e.g. "15 mins", "walk 20m")
+    walk_match = re.search(r'(\d+)\s*(min|m\b)', query)
+    if walk_match:
+        walk_mins = int(walk_match.group(1))
+        
+    # Extract carbs (e.g. "50g carbs", "50 carbs")
+    carbs_match = re.search(r'(\d+)\s*(g|carbs)', query)
+    if carbs_match:
+        meal_carbs = int(carbs_match.group(1))
+        
+    if medication != "Metformin" or walk_mins > 0 or meal_carbs != 70:
         return {
-            "reply": "Switching to Semaglutide with a 15-minute daily walk significantly reduces the 30-day glycemic variance. The projected peak drops from 200 mg/dL to 155 mg/dL. I've updated the What-If simulation with these parameters.",
+            "reply": f"Understood. Simulating the effect of {medication}, with {meal_carbs}g of carbs and a {walk_mins}-minute post-meal walk. I've updated the Digital Twin trajectories below.",
             "action": {
                 "type": "SIMULATE",
                 "params": {
-                    "medication": "Semaglutide",
-                    "post_meal_walk_mins": 15,
-                    "meal_carbs": 70
+                    "medication": medication,
+                    "post_meal_walk_mins": walk_mins,
+                    "meal_carbs": meal_carbs
                 }
             }
         }
     
     return {
-        "reply": "Based on the digital twin, that intervention is safe. Would you like me to run a simulation for it?",
+        "reply": "I can help you simulate interventions. Try asking: 'What if we switch to Semaglutide and they walk 20 mins?'",
         "action": None
     }
 
