@@ -2,8 +2,38 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List, Optional
 from datetime import datetime
 
+from pydantic import BaseModel
+
 router = APIRouter()
 audit_router = APIRouter()
+
+class ChatRequest(BaseModel):
+    query: str
+    patient_id: str
+
+@router.post("/chat")
+async def clinician_chat(req: ChatRequest):
+    """Conversational Clinician Copilot"""
+    query = req.query.lower()
+    
+    # Simple heuristic to mock LLM behavior
+    if "semaglutide" in query or "ozempic" in query:
+        return {
+            "reply": "Switching to Semaglutide with a 15-minute daily walk significantly reduces the 30-day glycemic variance. The projected peak drops from 200 mg/dL to 155 mg/dL. I've updated the What-If simulation with these parameters.",
+            "action": {
+                "type": "SIMULATE",
+                "params": {
+                    "medication": "Semaglutide",
+                    "post_meal_walk_mins": 15,
+                    "meal_carbs": 70
+                }
+            }
+        }
+    
+    return {
+        "reply": "Based on the digital twin, that intervention is safe. Would you like me to run a simulation for it?",
+        "action": None
+    }
 
 # Mocking the synthetic patients list for now
 @router.get("/patients")
