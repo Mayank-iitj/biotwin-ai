@@ -441,7 +441,7 @@ export default function ClinicianDashboard() {
                       </div>
                     ) : (
                       <div className="h-full flex items-center justify-center text-gray-500 text-sm">
-                        Adjust sliders and click "Run Manual Simulation" or "Generate Optimal Regimen".
+                        Adjust sliders and click &quot;Run Manual Simulation&quot; or &quot;Generate Optimal Regimen&quot;.
                       </div>
                     )}
                  </div>
@@ -468,7 +468,7 @@ export default function ClinicianDashboard() {
         
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
            <div className="bg-blue-900/20 border border-blue-500/20 p-3 rounded-xl rounded-tl-none">
-              <p className="text-sm text-blue-100">Hello Dr. Demo! I'm your BioTwin AI Copilot. Ask me to simulate medication changes, predict long-term trajectories, or optimize interventions.</p>
+              <p className="text-sm text-blue-100">Hello Dr. Demo! I&apos;m your BioTwin AI Copilot. Ask me to simulate medication changes, predict long-term trajectories, or optimize interventions.</p>
            </div>
            
            {chatMessages.map((msg, idx) => (
