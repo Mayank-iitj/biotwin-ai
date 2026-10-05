@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL",
-        "postgresql+asyncpg://postgres:postgres@localhost:5432/biotwin"
+        "sqlite+aiosqlite:///./biotwin.db"
     )
 
     # JWT

@@ -37,4 +37,4 @@ async def get_db() -> AsyncSession:
 
 
 # Import models so they're registered with Base
-from app.models import user, blood_report, wearable, lifestyle, risk, simulation, recommendation, chat, audit_log
+from app.models import user, blood_report, wearable, lifestyle, risk, simulation, recommendation, chat, audit_log, stream_models
