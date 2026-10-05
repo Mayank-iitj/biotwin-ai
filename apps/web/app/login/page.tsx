@@ -20,7 +20,7 @@ export default function LoginPage() {
   const { login: setAuthToken } = useAuth()
 
   useEffect(() => {
-    router.replace('/dashboard')
+    // Only redirect if they are actually authenticated, handled by auth context or let next-auth handle it.
   }, [router])
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -29,11 +29,9 @@ export default function LoginPage() {
     setError('')
 
     try {
-      // Bypass backend completely for frontend-only deployment
-      setTimeout(() => {
-        setAuthToken('mock-login-token')
-        router.push('/dashboard')
-      }, 600)
+      const response = await api.login(email, password)
+      setAuthToken(response.access_token)
+      router.push('/dashboard')
     } catch (err: any) {
       setError(err.message || 'Login failed')
       setLoading(false)

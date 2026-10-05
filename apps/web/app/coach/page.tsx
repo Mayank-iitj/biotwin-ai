@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, Send, Bot, User, Sparkles, AlertCircle } from 'lucide-react'
-import { biomarkerData, historicalHealthData } from '@/lib/mock-data'
+import { api } from '@/lib/api'
+import { useAuth } from '@/lib/auth-context'
 
 interface Message {
   id: string
@@ -25,11 +26,27 @@ export default function CoachPage() {
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  const { token } = useAuth()
+  const [dashboardData, setDashboardData] = useState<any>(null)
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   useEffect(scrollToBottom, [messages])
+
+  useEffect(() => {
+    async function loadData() {
+      if (!token) return
+      try {
+        const data = await api.getDashboardSummary(token)
+        setDashboardData(data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    loadData()
+  }, [token])
 
   useEffect(() => {
     setMessages([
@@ -62,7 +79,10 @@ export default function CoachPage() {
         },
         body: JSON.stringify({ 
           messages: [...messages, userMessage].map(m => ({ role: m.role, content: m.content })),
-          contextData: { biomarkerData, historicalHealthData }
+          contextData: { 
+            biomarkerData: dashboardData?.biomarkerData || [], 
+            historicalHealthData: dashboardData?.historicalHealthData || [] 
+          }
         })
       })
 

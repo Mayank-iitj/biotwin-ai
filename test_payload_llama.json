@@ -1,0 +1,7 @@
+{
+  "model": "meta/llama3-70b-instruct",
+  "messages": [{"role": "user", "content": "Hello"}],
+  "temperature": 0.7,
+  "max_tokens": 1024,
+  "stream": false
+}

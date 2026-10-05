@@ -1,4 +1,4 @@
-# TODO_TEAM_NAME - IIT Jodhpur
+# Mayank-iitj - IIT Jodhpur
 
 # BioTwin AI: Type 2 Diabetes Digital Human Twin
 **Digital Twin Challenge 2026**

@@ -6,7 +6,6 @@ import { Heart, Activity, Brain, Shield, TrendingUp, TrendingDown, AlertCircle, 
 import HumanBodyViewer from '../components/HumanBodyViewer'
 import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth-context'
-import { biomarkerData } from '@/lib/mock-data'
 
 export default function TwinPage() {
   const [selectedOrgan, setSelectedOrgan] = useState<string | null>(null)
@@ -116,7 +115,7 @@ export default function TwinPage() {
                   <Droplets className="w-4 h-4 text-risk-high" /> Latest Blood Markers
                 </h3>
                 <div className="space-y-2 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
-                  {(twinData?.blood_markers?.length > 0 ? twinData.blood_markers : biomarkerData).map((marker: any) => (
+                  {(twinData?.blood_markers || []).map((marker: any) => (
                     <div key={marker.marker || marker.name} className="flex items-center justify-between p-2 rounded-lg bg-white/5">
                       <div>
                         <p className="text-white text-sm">{marker.marker || marker.name}</p>

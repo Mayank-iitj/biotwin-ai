@@ -88,12 +88,79 @@ async def get_dashboard_summary(
             date=str(l.log_date)
         ))
 
-    # Sort activities by date
-    activities.sort(key=lambda x: x.date, reverse=True)
+    # Get latest blood report for biomarkers
+    from app.models.blood_report import BloodReportValue
+    from sqlalchemy.orm import selectinload
+    
+    br_result = await db.execute(
+        select(BloodReport)
+        .where(BloodReport.user_id == current_user.id)
+        .order_by(BloodReport.report_date.desc())
+        .limit(1)
+    )
+    latest_br = br_result.scalar_one_or_none()
+    
+    biomarkers = []
+    if latest_br:
+        brv_result = await db.execute(
+            select(BloodReportValue).where(BloodReportValue.blood_report_id == latest_br.id)
+        )
+        for brv in brv_result.scalars().all():
+            status = "elevated" if brv.is_abnormal else "optimal"
+            target = 100.0 # simplified target logic
+            biomarkers.append({
+                "name": brv.marker,
+                "value": float(brv.value),
+                "target": target,
+                "unit": brv.unit,
+                "status": status
+            })
+
+    # Historical Health Data (from LifestyleLog)
+    ll_result = await db.execute(
+        select(LifestyleLog)
+        .where(LifestyleLog.user_id == current_user.id)
+        .order_by(LifestyleLog.log_date.asc())
+        .limit(30)
+    )
+    historical_health = []
+    for ll in ll_result.scalars().all():
+        historical_health.append({
+            "month": ll.log_date.strftime("%m-%d"),
+            "heartRate": 70, # mock joining with WearableData for now
+            "bloodPressure": 120,
+            "sleep": float(ll.sleep_hours),
+            "activity": float(ll.exercise_minutes),
+            "steps": 5000,
+            "calories": int(ll.calories) if ll.calories else 2000,
+            "weight": float(ll.weight_kg) if ll.weight_kg else 70.0
+        })
+
+    # Risk Distribution (calculate from risk summaries)
+    risk_distribution = [
+        {"name": "Low Risk", "value": 0, "fill": "#22c55e"},
+        {"name": "Moderate Risk", "value": 0, "fill": "#eab308"},
+        {"name": "High Risk", "value": 0, "fill": "#ef4444"}
+    ]
+    for r in risk_summaries:
+        if r.risk_band == "low":
+            risk_distribution[0]["value"] += 1
+        elif r.risk_band == "moderate":
+            risk_distribution[1]["value"] += 1
+        else:
+            risk_distribution[2]["value"] += 1
+    
+    # Filter out zeros
+    risk_distribution = [r for r in risk_distribution if r["value"] > 0]
+    if not risk_distribution:
+        risk_distribution = [{"name": "Low Risk", "value": 1, "fill": "#22c55e"}]
 
     return DashboardSummaryResponse(
         user_id=str(current_user.id),
         risk_summaries=risk_summaries,
         total_recommendations=total_recommendations,
-        recent_activities=activities[:10]
+        recent_activities=activities[:10],
+        biomarkerData=biomarkers,
+        historicalHealthData=historical_health,
+        riskDistribution=risk_distribution
     )

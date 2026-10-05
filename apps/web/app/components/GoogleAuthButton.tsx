@@ -1,17 +1,13 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
-import { useAuth } from '@/lib/auth-context'
+import { signIn } from 'next-auth/react'
 
 export default function GoogleAuthButton({ text = "Sign in with Google" }: { text?: string }) {
-  const router = useRouter()
-  const { login } = useAuth()
 
   const handleGoogleLogin = () => {
-    // Bypass backend completely for frontend-only deployment
-    login('mock-google-token')
-    router.push('/dashboard')
+    // Initiate legitimate Google OAuth flow
+    signIn('google', { callbackUrl: '/dashboard' })
   }
 
   return (

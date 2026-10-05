@@ -117,10 +117,10 @@ export async function POST(req: Request) {
   }
 
   const userQuery = messages.length > 0 ? messages[messages.length - 1]?.content || "" : "";
-  const groqApiKey = process.env.GROQ_API_KEY;
+  const nvidiaApiKey = process.env.NVIDIA_API_KEY;
 
-  if (!groqApiKey) {
-    console.warn("GROQ_API_KEY is not configured. Falling back to simulated response.");
+  if (!nvidiaApiKey) {
+    console.warn("NVIDIA_API_KEY is not configured. Falling back to simulated response.");
     return streamText(getFallbackResponse(userQuery, contextData));
   }
 
@@ -131,7 +131,7 @@ export async function POST(req: Request) {
       dynamicPrompt += `\n\nUser Context (Use this exact data to personalize your responses):\n${JSON.stringify(contextData, null, 2)}`;
     }
 
-    const groqMessages = [
+    const apiMessages = [
       { role: 'system', content: dynamicPrompt },
       ...messages.map((m: any) => ({
         role: m.role === 'assistant' ? 'assistant' : 'user',
@@ -139,15 +139,15 @@ export async function POST(req: Request) {
       }))
     ];
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${groqApiKey}`,
+        'Authorization': `Bearer ${nvidiaApiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'llama3-8b-8192',
-        messages: groqMessages,
+        model: 'meta/llama-3.2-11b-vision-instruct',
+        messages: apiMessages,
         temperature: 0.7,
         max_tokens: 1024,
         stream: true
@@ -156,7 +156,7 @@ export async function POST(req: Request) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`Groq API Error: ${response.status} ${errorText}. Falling back to simulated response.`);
+      console.error(`NVIDIA API Error: ${response.status} ${errorText}. Falling back to simulated response.`);
       return streamText(getFallbackResponse(userQuery, contextData));
     }
 

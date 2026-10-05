@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable standalone output for Vercel deployment
-  output: 'standalone',
-
+  // Removed standalone output to fix NFT tracing errors
   // Image optimization
   images: {
     remotePatterns: [
@@ -21,6 +19,18 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_APP_NAME: 'BioTwin AI',
+  },
+
+  // Webpack config to fix NextAuth and openid-client resolution in Next 14
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.m?js$/,
+      type: "javascript/auto",
+      resolve: {
+        fullySpecified: false,
+      },
+    });
+    return config;
   },
 
   // Headers for security
@@ -57,9 +67,12 @@ const nextConfig = {
     ]
   },
 
-  // Rewrites for API
   async rewrites() {
     return [
+      {
+        source: '/',
+        destination: '/index.html',
+      },
       {
         source: '/api/v1/:path*',
         destination: process.env.NODE_ENV === 'development'

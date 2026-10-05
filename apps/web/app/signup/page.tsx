@@ -23,7 +23,7 @@ export default function SignupPage() {
   const { login: setAuthToken } = useAuth()
 
   useEffect(() => {
-    router.replace('/dashboard')
+    // Only redirect if they are actually authenticated, handled by auth context or let next-auth handle it.
   }, [router])
 
   const handleSignup = async (e: React.FormEvent) => {

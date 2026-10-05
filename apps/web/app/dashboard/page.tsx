@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Heart, Activity, Brain, Shield, TrendingUp, MessageCircle, Calendar, FileText, Settings, LogOut, Menu, X, Bell, Droplet, ArrowUpRight, ArrowDownRight, BookOpen, Zap } from 'lucide-react'
+import { Heart, Activity, Brain, Shield, TrendingUp, MessageCircle, Calendar, FileText, Settings, LogOut, Menu, X, Bell, Droplet, ArrowUpRight, ArrowDownRight, BookOpen, Zap, User } from 'lucide-react'
 import HumanBodyViewer from '../components/HumanBodyViewer'
 import GradientBlinds from '../components/GradientBlinds'
 import DiseaseImpactViewer from '../components/DiseaseImpactViewer'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth-context'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts'
-import { historicalHealthData, biomarkerData, riskDistribution, recentActivities } from '@/lib/mock-data'
 import { getDiseaseById, DiseaseData } from '@/lib/disease-data'
 
 function getRiskColor(band: 'low' | 'moderate' | 'high' | string) {
@@ -75,12 +75,18 @@ export default function DashboardPage() {
   const [selectedOrgan, setSelectedOrgan] = useState<string | null>(null)
   const [activeDiseaseViewer, setActiveDiseaseViewer] = useState<DiseaseData | null>(null)
   
-  const { token, logout } = useAuth()
-  const [loading, setLoading] = useState(false) // Removed initial loading state
+  const { token, logout, isAuthenticated, user } = useAuth()
+  const router = useRouter()
+  const [loading, setLoading] = useState(true) 
   const [error, setError] = useState('')
   const [dashboardData, setDashboardData] = useState<any>(null)
 
   useEffect(() => {
+    if (isAuthenticated === false) {
+      router.replace('/login')
+      return
+    }
+
     async function loadData() {
       if (!token) {
         setLoading(false)
@@ -96,8 +102,15 @@ export default function DashboardPage() {
         setLoading(false)
       }
     }
-    loadData()
-  }, [token])
+    
+    if (isAuthenticated) {
+      loadData()
+    }
+  }, [token, isAuthenticated, router])
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white">Loading...</div>
+  }
 
   const handleOrganClick = (organ: any) => {
     setSelectedOrgan(organ.id)
@@ -159,6 +172,10 @@ export default function DashboardPage() {
             <Settings className="w-5 h-5" />
             <span className="font-medium">Settings</span>
           </Link>
+          <Link href="/profile" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-all">
+            <User className="w-5 h-5" />
+            <span className="font-medium">Profile</span>
+          </Link>
           <button onClick={logout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-red-500/10 hover:text-red-400 transition-all w-full text-left">
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Logout</span>
@@ -187,9 +204,15 @@ export default function DashboardPage() {
               <Bell className="w-5 h-5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
             </button>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-biotech-500 flex items-center justify-center text-white font-bold shadow-[0_0_10px_rgba(59,130,246,0.3)] ring-2 ring-white/10 cursor-pointer">
-              U
-            </div>
+            <Link href="/profile">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-biotech-500 flex items-center justify-center text-white font-bold shadow-[0_0_10px_rgba(59,130,246,0.3)] ring-2 ring-white/10 cursor-pointer overflow-hidden">
+                {user?.image ? (
+                  <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  user?.name ? user.name.charAt(0).toUpperCase() : 'U'
+                )}
+              </div>
+            </Link>
           </div>
         </header>
 
@@ -222,21 +245,10 @@ export default function DashboardPage() {
                     </div>
                     
                     <div className="flex-1 w-full relative min-h-[400px] rounded-lg border border-white/5 overflow-hidden">
-                      <GradientBlinds
-                        gradientColors={['#0f172a', '#3b82f6', '#0f172a']}
-                        angle={0}
-                        noise={0.3}
-                        blindCount={16}
-                        blindMinWidth={60}
-                        spotlightRadius={0.5}
-                        spotlightSoftness={1}
-                        spotlightOpacity={1}
-                        mouseDampening={0.15}
-                        distortAmount={0}
-                        shineDirection="left"
-                        mixBlendMode="lighten"
+                      <HumanBodyViewer
+                        riskData={riskDataMap}
+                        onOrganClick={handleOrganClick}
                         className="h-full w-full"
-                        dpr={1}
                       />
                     </div>
                   </div>
@@ -306,7 +318,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="h-[280px] w-full">
                       <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={historicalHealthData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                        <LineChart data={dashboardData?.historicalHealthData || []} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
                           <XAxis dataKey="month" stroke="#ffffff50" tick={{ fill: '#ffffff50', fontSize: 12 }} tickLine={false} axisLine={false} />
                           <YAxis stroke="#ffffff50" tick={{ fill: '#ffffff50', fontSize: 12 }} tickLine={false} axisLine={false} />
@@ -343,7 +355,7 @@ export default function DashboardPage() {
                         </tr>
                       </thead>
                       <tbody>
-                        {biomarkerData.map((marker, idx) => (
+                        {(dashboardData?.biomarkerData || []).map((marker: any, idx: number) => (
                           <tr key={idx} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                             <td className="py-4 text-white font-medium">{marker.name}</td>
                             <td className="py-4 text-white font-bold">{marker.value} <span className="text-xs text-white/40 font-normal">{marker.unit}</span></td>
@@ -382,7 +394,7 @@ export default function DashboardPage() {
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
-                          data={riskDistribution}
+                          data={dashboardData?.riskDistribution || []}
                           cx="50%"
                           cy="50%"
                           innerRadius={60}
@@ -391,7 +403,7 @@ export default function DashboardPage() {
                           dataKey="value"
                           stroke="none"
                         >
-                          {riskDistribution.map((entry, index) => (
+                          {(dashboardData?.riskDistribution || []).map((entry: any, index: number) => (
                             <Cell key={`cell-${index}`} fill={entry.fill} />
                           ))}
                         </Pie>
@@ -405,7 +417,7 @@ export default function DashboardPage() {
                   </div>
                   
                   <div className="mt-4 flex flex-col gap-2">
-                    {riskDistribution.map((item, idx) => (
+                    {(dashboardData?.riskDistribution || []).map((item: any, idx: number) => (
                       <div key={idx} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.fill }}></div>
