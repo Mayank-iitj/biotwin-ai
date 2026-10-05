@@ -16,6 +16,7 @@ authlib==1.3.0
 itsdangerous==2.1.2
 asyncpg==0.29.0
 sse-starlette
+email-validator
 aiosqlite
 pandas
 numpy
