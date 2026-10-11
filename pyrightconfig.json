@@ -1,0 +1,9 @@
+{
+  "include": [
+    "apps/api",
+    "test_backend_wiring.py"
+  ],
+  "extraPaths": [
+    "apps/api"
+  ]
+}
