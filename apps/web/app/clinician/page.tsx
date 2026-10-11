@@ -786,8 +786,8 @@ export default function ClinicianDashboard() {
             </div>
 
             {/* Anatomical 3D Digital Twin Viewer */}
-            <div className="bg-gray-900 rounded-xl p-5 border border-gray-800 h-[280px] overflow-hidden relative flex flex-col">
-              <div className="flex justify-between items-center mb-1">
+            <div className="bg-neutral-950 rounded-xl p-5 border border-white/20 h-[480px] overflow-hidden relative flex flex-col">
+              <div className="flex justify-between items-center mb-2">
                 <h2 className="text-xs font-bold uppercase tracking-wider text-gray-400">Systemic Anatomical Twin</h2>
                 <select 
                   value={fastForwardYears} 
@@ -800,11 +800,11 @@ export default function ClinicianDashboard() {
                 </select>
               </div>
               {fastForwardYears > 0 && (
-                <div className="text-[11px] text-orange-400 font-bold text-center">
+                <div className="text-[11px] text-orange-400 font-bold text-center mb-1">
                   ⚠️ Simulating microvascular stress at +{fastForwardYears} years
                 </div>
               )}
-              <div className="relative flex-1 scale-[0.65] mt-1 origin-top">
+              <div className="relative flex-1 w-full h-full min-h-0">
                 <HumanBodyViewer riskData={displayRiskData} />
               </div>
             </div>

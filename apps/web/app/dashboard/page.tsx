@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, Activity, Brain, Shield, TrendingUp, MessageCircle, Calendar, FileText, Settings, LogOut, Menu, X, Bell, Droplet, ArrowUpRight, ArrowDownRight, BookOpen, Zap, User } from 'lucide-react'
-import HumanBodyViewer from '../components/HumanBodyViewer'
 import GradientBlinds from '../components/GradientBlinds'
 import DiseaseImpactViewer from '../components/DiseaseImpactViewer'
 import Link from 'next/link'
@@ -72,7 +71,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export default function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [selectedOrgan, setSelectedOrgan] = useState<string | null>(null)
   const [activeDiseaseViewer, setActiveDiseaseViewer] = useState<DiseaseData | null>(null)
   
   const { token, logout, isAuthenticated, user } = useAuth()
@@ -111,16 +109,6 @@ export default function DashboardPage() {
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center bg-black text-white">Loading...</div>
   }
-
-  const handleOrganClick = (organ: any) => {
-    setSelectedOrgan(organ.id)
-  }
-
-  // Convert risk summaries to the object format expected by HumanBodyViewer
-  const riskDataMap = dashboardData?.risk_summaries?.reduce((acc: any, curr: any) => {
-    acc[curr.disease] = curr.risk_score
-    return acc
-  }, {}) || {}
 
   // Ensure we always show the rich dashboard layout even if API data is empty
   const hasRiskData = dashboardData?.risk_summaries?.length > 0;
@@ -220,42 +208,8 @@ export default function DashboardPage() {
         <div className="p-6 max-w-[1600px] mx-auto space-y-6">
           {/* Removed loading and error blocks to ensure dashboard always shows up */}
             <>
-              {/* TOP GRID: 3D Twin & Key Metrics */}
-              <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-                
-                {/* 3D Model Column */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="xl:col-span-4 flex flex-col h-full"
-                >
-                  <div className="glass-card p-5 border border-neutral-800 h-full relative overflow-hidden group">
-                    {/* Background glow */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] -z-10 group-hover:bg-white/10 transition-all duration-700"></div>
-                    
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                        <Heart className="w-5 h-5 text-white animate-pulse" />
-                        Digital Twin
-                      </h2>
-                      <span className="px-3 py-1 bg-white/10 text-white text-xs font-bold rounded-full border border-white/20">
-                        Active Sync
-                      </span>
-                    </div>
-                    
-                    <div className="flex-1 w-full relative min-h-[400px] rounded-lg border border-neutral-800 overflow-hidden">
-                      <HumanBodyViewer
-                        riskData={riskDataMap}
-                        onOrganClick={handleOrganClick}
-                        className="h-full w-full"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Metrics Column */}
-                <div className="xl:col-span-8 flex flex-col gap-6">
+              {/* TOP SECTION: Key Metrics & Vital Trends */}
+              <div className="space-y-6">
                   {/* Summary Stats Row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-5 border-l-4 border-l-white relative overflow-hidden">
@@ -329,7 +283,6 @@ export default function DashboardPage() {
                       </ResponsiveContainer>
                     </div>
                   </motion.div>
-                </div>
               </div>
 
               {/* MIDDLE GRID: Biomarkers & Risk Profiles */}
