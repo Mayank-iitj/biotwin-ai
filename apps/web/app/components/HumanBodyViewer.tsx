@@ -12,6 +12,7 @@ import {
   Brain,
   Activity,
   Layers,
+  Box,
   Sparkles,
   ShieldCheck,
   AlertTriangle,
@@ -45,6 +46,7 @@ interface HumanBodyViewerProps {
   }
   onOrganClick?: (organ: OrganData) => void
   className?: string
+  defaultMode?: '3d' | 'hologram'
 }
 
 const BASE_ORGANS: Omit<OrganData, 'riskScore' | 'riskBand'>[] = [
@@ -113,12 +115,13 @@ const BASE_ORGANS: Omit<OrganData, 'riskScore' | 'riskBand'>[] = [
 export default function HumanBodyViewer({
   riskData = {},
   onOrganClick,
-  className = ''
+  className = '',
+  defaultMode = '3d'
 }: HumanBodyViewerProps) {
   const [selectedOrgan, setSelectedOrgan] = useState<OrganData | null>(null)
   const [hoveredOrgan, setHoveredOrgan] = useState<OrganData | null>(null)
   const [activeLayer, setActiveLayer] = useState<'all' | 'metabolic' | 'cardiovascular' | 'renal'>('all')
-  const [viewMode, setViewMode] = useState<'hologram' | '3d'>('hologram')
+  const [viewMode, setViewMode] = useState<'hologram' | '3d'>(defaultMode)
   const [iframeLoaded, setIframeLoaded] = useState(false)
   const [zoom, setZoom] = useState(1)
   const [rotation, setRotation] = useState(0)
@@ -209,14 +212,31 @@ export default function HumanBodyViewer({
           </div>
         </div>
 
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-2 pointer-events-auto">
+        {/* View Mode Toggle: 3D Twin (Default) or Hologram View */}
+        <div className="flex items-center gap-1 bg-black/70 backdrop-blur-md p-1 rounded-xl border border-neutral-800 pointer-events-auto shadow-lg">
           <button
-            onClick={() => setViewMode(v => v === 'hologram' ? '3d' : 'hologram')}
-            className="px-3 py-1 rounded-lg bg-neutral-900/90 border border-neutral-700/80 text-white text-xs font-semibold hover:bg-neutral-800 transition-all flex items-center gap-1.5 shadow-sm"
+            type="button"
+            onClick={() => setViewMode('3d')}
+            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              viewMode === '3d'
+                ? 'bg-cyan-500 text-black shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                : 'text-neutral-400 hover:text-white'
+            }`}
           >
-            <Layers className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{viewMode === 'hologram' ? 'Switch to 3D' : 'Hologram View'}</span>
+            <Box className="w-3.5 h-3.5" />
+            <span>3D Twin</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode('hologram')}
+            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              viewMode === 'hologram'
+                ? 'bg-cyan-500 text-black shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                : 'text-neutral-400 hover:text-white'
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5" />
+            <span>Hologram View</span>
           </button>
         </div>
       </div>
@@ -248,10 +268,11 @@ export default function HumanBodyViewer({
                 <Activity className="w-8 h-8 text-cyan-400 animate-spin mb-3" />
                 <span className="text-white text-sm font-medium">Connecting 3D Rendering Engine...</span>
                 <button
+                  type="button"
                   onClick={() => setViewMode('hologram')}
-                  className="mt-3 text-xs text-neutral-400 underline hover:text-white"
+                  className="mt-3 text-xs text-cyan-400 hover:text-cyan-300 underline"
                 >
-                  Return to Hologram Avatar
+                  Switch to Hologram View
                 </button>
               </div>
             )}
@@ -521,29 +542,36 @@ export default function HumanBodyViewer({
           </span>
         </div>
 
-        <div className="flex items-center gap-1 text-neutral-400">
-          <button
-            onClick={() => setZoom(z => Math.min(z + 0.15, 1.8))}
-            className="p-1 hover:text-white rounded hover:bg-neutral-800"
-            title="Zoom In"
-          >
-            <ZoomIn className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => setZoom(z => Math.max(z - 0.15, 0.7))}
-            className="p-1 hover:text-white rounded hover:bg-neutral-800"
-            title="Zoom Out"
-          >
-            <ZoomOut className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => { setZoom(1); setRotation(0); }}
-            className="p-1 hover:text-white rounded hover:bg-neutral-800"
-            title="Reset"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
-        </div>
+        {viewMode === '3d' ? (
+          <div className="font-mono text-[11px] text-neutral-400 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            <span>Interactive 3D • Drag to rotate, scroll to zoom</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-1 text-neutral-400">
+            <button
+              onClick={() => setZoom(z => Math.min(z + 0.15, 1.8))}
+              className="p-1 hover:text-white rounded hover:bg-neutral-800"
+              title="Zoom In"
+            >
+              <ZoomIn className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setZoom(z => Math.max(z - 0.15, 0.7))}
+              className="p-1 hover:text-white rounded hover:bg-neutral-800"
+              title="Zoom Out"
+            >
+              <ZoomOut className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => { setZoom(1); setRotation(0); }}
+              className="p-1 hover:text-white rounded hover:bg-neutral-800"
+              title="Reset"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

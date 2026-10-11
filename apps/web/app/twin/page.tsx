@@ -73,10 +73,11 @@ export default function TwinPage() {
               <div className="glass-card p-4 h-[600px] flex flex-col">
                 <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                   <Heart className="w-5 h-5 text-primary-400" />
-                  Interactive Body View
+                  Interactive 3D Digital Twin
                 </h2>
                 <div className="flex-1 w-full relative">
                   <HumanBodyViewer
+                    defaultMode="3d"
                     riskData={riskDataMap}
                     onOrganClick={(org) => setSelectedOrgan(org.id)}
                   />
