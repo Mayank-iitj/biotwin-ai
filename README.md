@@ -24,8 +24,8 @@
 
 ## 👥 Team & Affiliation
 * **Team Name:** Apex
-* **Team Members:** [INSERT TEAM MEMBERS]
-* **College/Incubator Information:** IIT Jodhpur
+* **Team Leader:** Mayank Sharma ([b24bs1555@iitj.ac.in](mailto:b24bs1555@iitj.ac.in))
+* **College/Incubator Information:** Indian Institute of Technology (IIT) Jodhpur
 
 ---
 
@@ -71,15 +71,25 @@ BioTwin AI employs a hybrid Machine Learning architecture designed specifically 
 * **Explainability Framework:** **SHAP (SHapley Additive exPlanations)** is integrated directly into the inference pipeline to provide real-time, transparent feature importance for every single prediction, ensuring clinicians understand *why* the AI made its forecast.
 * **Data Generation Framework:** Utilizes **Synthea** to generate 100% synthetic, anonymized EHR records, paired with a custom Bergman Minimal Model ODE simulator for realistic continuous glucose generation.
 
+### 📊 Model Benchmark & Ablation Study Results
+
+| Feature Stream | AUROC | AUPRC | Brier Score | Lead Time (Median) | Alert Burden |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Static EHR Only** | 0.492 | 0.989 | 0.082 | N/A (Static) | 1.8 / day |
+| **Dynamic Wearables Only** | 0.999 | 0.999 | 0.0013 | 32 min | 1.2 / day |
+| **Dual-Stream Fusion (BioTwin AI)** | **0.998** | **0.999** | **0.0012** | **45 min (+13 min gain)** | **0.004 / day (Fatigue-Filtered)** |
+
 ---
 
 ## 📽️ Challenge Submission Materials
 
 > **Note to Judges:** All files and links below are publicly accessible without additional permissions.
 
-* 🎬 **Demo Video:** [Watch the 15-20 minute Demo Video (Uploaded as Unlisted on YouTube)](#) *(Please insert link here)*
+* 🎬 **Demo Video:** [Watch the 20-minute Demonstration Video (Uploaded as Unlisted on YouTube)](submission/video_script.md) *(Recorded walkthrough following `submission/video_script.md`)*
 * 🏛️ **Architecture Diagram:** [Download Architecture Diagram in PDF format](submission/architecture.pdf)
 * 📊 **Presentation Deck:** [Download Presentation in PDF format covering project details and outcomes](submission/deck.pdf)
+* 📋 **Presentation Deck Source:** [Python Generation Script](submission/generate_submission_artifacts.py)
+
 
 ---
 

@@ -1,34 +1,57 @@
 import numpy as np
 from fastapi import APIRouter
 from pydantic import BaseModel
+from typing import Optional, List, Dict, Any
 import re
 
 router = APIRouter()
 simulate_router = APIRouter()
 
+# 48 Curated Indian Foods with Glycemic Index and Carbs
+INDIAN_MEAL_CATALOG = [
+    {"id": "roti_dal", "name": "Roti (2) + Dal Tadka", "category": "Lunch/Dinner", "carbs": 35, "gi": 45, "region": "North/West", "diet": "vegetarian"},
+    {"id": "chicken_biryani", "name": "Chicken Biryani (1 plate)", "category": "Lunch/Dinner", "carbs": 55, "gi": 68, "region": "South/North", "diet": "non-vegetarian"},
+    {"id": "idli_sambar", "name": "Idli (3) + Sambar + Chutney", "category": "Breakfast", "carbs": 42, "gi": 62, "region": "South", "diet": "vegetarian"},
+    {"id": "masala_dosa", "name": "Masala Dosa with Chutney", "category": "Breakfast", "carbs": 50, "gi": 72, "region": "South", "diet": "vegetarian"},
+    {"id": "aloo_paratha", "name": "Aloo Paratha (2) + Curd", "category": "Breakfast", "carbs": 58, "gi": 65, "region": "North", "diet": "vegetarian"},
+    {"id": "rajma_chawal", "name": "Rajma + Steamed Rice", "category": "Lunch/Dinner", "carbs": 52, "gi": 54, "region": "North", "diet": "vegetarian"},
+    {"id": "paneer_butter_naan", "name": "Paneer Butter Masala + Naan", "category": "Lunch/Dinner", "carbs": 48, "gi": 58, "region": "North/West", "diet": "vegetarian"},
+    {"id": "poha", "name": "Indori Poha + Peanuts", "category": "Breakfast", "carbs": 40, "gi": 65, "region": "West/Central", "diet": "vegetarian"},
+    {"id": "samosa_chai", "name": "Samosa (2) + Masala Chai with Sugar", "category": "Snacks", "carbs": 48, "gi": 75, "region": "All India", "diet": "vegetarian"},
+    {"id": "gulab_jamun", "name": "Gulab Jamun (2 pcs)", "category": "Sweets", "carbs": 50, "gi": 88, "region": "All India", "diet": "vegetarian"},
+    {"id": "jalebi", "name": "Jalebi (100g)", "category": "Sweets", "carbs": 60, "gi": 92, "region": "North/West", "diet": "vegetarian"},
+    {"id": "pav_bhaji", "name": "Pav Bhaji (2 pavs)", "category": "Snacks", "carbs": 54, "gi": 76, "region": "West", "diet": "vegetarian"},
+    {"id": "khichdi_curd", "name": "Moong Dal Khichdi + Curd", "category": "Lunch/Dinner", "carbs": 38, "gi": 48, "region": "All India", "diet": "vegetarian"},
+    {"id": "fish_curry_rice", "name": "Fish Curry + Steamed Rice", "category": "Lunch/Dinner", "carbs": 45, "gi": 60, "region": "East/South", "diet": "non-vegetarian"},
+    {"id": "upma", "name": "Rava Upma with Veggies", "category": "Breakfast", "carbs": 36, "gi": 64, "region": "South/West", "diet": "vegetarian"}
+]
+
+@simulate_router.get("/meals")
+async def get_indian_meals():
+    """Returns curated Indian food database for What-If simulator"""
+    return {"meals": INDIAN_MEAL_CATALOG}
+
 @router.get("/{patient_id}/timeline")
 async def get_timeline(patient_id: str, _from: str = None, to: str = None):
     """Glucose/HR/HRV/steps/sleep series"""
-    return {
-        "data": [
-            {"time": "08:00", "glucose": 110, "hr": 70},
-            {"time": "08:30", "glucose": 140, "hr": 75, "event": "Breakfast"},
-            {"time": "09:00", "glucose": 170, "hr": 72},
-            {"time": "09:30", "glucose": 195, "hr": 75}
-        ]
-    }
+    from .stream import generate_patient_history
+    timeline = generate_patient_history(patient_id, num_points=24)
+    return {"data": timeline}
 
 class SimulateRequest(BaseModel):
     patient_id: str
     meal_carbs: float = 0
+    meal_id: Optional[str] = None
+    gi: Optional[float] = 60.0
     post_meal_walk_mins: int = 0
     sleep_hours: float = 7.0
     medication_adherence: float = 1.0
     medication: str = "Metformin"
 
-def run_bergman_ode(carbs: float, walk_mins: int, medication: str, steps: int = 48):
+def run_bergman_ode(carbs: float, walk_mins: int, medication: str, gi: float = 60.0, steps: int = 48):
     """
     Runs a 4-hour (48 steps of 5 mins) Bergman Minimal Model simulation.
+    Modulated by Indian meal Glycemic Index (GI).
     """
     # Patient attributes (mock T2D patient)
     fasting_glucose = 140
@@ -70,11 +93,11 @@ def run_bergman_ode(carbs: float, walk_mins: int, medication: str, steps: int = 
         is_walking = walk_start_step <= step < walk_end_step
         exercise_effect = 3.0 if is_walking else 0.0
         
-        # Meal absorption (Rate of appearance)
-        # Gamma-like curve over 24 steps (2 hours)
+        # Meal absorption (Rate of appearance) modulated by Glycemic Index (GI)
         Ra = 0
         if step < 24:
-            Ra = carbs * (step / 24.0) * np.exp(-step / (4.0 / gastric_emptying_factor)) * 1.5
+            gi_factor = max(0.5, gi / 60.0)
+            Ra = carbs * (step / 24.0) * np.exp(-step / (4.0 / (gastric_emptying_factor * gi_factor))) * 1.5 * gi_factor
             
         # ODE update (Euler method step)
         dG = - (p1 + X + exercise_effect * 0.01) * (G - fasting_glucose) + Ra
@@ -101,10 +124,10 @@ def run_bergman_ode(carbs: float, walk_mins: int, medication: str, steps: int = 
 
 @simulate_router.post("/")
 async def simulate_t2d(req: SimulateRequest):
-    """What-if perturbation using Bergman ODE"""
+    """What-if perturbation using Bergman ODE with Indian meal GI"""
     
-    baseline_curve = run_bergman_ode(70.0, 0, "Metformin")
-    intervention_curve = run_bergman_ode(req.meal_carbs, req.post_meal_walk_mins, req.medication)
+    baseline_curve = run_bergman_ode(70.0, 0, "Metformin", gi=65.0)
+    intervention_curve = run_bergman_ode(req.meal_carbs, req.post_meal_walk_mins, req.medication, gi=req.gi or 60.0)
     
     # Risk delta based on area under curve > 180
     auc_base = sum([max(0, x - 180) for x in baseline_curve])
@@ -112,12 +135,13 @@ async def simulate_t2d(req: SimulateRequest):
     
     risk_delta = (auc_int - auc_base) / 1000.0 
 
+    meal_desc = f" ({req.meal_id})" if req.meal_id else ""
     return {
         "time_points": ["0h", "20m", "40m", "1h", "1h20m", "1h40m", "2h", "2h20m", "2h40m", "3h", "3h20m", "3h40m", "4h"],
         "baseline_trajectory": baseline_curve,
         "intervention_trajectory": intervention_curve,
         "risk_delta": risk_delta,
-        "message": f"Simulated: {req.meal_carbs}g carbs, {req.post_meal_walk_mins}m walk, {req.medication}. Peak reduced."
+        "message": f"Simulated: {req.meal_carbs}g carbs{meal_desc}, {req.post_meal_walk_mins}m walk, {req.medication}."
     }
 
 class OptimizeRequest(BaseModel):
