@@ -8,40 +8,40 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#fcfef7',
-          100: '#f4fae9',
-          200: '#e7f5ce',
-          300: '#d7f0af',
-          400: '#c2eb8c',
-          500: '#cfff92', // Medureon lime
-          600: '#bceb7f',
-          700: '#99d253',
-          800: '#7cb539',
-          900: '#0f1901', // Medureon dark as primary-900 fallback
+          50: '#ffffff',
+          100: '#f5f5f5',
+          200: '#e5e5e5',
+          300: '#d4d4d4',
+          400: '#a3a3a3',
+          500: '#ffffff',
+          600: '#e5e5e5',
+          700: '#737373',
+          800: '#262626',
+          900: '#000000',
         },
         med: {
-          dark: '#0f1901',
-          lime: '#cfff92',
-          cream: '#fdfdfc',
-          'gray-green': '#e9ebe0',
-          olive: '#555f4a',
+          dark: '#000000',
+          lime: '#ffffff',
+          cream: '#ffffff',
+          'gray-green': '#a3a3a3',
+          olive: '#525252',
         },
         biotech: {
-          50: '#f6fdf5',
-          100: '#e5fae3',
-          200: '#cbf5c7',
-          300: '#a5eba0',
-          400: '#cfff92', // align biotech with theme
-          500: '#a3e660',
-          600: '#7cbd37',
-          700: '#5c9424',
-          800: '#3e6a14',
-          900: '#25440a',
+          50: '#ffffff',
+          100: '#f5f5f5',
+          200: '#e5e5e5',
+          300: '#d4d4d4',
+          400: '#ffffff',
+          500: '#e5e5e5',
+          600: '#a3a3a3',
+          700: '#737373',
+          800: '#404040',
+          900: '#171717',
         },
         risk: {
-          low: '#cfff92', // map healthy/low risk to lime green
-          moderate: '#eab308',
-          high: '#ef4444',
+          low: '#737373',
+          moderate: '#a3a3a3',
+          high: '#ffffff',
         }
       },
       fontFamily: {

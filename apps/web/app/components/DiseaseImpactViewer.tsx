@@ -17,9 +17,9 @@ function DiseaseBodyMap({ disease, selectedZone, onZoneClick }: {
 }) {
   const getSeverityColor = (severity: 'mild' | 'moderate' | 'severe') => {
     switch (severity) {
-      case 'mild': return '#f59e0b'
-      case 'moderate': return '#f97316'
-      case 'severe': return '#ef4444'
+      case 'mild': return '#737373'
+      case 'moderate': return '#a3a3a3'
+      case 'severe': return '#ffffff'
     }
   }
 
@@ -28,10 +28,10 @@ function DiseaseBodyMap({ disease, selectedZone, onZoneClick }: {
       <svg
         viewBox="0 0 200 500"
         className="w-full max-w-[220px] mx-auto"
-        style={{ filter: 'drop-shadow(0 0 20px rgba(0,0,0,0.5))' }}
+        style={{ filter: 'drop-shadow(0 0 20px rgba(0,0,0,0.8))' }}
       >
         {/* Image bodymap */}
-        <image href="/images/bodymap.png" x="-50" y="0" width="300" height="500" preserveAspectRatio="xMidYMid meet" style={{ filter: 'opacity(0.8)' }} />
+        <image href="/images/bodymap.png" x="-50" y="0" width="300" height="500" preserveAspectRatio="xMidYMid meet" style={{ filter: 'grayscale(1) opacity(0.8)' }} />
 
 
         {/* Disease Hotspots */}
@@ -94,7 +94,7 @@ function DiseaseBodyMap({ disease, selectedZone, onZoneClick }: {
         {['mild', 'moderate', 'severe'].map(s => (
           <div key={s} className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full" style={{
-              backgroundColor: s === 'mild' ? '#f59e0b' : s === 'moderate' ? '#f97316' : '#ef4444'
+              backgroundColor: s === 'mild' ? '#737373' : s === 'moderate' ? '#a3a3a3' : '#ffffff'
             }} />
             <span className="text-white/40 capitalize">{s}</span>
           </div>
@@ -115,23 +115,23 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
 ]
 
 const STAGE_COLORS = {
-  early: { bg: 'bg-emerald-500/15', border: 'border-emerald-500/30', text: 'text-emerald-400', dot: '#10b981' },
-  developing: { bg: 'bg-amber-500/15', border: 'border-amber-500/30', text: 'text-amber-400', dot: '#f59e0b' },
-  advanced: { bg: 'bg-orange-500/15', border: 'border-orange-500/30', text: 'text-orange-400', dot: '#f97316' },
-  severe: { bg: 'bg-red-500/15', border: 'border-red-500/30', text: 'text-red-400', dot: '#ef4444' },
+  early: { bg: 'bg-white/5', border: 'border-neutral-700', text: 'text-neutral-300', dot: '#737373' },
+  developing: { bg: 'bg-white/10', border: 'border-neutral-600', text: 'text-neutral-200', dot: '#a3a3a3' },
+  advanced: { bg: 'bg-white/15', border: 'border-neutral-500', text: 'text-white', dot: '#d4d4d4' },
+  severe: { bg: 'bg-white/20', border: 'border-white', text: 'text-white', dot: '#ffffff' },
 }
 
 const CATEGORY_COLORS = {
-  lifestyle: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', label: 'Lifestyle', color: '#10b981' },
-  medical: { bg: 'bg-blue-500/10', border: 'border-blue-500/20', label: 'Medical', color: '#3b82f6' },
-  dietary: { bg: 'bg-amber-500/10', border: 'border-amber-500/20', label: 'Dietary', color: '#f59e0b' },
-  monitoring: { bg: 'bg-purple-500/10', border: 'border-purple-500/20', label: 'Monitoring', color: '#8b5cf6' },
+  lifestyle: { bg: 'bg-white/5', border: 'border-neutral-700', label: 'Lifestyle', color: '#a3a3a3' },
+  medical: { bg: 'bg-white/5', border: 'border-neutral-700', label: 'Medical', color: '#d4d4d4' },
+  dietary: { bg: 'bg-white/5', border: 'border-neutral-700', label: 'Dietary', color: '#737373' },
+  monitoring: { bg: 'bg-white/5', border: 'border-neutral-700', label: 'Monitoring', color: '#ffffff' },
 }
 
 const SEVERITY_PILL = {
-  mild: 'bg-amber-500/15 text-amber-300 border border-amber-500/20',
-  moderate: 'bg-orange-500/15 text-orange-300 border border-orange-500/20',
-  severe: 'bg-red-500/15 text-red-300 border border-red-500/20',
+  mild: 'bg-neutral-900 text-neutral-400 border border-neutral-700',
+  moderate: 'bg-neutral-900 text-neutral-200 border border-neutral-500',
+  severe: 'bg-white text-black font-bold border border-white',
 }
 
 // ─── Main Component ──────────────────────────────────────────
@@ -167,15 +167,14 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
         transition={{ type: 'spring', damping: 30, stiffness: 300 }}
         className="relative w-full max-w-5xl max-h-[90vh] flex flex-col rounded-2xl overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-          border: `1px solid ${disease.color}25`,
-          boxShadow: `0 0 60px ${disease.glowColor}, 0 25px 50px rgba(0,0,0,0.5)`,
+          background: '#000000',
+          border: '1px solid #262626',
+          boxShadow: '0 25px 50px rgba(0,0,0,0.9)',
         }}
       >
-        {/* Glow top bar */}
+        {/* Top bar */}
         <div
-          className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
-          style={{ background: `linear-gradient(90deg, transparent, ${disease.color}, transparent)` }}
+          className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-white"
         />
 
         {/* Header */}
@@ -185,10 +184,9 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
               <div
                 className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 font-bold"
                 style={{
-                  background: `linear-gradient(135deg, ${disease.color}30, ${disease.color}10)`,
-                  border: `1px solid ${disease.color}40`,
-                  boxShadow: `0 0 20px ${disease.glowColor}`,
-                  color: disease.color,
+                  background: '#171717',
+                  border: '1px solid #404040',
+                  color: '#ffffff',
                 }}
               >
                 {disease.name[0]}
@@ -196,17 +194,12 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span
-                    className="text-xs font-semibold px-2.5 py-0.5 rounded-full"
-                    style={{ background: `${disease.color}20`, color: disease.color, border: `1px solid ${disease.color}30` }}
+                    className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white/10 text-white border border-white/20"
                   >
                     {disease.name}
                   </span>
                   {userRiskScore !== undefined && (
-                    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
-                      userRiskScore > 60 ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
-                      userRiskScore > 30 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                      'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                    }`}>
+                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-neutral-900 text-white border border-neutral-700">
                       Your Risk: {userRiskScore}%
                     </span>
                   )}
@@ -228,32 +221,27 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
             {disease.quickStats.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl p-3 text-center"
-                style={{ background: `${disease.color}08`, border: `1px solid ${disease.color}15` }}
+                className="rounded-xl p-3 text-center bg-neutral-900 border border-neutral-800"
               >
                 <div className="text-sm font-bold text-white">{stat.value}</div>
-                <div className="text-[11px] text-white/40 mt-0.5">{stat.label}</div>
+                <div className="text-[11px] text-neutral-400 mt-0.5">{stat.label}</div>
               </div>
             ))}
           </div>
 
           {/* Tab Bar */}
-          <div className="flex gap-1 mt-4 bg-white/5 rounded-xl p-1">
+          <div className="flex gap-1 mt-4 bg-neutral-900 rounded-xl p-1 border border-neutral-800">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-xs font-medium transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'text-white shadow-lg'
-                    : 'text-white/40 hover:text-white/70'
+                    ? 'bg-white text-black shadow-lg font-bold'
+                    : 'text-neutral-400 hover:text-white'
                 }`}
-                style={activeTab === tab.id ? {
-                  background: `linear-gradient(135deg, ${disease.color}30, ${disease.color}15)`,
-                  border: `1px solid ${disease.color}40`,
-                } : {}}
               >
-                <span style={{ color: activeTab === tab.id ? disease.color : 'inherit' }}>{tab.icon}</span>
+                <span>{tab.icon}</span>
                 <span className="hidden sm:inline">{tab.label}</span>
               </button>
             ))}
@@ -261,7 +249,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
         </div>
 
         {/* Tab Content */}
-        <div className="flex-1 overflow-y-auto px-6 pb-6" style={{ scrollbarWidth: 'thin', scrollbarColor: `${disease.color}30 transparent` }}>
+        <div className="flex-1 overflow-y-auto px-6 pb-6" style={{ scrollbarWidth: 'thin', scrollbarColor: '#404040 transparent' }}>
           <AnimatePresence mode="wait">
             {/* ── BODY MAP TAB ── */}
             {activeTab === 'bodymap' && (
@@ -279,12 +267,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                   <AnimatePresence mode="wait">
                     {selectedZone ? (
                       <motion.div key={selectedZone.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-                        className="rounded-xl p-4"
-                        style={{
-                          background: `${disease.color}10`,
-                          border: `1px solid ${disease.color}30`,
-                          boxShadow: `0 0 20px ${disease.glowColor}`
-                        }}
+                        className="rounded-xl p-4 bg-neutral-900 border border-neutral-700"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="font-bold text-white text-sm">{selectedZone.label}</h4>
@@ -296,9 +279,9 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                       </motion.div>
                     ) : (
                       <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                        className="rounded-xl p-4 border border-dashed border-white/10 text-center text-white/30 text-sm"
+                        className="rounded-xl p-4 border border-dashed border-neutral-800 text-center text-neutral-400 text-sm"
                       >
-                        <Activity className="w-6 h-6 mx-auto mb-2 opacity-40" />
+                        <Activity className="w-6 h-6 mx-auto mb-2 opacity-40 text-white" />
                         Select an organ hotspot to see details
                       </motion.div>
                     )}
@@ -306,7 +289,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
 
                   {/* All zones list */}
                   <div className="space-y-2">
-                    <p className="text-white/30 text-xs font-semibold uppercase tracking-wider">Affected Areas</p>
+                    <p className="text-neutral-400 text-xs font-semibold uppercase tracking-wider">Affected Areas</p>
                     {disease.affectedBodyZones.map((zone, i) => (
                       <motion.button
                         key={zone.id}
@@ -317,14 +300,14 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                         className={`w-full flex items-center justify-between p-3 rounded-xl text-left transition-all ${
                           selectedZone?.id === zone.id ? 'bg-white/10' : 'hover:bg-white/5'
                         }`}
-                        style={{ border: `1px solid ${selectedZone?.id === zone.id ? `${disease.color}30` : 'transparent'}` }}
+                        style={{ border: `1px solid ${selectedZone?.id === zone.id ? '#ffffff' : 'transparent'}` }}
                       >
                         <div className="flex items-center gap-3">
                           <div
                             className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                             style={{
-                              backgroundColor: zone.severity === 'mild' ? '#f59e0b' : zone.severity === 'moderate' ? '#f97316' : '#ef4444',
-                              boxShadow: `0 0 6px ${zone.severity === 'severe' ? '#ef4444' : zone.severity === 'moderate' ? '#f97316' : '#f59e0b'}`,
+                              backgroundColor: zone.severity === 'mild' ? '#737373' : zone.severity === 'moderate' ? '#a3a3a3' : '#ffffff',
+                              boxShadow: `0 0 6px ${zone.severity === 'severe' ? '#ffffff' : zone.severity === 'moderate' ? '#a3a3a3' : '#737373'}`,
                             }}
                           />
                           <span className="text-white/80 text-sm font-medium">{zone.label}</span>
@@ -335,7 +318,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                   </div>
 
                   {/* Recovery outlook quick preview */}
-                  <div className="mt-2 rounded-xl p-4 bg-white/3 border border-white/8">
+                  <div className="mt-2 rounded-xl p-4 bg-neutral-900 border border-neutral-800">
                     <div className="flex items-center gap-2 mb-2">
                       <Info className="w-4 h-4 text-white/40" />
                       <p className="text-white/40 text-xs font-semibold uppercase tracking-wider">Key Fact</p>
@@ -355,7 +338,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                   {/* External / Visible */}
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <Eye className="w-4 h-4" style={{ color: disease.color }} />
+                      <Eye className="w-4 h-4 text-white" />
                       <h3 className="font-bold text-white">What You See</h3>
                       <span className="text-xs text-white/30 ml-1">Visible / External Symptoms</span>
                     </div>
@@ -366,7 +349,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                           initial={{ opacity: 0, y: 15 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.07 }}
-                          className="rounded-xl p-4 bg-white/3 border border-white/8 hover:bg-white/5 transition-all"
+                          className="rounded-xl p-4 bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 transition-all"
                         >
                           <div className="flex items-start gap-3">
                             <span className="text-xl flex-shrink-0">{symptom.icon}</span>
@@ -388,7 +371,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                   {/* Internal */}
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <Zap className="w-4 h-4 text-red-400" />
+                      <Zap className="w-4 h-4 text-white" />
                       <h3 className="font-bold text-white">What&apos;s Happening Inside</h3>
                       <span className="text-xs text-white/30 ml-1">Internal / Organ-Level</span>
                     </div>
@@ -399,8 +382,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                           initial={{ opacity: 0, y: 15 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.09 }}
-                          className="rounded-xl p-4 border hover:bg-white/5 transition-all"
-                          style={{ background: `${disease.color}06`, borderColor: `${disease.color}15` }}
+                          className="rounded-xl p-4 bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 transition-all"
                         >
                           <div className="flex items-start gap-3">
                             <span className="text-xl flex-shrink-0">{symptom.icon}</span>
@@ -427,11 +409,11 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
               <motion.div key="progression" variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}
                 className="mt-2 space-y-4"
               >
-                <p className="text-white/40 text-sm">Tap a stage to see detailed symptoms. Stages marked <span className="text-emerald-400">reversible</span> can still be turned around with intervention.</p>
+                <p className="text-neutral-400 text-sm">Tap a stage to see detailed symptoms. Stages marked <span className="text-white font-semibold">reversible</span> can still be turned around with intervention.</p>
 
                 {/* Timeline connector bar */}
                 <div className="relative">
-                  <div className="absolute top-5 left-5 right-5 h-0.5 bg-white/10 z-0" />
+                  <div className="absolute top-5 left-5 right-5 h-0.5 bg-neutral-800 z-0" />
                   <div className="relative flex justify-between z-10 mb-6">
                     {disease.progressionStages.map((stage, i) => {
                       const c = STAGE_COLORS[stage.stage]
@@ -439,12 +421,12 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                         <div key={stage.stage} className="flex flex-col items-center gap-2" style={{ width: '22%' }}>
                           <div
                             className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold border-2"
-                            style={{ borderColor: c.dot, background: `${c.dot}20`, color: c.dot }}
+                            style={{ borderColor: c.dot, background: '#171717', color: c.dot }}
                           >
                             {i + 1}
                           </div>
                           <span className={`text-xs font-semibold ${c.text} text-center leading-tight`}>{stage.label}</span>
-                          <span className="text-[10px] text-white/30 text-center leading-tight">{stage.timeframe}</span>
+                          <span className="text-[10px] text-neutral-400 text-center leading-tight">{stage.timeframe}</span>
                         </div>
                       )
                     })}
@@ -453,12 +435,12 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
 
                 {/* User risk pin */}
                 {userRiskScore !== undefined && (
-                  <div className="flex items-center gap-3 rounded-xl p-3 bg-white/5 border border-white/10">
+                  <div className="flex items-center gap-3 rounded-xl p-3 bg-neutral-900 border border-neutral-700">
                     <div
-                      className="w-2.5 h-2.5 rounded-full animate-pulse flex-shrink-0"
-                      style={{ backgroundColor: disease.color, boxShadow: `0 0 8px ${disease.color}` }}
+                      className="w-2.5 h-2.5 rounded-full animate-pulse flex-shrink-0 bg-white"
+                      style={{ boxShadow: '0 0 8px #ffffff' }}
                     />
-                    <span className="text-white/70 text-sm">Your current risk score places you at approximately the <span className="text-white font-semibold">
+                    <span className="text-neutral-300 text-sm">Your current risk score places you at approximately the <span className="text-white font-semibold">
                       {userRiskScore < 30 ? 'Early' : userRiskScore < 55 ? 'Developing' : userRiskScore < 75 ? 'Advanced' : 'Severe'}
                     </span> stage range</span>
                   </div>
@@ -481,7 +463,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: c.dot }} />
                             <span className={`font-bold text-sm ${c.text}`}>{stage.label}</span>
                           </div>
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${stage.reversible ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/15 text-red-400 border border-red-500/20'}`}>
+                          <span className={`text-xs px-2 py-0.5 rounded-full ${stage.reversible ? 'bg-white/10 text-white border border-white/20' : 'bg-neutral-900 text-neutral-400 border border-neutral-700'}`}>
                             {stage.reversible ? '↩ Reversible' : '⚠ Not Reversible'}
                           </span>
                         </div>
@@ -489,7 +471,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                         <div className="space-y-1.5">
                           {stage.symptoms.map(s => (
                             <div key={s} className="flex items-start gap-2">
-                              <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0" style={{ color: c.dot }} />
+                              <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0 text-white" />
                               <span className="text-white/60 text-xs">{s}</span>
                             </div>
                           ))}
@@ -501,19 +483,19 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
 
                 {/* Recovery comparison */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                  <div className="rounded-xl p-4 bg-emerald-500/8 border border-emerald-500/20">
+                  <div className="rounded-xl p-4 bg-neutral-900 border border-neutral-700">
                     <div className="flex items-center gap-2 mb-2">
-                      <CheckCircle className="w-4 h-4 text-emerald-400" />
-                      <span className="text-emerald-400 text-sm font-semibold">With Treatment</span>
+                      <CheckCircle className="w-4 h-4 text-white" />
+                      <span className="text-white text-sm font-semibold">With Treatment</span>
                     </div>
-                    <p className="text-white/60 text-sm leading-relaxed">{disease.recoveryOutlook.withIntervention}</p>
+                    <p className="text-neutral-300 text-sm leading-relaxed">{disease.recoveryOutlook.withIntervention}</p>
                   </div>
-                  <div className="rounded-xl p-4 bg-red-500/8 border border-red-500/20">
+                  <div className="rounded-xl p-4 bg-neutral-900 border border-neutral-700">
                     <div className="flex items-center gap-2 mb-2">
-                      <XCircle className="w-4 h-4 text-red-400" />
-                      <span className="text-red-400 text-sm font-semibold">Without Treatment</span>
+                      <XCircle className="w-4 h-4 text-neutral-400" />
+                      <span className="text-neutral-400 text-sm font-semibold">Without Treatment</span>
                     </div>
-                    <p className="text-white/60 text-sm leading-relaxed">{disease.recoveryOutlook.withoutIntervention}</p>
+                    <p className="text-neutral-400 text-sm leading-relaxed">{disease.recoveryOutlook.withoutIntervention}</p>
                   </div>
                 </div>
               </motion.div>
@@ -542,16 +524,15 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                             <div className="flex items-center gap-2 flex-wrap mb-1">
                               <span className="text-white font-semibold text-sm">{treatment.title}</span>
                               <span
-                                className="text-[10px] px-1.5 py-0.5 rounded font-semibold"
-                                style={{ background: `${cat.color}20`, color: cat.color }}
+                                className="text-[10px] px-1.5 py-0.5 rounded font-semibold bg-neutral-800 text-neutral-300 border border-neutral-700"
                               >
                                 {cat.label}
                               </span>
                             </div>
                             <p className="text-white/50 text-sm leading-relaxed">{treatment.description}</p>
                             <div className="mt-2 flex items-center gap-1.5">
-                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                              <span className="text-emerald-400 text-[11px] capitalize">{treatment.effectiveness}</span>
+                              <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                              <span className="text-white text-[11px] capitalize">{treatment.effectiveness}</span>
                             </div>
                           </div>
                         </div>
@@ -571,7 +552,7 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <CheckCircle className="w-4 h-4 text-emerald-400" />
+                      <CheckCircle className="w-4 h-4 text-white" />
                       <h3 className="font-bold text-white text-sm">Do&apos;s</h3>
                     </div>
                     <div className="space-y-2">
@@ -581,17 +562,17 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                           initial={{ opacity: 0, x: -15 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.06 }}
-                          className="flex items-start gap-3 p-3 rounded-xl bg-emerald-500/8 border border-emerald-500/15"
+                          className="flex items-start gap-3 p-3 rounded-xl bg-neutral-900 border border-neutral-700"
                         >
                           <span className="text-lg flex-shrink-0">{p.icon}</span>
-                          <span className="text-white/70 text-sm leading-snug">{p.text}</span>
+                          <span className="text-white text-sm leading-snug">{p.text}</span>
                         </motion.div>
                       ))}
                     </div>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <XCircle className="w-4 h-4 text-red-400" />
+                      <XCircle className="w-4 h-4 text-neutral-400" />
                       <h3 className="font-bold text-white text-sm">Don&apos;ts</h3>
                     </div>
                     <div className="space-y-2">
@@ -601,10 +582,10 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                           initial={{ opacity: 0, x: 15 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.06 }}
-                          className="flex items-start gap-3 p-3 rounded-xl bg-red-500/8 border border-red-500/15"
+                          className="flex items-start gap-3 p-3 rounded-xl bg-neutral-900 border border-neutral-700"
                         >
                           <span className="text-lg flex-shrink-0">{p.icon}</span>
-                          <span className="text-white/70 text-sm leading-snug">{p.text}</span>
+                          <span className="text-neutral-400 text-sm leading-snug">{p.text}</span>
                         </motion.div>
                       ))}
                     </div>
@@ -616,23 +597,22 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="rounded-xl p-5 bg-red-500/10 border border-red-500/30"
-                  style={{ boxShadow: '0 0 20px rgba(239,68,68,0.1)' }}
+                  className="rounded-xl p-5 bg-neutral-950 border border-white"
                 >
                   <div className="flex items-center gap-2 mb-4">
-                    <AlertTriangle className="w-5 h-5 text-red-400" />
-                    <h3 className="font-bold text-red-400">Emergency Warning Signs</h3>
-                    <span className="text-xs text-red-300/60">Seek immediate medical attention</span>
+                    <AlertTriangle className="w-5 h-5 text-white" />
+                    <h3 className="font-bold text-white">Emergency Warning Signs</h3>
+                    <span className="text-xs text-neutral-400">Seek immediate medical attention</span>
                   </div>
                   <div className="space-y-2.5">
                     {disease.emergencySigns.map((sign, i) => (
                       <div key={i} className="flex items-start gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
-                        <span className="text-red-200/80 text-sm leading-snug">{sign}</span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-white mt-2 flex-shrink-0" />
+                        <span className="text-neutral-200 text-sm leading-snug">{sign}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-4 pt-4 border-t border-red-500/20 text-xs text-red-300/50 text-center">
+                  <div className="mt-4 pt-4 border-t border-neutral-800 text-xs text-neutral-400 text-center">
                     ⚠️ BioTwin AI provides wellness insights, not medical advice. In an emergency, call 999/911 immediately.
                   </div>
                 </motion.div>
@@ -642,14 +622,14 @@ export default function DiseaseImpactViewer({ disease, userRiskScore, onClose }:
         </div>
 
         {/* Bottom bar */}
-        <div className="flex-shrink-0 px-6 py-3 border-t border-white/8 flex items-center justify-between bg-slate-950/50">
+        <div className="flex-shrink-0 px-6 py-3 border-t border-neutral-800 flex items-center justify-between bg-black">
           <div className="flex gap-1">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className="w-1.5 h-1.5 rounded-full transition-all"
-                style={{ background: activeTab === tab.id ? disease.color : 'rgba(255,255,255,0.15)' }}
+                style={{ background: activeTab === tab.id ? '#ffffff' : 'rgba(255,255,255,0.2)' }}
               />
             ))}
           </div>

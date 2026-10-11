@@ -55,7 +55,7 @@ export default function MonitoringOpsPage() {
         <div>
           <div className="flex items-center gap-3">
             <span className="text-3xl">⚡</span>
-            <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
+            <h1 className="text-3xl font-extrabold text-white tracking-tight">
               Operations &amp; Model Drift Monitor
             </h1>
           </div>
@@ -64,19 +64,19 @@ export default function MonitoringOpsPage() {
           </p>
         </div>
         <div className="flex gap-3">
-          <Link href="/clinician" className="px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-700 rounded-lg text-xs font-semibold transition">
+          <Link href="/clinician" className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-white/20 rounded-lg text-xs font-semibold text-white transition">
             ← Back to Clinician Dashboard
           </Link>
-          <Link href="/clinician/model-transparency" className="px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-700 rounded-lg text-xs font-semibold transition">
+          <Link href="/clinician/model-transparency" className="px-4 py-2 bg-white hover:bg-neutral-200 text-black rounded-lg text-xs font-bold transition">
             Model Transparency →
           </Link>
         </div>
       </header>
 
       {/* Interactive Jury Demo Box */}
-      <div className="bg-gradient-to-r from-purple-950/40 via-blue-950/30 to-black border border-purple-500/30 rounded-2xl p-6 mb-8 flex flex-wrap justify-between items-center gap-4">
+      <div className="bg-neutral-950 border border-white/20 rounded-2xl p-6 mb-8 flex flex-wrap justify-between items-center gap-4">
         <div>
-          <span className="text-xs uppercase font-mono tracking-widest text-purple-400 bg-purple-900/30 px-2.5 py-1 rounded-full border border-purple-500/20">
+          <span className="text-xs uppercase font-mono tracking-widest text-white bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
             Interactive Jury Demonstration Tool
           </span>
           <h2 className="text-lg font-bold text-white mt-2">Simulate Sensor Calibration Drift</h2>
@@ -89,8 +89,8 @@ export default function MonitoringOpsPage() {
           disabled={loading}
           className={`px-6 py-3 rounded-xl text-xs font-bold font-mono transition flex items-center gap-2 ${
             driftInjected 
-              ? 'bg-red-600 hover:bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]' 
-              : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.4)]'
+              ? 'bg-neutral-800 text-white border border-white/40 hover:bg-neutral-700' 
+              : 'bg-white hover:bg-neutral-200 text-black shadow-[0_0_20px_rgba(255,255,255,0.2)]'
           }`}
         >
           <span>{driftInjected ? '⚠️ SENSOR DRIFT INJECTED (RESET)' : '⚡ INJECT SIMULATED SENSOR DRIFT'}</span>
@@ -99,19 +99,19 @@ export default function MonitoringOpsPage() {
 
       {/* Latency Gauges Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 font-mono">
-        <div className="bg-gray-900/90 border border-gray-800 rounded-xl p-5">
+        <div className="bg-neutral-950 border border-white/20 rounded-xl p-5">
           <span className="text-xs text-gray-400 uppercase tracking-wider block">Reading-to-Inference P95</span>
-          <div className="text-3xl font-bold text-emerald-400 mt-2">{latency.reading_to_prediction_ms} ms</div>
+          <div className="text-3xl font-bold text-white mt-2">{latency.reading_to_prediction_ms} ms</div>
           <span className="text-[11px] text-gray-400 mt-1 block">Target Budget: &lt; 200 ms (Passed)</span>
         </div>
-        <div className="bg-gray-900/90 border border-gray-800 rounded-xl p-5">
+        <div className="bg-neutral-950 border border-white/20 rounded-xl p-5">
           <span className="text-xs text-gray-400 uppercase tracking-wider block">Inference-to-UI WebSocket P95</span>
-          <div className="text-3xl font-bold text-emerald-400 mt-2">{latency.prediction_to_ui_ms} ms</div>
+          <div className="text-3xl font-bold text-white mt-2">{latency.prediction_to_ui_ms} ms</div>
           <span className="text-[11px] text-gray-400 mt-1 block">Target Budget: &lt; 500 ms (Passed)</span>
         </div>
-        <div className="bg-gray-900/90 border border-gray-800 rounded-xl p-5">
+        <div className="bg-neutral-950 border border-white/20 rounded-xl p-5">
           <span className="text-xs text-gray-400 uppercase tracking-wider block">Overall Pipeline Status</span>
-          <div className={`text-3xl font-bold mt-2 ${driftInjected ? 'text-red-400' : 'text-emerald-400'}`}>
+          <div className="text-3xl font-bold mt-2 text-white">
             {driftInjected ? 'DRIFT ALERT' : 'OPTIMAL'}
           </div>
           <span className="text-[11px] text-gray-400 mt-1 block">Zero unhandled runtime exceptions</span>
@@ -119,7 +119,7 @@ export default function MonitoringOpsPage() {
       </div>
 
       {/* Feature Drift (PSI) Table */}
-      <div className="bg-gray-900/90 border border-gray-800 rounded-2xl p-6 mb-8">
+      <div className="bg-neutral-950 border border-white/20 rounded-2xl p-6 mb-8">
         <h2 className="text-base font-bold text-white mb-1">Feature Population Stability Index (PSI)</h2>
         <p className="text-xs text-gray-400 mb-4">
           Comparing live streaming window distributions against Synthea training reference distribution. PSI &lt; 0.10: Normal, 0.10 – 0.20: Moderate Shift, &gt; 0.20: Significant Drift.
@@ -127,7 +127,7 @@ export default function MonitoringOpsPage() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-gray-800 text-gray-400 border-b border-gray-700">
+            <thead className="bg-neutral-900 text-gray-400 border-b border-gray-800">
               <tr>
                 <th className="p-3">Monitored Feature</th>
                 <th className="p-3">Population Stability Index (PSI)</th>
@@ -137,15 +137,15 @@ export default function MonitoringOpsPage() {
             </thead>
             <tbody>
               {featureDriftList.map((item, idx) => (
-                <tr key={idx} className="border-b border-gray-800 hover:bg-gray-800/40 transition">
+                <tr key={idx} className="border-b border-gray-800/80 hover:bg-neutral-900 transition">
                   <td className="p-3 text-white font-medium">{item.name}</td>
-                  <td className="p-3 font-bold">{item.psi.toFixed(3)}</td>
+                  <td className="p-3 font-bold text-gray-200">{item.psi.toFixed(3)}</td>
                   <td className="p-3 text-gray-400">PSI &lt; 0.10</td>
                   <td className="p-3 text-right">
                     <span className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
-                      item.status === 'DRIFT' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
-                      item.status === 'WATCH' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
-                      'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      item.status === 'DRIFT' ? 'bg-white text-black border border-white font-bold' :
+                      item.status === 'WATCH' ? 'bg-neutral-800 text-neutral-200 border border-neutral-600' :
+                      'bg-neutral-950 text-neutral-400 border border-neutral-800'
                     }`}>
                       {item.status}
                     </span>

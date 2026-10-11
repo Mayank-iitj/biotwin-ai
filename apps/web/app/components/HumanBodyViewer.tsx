@@ -17,17 +17,17 @@ import {
 // Beautiful, futuristic glowing 2D Vector human body model fallback
 function VectorBody() {
   return (
-    <svg viewBox="0 0 200 500" className="w-full h-full max-h-[90%] mx-auto text-med-lime/40 drop-shadow-[0_0_12px_rgba(132,204,22,0.3)]">
+    <svg viewBox="0 0 200 500" className="w-full h-full max-h-[90%] mx-auto text-white/40 drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]">
       {/* Outer scanning circle/ring */}
-      <circle cx="100" cy="250" r="220" className="fill-none stroke-med-lime/10" strokeWidth="1" strokeDasharray="5 5" />
-      <circle cx="100" cy="250" r="180" className="fill-none stroke-med-lime/5" strokeWidth="1" />
+      <circle cx="100" cy="250" r="220" className="fill-none stroke-white/10" strokeWidth="1" strokeDasharray="5 5" />
+      <circle cx="100" cy="250" r="180" className="fill-none stroke-white/5" strokeWidth="1" />
       
       {/* Grid Lines */}
-      <line x1="100" y1="20" x2="100" y2="480" className="stroke-med-lime/5" strokeWidth="1" strokeDasharray="3 3" />
-      <line x1="20" y1="250" x2="180" y2="250" className="stroke-med-lime/5" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="100" y1="20" x2="100" y2="480" className="stroke-white/5" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="20" y1="250" x2="180" y2="250" className="stroke-white/5" strokeWidth="1" strokeDasharray="3 3" />
       
       {/* Image bodymap */}
-      <image href="/images/bodymap.png" x="-50" y="0" width="300" height="500" preserveAspectRatio="xMidYMid meet" style={{ filter: 'opacity(0.8)' }} />
+      <image href="/images/bodymap.png" x="-50" y="0" width="300" height="500" preserveAspectRatio="xMidYMid meet" style={{ filter: 'grayscale(1) opacity(0.8)' }} />
 
     </svg>
   )
@@ -173,10 +173,10 @@ export default function HumanBodyViewer({
 
   const getRiskColor = (band?: 'low' | 'moderate' | 'high') => {
     switch (band) {
-      case 'low': return '#22c55e'
-      case 'moderate': return '#eab308'
-      case 'high': return '#ef4444'
-      default: return '#6b7280'
+      case 'low': return '#737373'
+      case 'moderate': return '#d4d4d4'
+      case 'high': return '#ffffff'
+      default: return '#525252'
     }
   }
 
@@ -275,18 +275,18 @@ export default function HumanBodyViewer({
         </div>
 
         {/* Legend */}
-        <div className="absolute bottom-4 left-4 flex gap-4 text-xs">
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded-full bg-risk-low" />
+        <div className="absolute bottom-4 left-4 flex gap-4 text-xs font-mono">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-neutral-600 border border-neutral-500" />
             <span className="text-white/60">Low</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded-full bg-risk-moderate" />
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-neutral-300 border border-white" />
             <span className="text-white/60">Moderate</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded-full bg-risk-high" />
-            <span className="text-white/60">High</span>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+            <span className="text-white font-semibold">High</span>
           </div>
         </div>
       </div>

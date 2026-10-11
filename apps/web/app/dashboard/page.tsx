@@ -15,10 +15,10 @@ import { getDiseaseById, DiseaseData } from '@/lib/disease-data'
 
 function getRiskColor(band: 'low' | 'moderate' | 'high' | string) {
   switch (band.toLowerCase()) {
-    case 'low': return 'text-risk-low bg-risk-low/10 border-risk-low/20'
-    case 'moderate': return 'text-risk-moderate bg-risk-moderate/10 border-risk-moderate/20'
-    case 'high': return 'text-risk-high bg-risk-high/10 border-risk-high/20'
-    default: return 'text-white/50 bg-white/10 border-white/20'
+    case 'low': return 'text-neutral-400 bg-white/5 border-neutral-700'
+    case 'moderate': return 'text-neutral-200 bg-white/10 border-neutral-500'
+    case 'high': return 'text-white bg-white/15 border-white'
+    default: return 'text-white/50 bg-white/5 border-white/20'
   }
 }
 
@@ -109,7 +109,7 @@ export default function DashboardPage() {
   }, [token, isAuthenticated, router])
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white">Loading...</div>
+    return <div className="min-h-screen flex items-center justify-center bg-black text-white">Loading...</div>
   }
 
   const handleOrganClick = (organ: any) => {
@@ -126,57 +126,57 @@ export default function DashboardPage() {
   const hasRiskData = dashboardData?.risk_summaries?.length > 0;
 
   return (
-    <div className="min-h-screen flex bg-slate-950">
+    <div className="min-h-screen flex bg-black">
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-950/80 backdrop-blur-xl border-r border-white/10 transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:relative lg:translate-x-0`}>
-        <div className="flex items-center gap-2 p-6 border-b border-white/10">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-biotech-500 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-            <Shield className="w-5 h-5 text-white" />
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-black/95 backdrop-blur-xl border-r border-neutral-800 transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:relative lg:translate-x-0`}>
+        <div className="flex items-center gap-2 p-6 border-b border-neutral-800">
+          <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+            <Shield className="w-5 h-5 text-black" />
           </div>
           <span className="text-xl font-bold text-white tracking-wide">BioTwin</span>
         </div>
 
         <nav className="p-4 space-y-2">
-          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary-500/20 text-primary-400 border border-primary-500/30 shadow-[0_0_10px_rgba(59,130,246,0.1)]">
+          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white text-black font-semibold">
             <Activity className="w-5 h-5" />
-            <span className="font-medium">Dashboard</span>
+            <span className="font-semibold">Dashboard</span>
           </Link>
-          <Link href="/twin" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 hover:border hover:border-white/10 transition-all">
+          <Link href="/twin" className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all">
             <Heart className="w-5 h-5" />
             <span className="font-medium">My Twin</span>
           </Link>
-          <Link href="/simulator" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 hover:border hover:border-white/10 transition-all">
+          <Link href="/simulator" className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all">
             <TrendingUp className="w-5 h-5" />
             <span className="font-medium">Simulator</span>
           </Link>
-          <Link href="/coach" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 hover:border hover:border-white/10 transition-all">
+          <Link href="/coach" className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all">
             <MessageCircle className="w-5 h-5" />
             <span className="font-medium">AI Coach</span>
           </Link>
-          <Link href="/reports" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 hover:border hover:border-white/10 transition-all">
+          <Link href="/reports" className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all">
             <FileText className="w-5 h-5" />
             <span className="font-medium">Reports</span>
           </Link>
-          <Link href="/calendar" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 hover:border hover:border-white/10 transition-all">
+          <Link href="/calendar" className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all">
             <Calendar className="w-5 h-5" />
             <span className="font-medium">Calendar</span>
           </Link>
-          <Link href="/conditions" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 hover:border hover:border-white/10 transition-all">
+          <Link href="/conditions" className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all">
             <BookOpen className="w-5 h-5" />
             <span className="font-medium">Conditions</span>
           </Link>
         </nav>
 
         <div className="absolute bottom-4 left-4 right-4">
-          <Link href="/settings" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-all">
+          <Link href="/settings" className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all">
             <Settings className="w-5 h-5" />
             <span className="font-medium">Settings</span>
           </Link>
-          <Link href="/profile" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-all">
+          <Link href="/profile" className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all">
             <User className="w-5 h-5" />
             <span className="font-medium">Profile</span>
           </Link>
-          <button onClick={logout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-red-500/10 hover:text-red-400 transition-all w-full text-left">
+          <button onClick={logout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 transition-all w-full text-left">
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Logout</span>
           </button>
@@ -186,26 +186,26 @@ export default function DashboardPage() {
       {/* Main Content */}
       <main className="flex-1 h-screen overflow-y-auto">
         {/* Top Bar */}
-        <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex items-center justify-between shadow-sm">
+        <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-md border-b border-neutral-800 px-6 py-4 flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 text-white/70 hover:text-white bg-white/5 rounded-lg"
+              className="lg:hidden p-2 text-white/70 hover:text-white bg-neutral-900 rounded-lg"
             >
               {sidebarOpen ? <X /> : <Menu />}
             </button>
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight">Health Dashboard</h1>
-              <p className="text-primary-300/80 text-sm font-medium">Your Digital Twin at a glance</p>
+              <p className="text-neutral-400 text-sm font-medium">Your Digital Twin at a glance</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <button className="relative p-2 rounded-full text-white/60 hover:text-white bg-white/5 hover:bg-white/10 transition-all">
+            <button className="relative p-2 rounded-full text-white/60 hover:text-white bg-neutral-900 hover:bg-neutral-800 transition-all">
               <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
             </button>
             <Link href="/profile">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-biotech-500 flex items-center justify-center text-white font-bold shadow-[0_0_10px_rgba(59,130,246,0.3)] ring-2 ring-white/10 cursor-pointer overflow-hidden">
+              <div className="w-10 h-10 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center text-white font-bold cursor-pointer overflow-hidden">
                 {user?.image ? (
                   <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
                 ) : (
@@ -230,21 +230,21 @@ export default function DashboardPage() {
                   transition={{ duration: 0.5 }}
                   className="xl:col-span-4 flex flex-col h-full"
                 >
-                  <div className="glass-card p-5 border border-white/10 h-full relative overflow-hidden group">
+                  <div className="glass-card p-5 border border-neutral-800 h-full relative overflow-hidden group">
                     {/* Background glow */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/10 rounded-full blur-[80px] -z-10 group-hover:bg-primary-500/20 transition-all duration-700"></div>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] -z-10 group-hover:bg-white/10 transition-all duration-700"></div>
                     
                     <div className="flex items-center justify-between mb-4">
                       <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                        <Heart className="w-5 h-5 text-red-400 animate-pulse" />
+                        <Heart className="w-5 h-5 text-white animate-pulse" />
                         Digital Twin
                       </h2>
-                      <span className="px-3 py-1 bg-risk-low/20 text-risk-low text-xs font-bold rounded-full border border-risk-low/30 shadow-[0_0_10px_rgba(34,197,94,0.2)]">
+                      <span className="px-3 py-1 bg-white/10 text-white text-xs font-bold rounded-full border border-white/20">
                         Active Sync
                       </span>
                     </div>
                     
-                    <div className="flex-1 w-full relative min-h-[400px] rounded-lg border border-white/5 overflow-hidden">
+                    <div className="flex-1 w-full relative min-h-[400px] rounded-lg border border-neutral-800 overflow-hidden">
                       <HumanBodyViewer
                         riskData={riskDataMap}
                         onOrganClick={handleOrganClick}
@@ -258,43 +258,43 @@ export default function DashboardPage() {
                 <div className="xl:col-span-8 flex flex-col gap-6">
                   {/* Summary Stats Row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-5 border-l-4 border-l-primary-500 relative overflow-hidden">
-                      <Activity className="w-16 h-16 text-primary-500/10 absolute -bottom-4 -right-2" />
-                      <p className="text-white/60 text-sm font-medium mb-1">Overall Health Score</p>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-5 border-l-4 border-l-white relative overflow-hidden">
+                      <Activity className="w-16 h-16 text-white/5 absolute -bottom-4 -right-2" />
+                      <p className="text-neutral-400 text-sm font-medium mb-1">Overall Health Score</p>
                       <div className="flex items-end gap-2">
                         <span className="text-3xl font-bold text-white">84</span>
-                        <span className="text-risk-low text-sm font-medium mb-1 flex items-center">
+                        <span className="text-neutral-300 text-sm font-medium mb-1 flex items-center">
                           <ArrowUpRight className="w-3 h-3" /> +2%
                         </span>
                       </div>
                     </motion.div>
                     
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-5 border-l-4 border-l-risk-low relative overflow-hidden">
-                      <TrendingUp className="w-16 h-16 text-risk-low/10 absolute -bottom-4 -right-2" />
-                      <p className="text-white/60 text-sm font-medium mb-1">Biological Age</p>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-5 border-l-4 border-l-neutral-400 relative overflow-hidden">
+                      <TrendingUp className="w-16 h-16 text-white/5 absolute -bottom-4 -right-2" />
+                      <p className="text-neutral-400 text-sm font-medium mb-1">Biological Age</p>
                       <div className="flex items-end gap-2">
                         <span className="text-3xl font-bold text-white">32</span>
-                        <span className="text-white/40 text-sm font-medium mb-1">vs 35 actual</span>
+                        <span className="text-neutral-500 text-sm font-medium mb-1">vs 35 actual</span>
                       </div>
                     </motion.div>
 
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-5 border-l-4 border-l-purple-500 relative overflow-hidden">
-                      <Brain className="w-16 h-16 text-purple-500/10 absolute -bottom-4 -right-2" />
-                      <p className="text-white/60 text-sm font-medium mb-1">Cognitive Index</p>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-5 border-l-4 border-l-neutral-600 relative overflow-hidden">
+                      <Brain className="w-16 h-16 text-white/5 absolute -bottom-4 -right-2" />
+                      <p className="text-neutral-400 text-sm font-medium mb-1">Cognitive Index</p>
                       <div className="flex items-end gap-2">
                         <span className="text-3xl font-bold text-white">91</span>
-                        <span className="text-risk-low text-sm font-medium mb-1 flex items-center">
+                        <span className="text-neutral-300 text-sm font-medium mb-1 flex items-center">
                           <ArrowUpRight className="w-3 h-3" /> +1%
                         </span>
                       </div>
                     </motion.div>
 
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass-card p-5 border-l-4 border-l-risk-moderate relative overflow-hidden">
-                      <Droplet className="w-16 h-16 text-risk-moderate/10 absolute -bottom-4 -right-2" />
-                      <p className="text-white/60 text-sm font-medium mb-1">Hydration Level</p>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass-card p-5 border-l-4 border-l-neutral-700 relative overflow-hidden">
+                      <Droplet className="w-16 h-16 text-white/5 absolute -bottom-4 -right-2" />
+                      <p className="text-neutral-400 text-sm font-medium mb-1">Hydration Level</p>
                       <div className="flex items-end gap-2">
                         <span className="text-3xl font-bold text-white">68%</span>
-                        <span className="text-risk-high text-sm font-medium mb-1 flex items-center">
+                        <span className="text-neutral-400 text-sm font-medium mb-1 flex items-center">
                           <ArrowDownRight className="w-3 h-3" /> -5%
                         </span>
                       </div>
@@ -306,11 +306,11 @@ export default function DashboardPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="glass-card p-6 flex-1 min-h-[350px] border border-white/5"
+                    className="glass-card p-6 flex-1 min-h-[350px] border border-neutral-800"
                   >
                     <div className="flex items-center justify-between mb-6">
                       <h3 className="text-lg font-bold text-white">Vital Trends</h3>
-                      <select className="bg-slate-900/50 border border-white/10 text-white text-sm rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-primary-500 outline-none">
+                      <select className="bg-black border border-neutral-700 text-white text-sm rounded-lg px-3 py-1.5 focus:ring-1 focus:ring-white outline-none">
                         <option>Last 6 Months</option>
                         <option>Last 30 Days</option>
                         <option>Year to Date</option>
@@ -319,12 +319,12 @@ export default function DashboardPage() {
                     <div className="h-[280px] w-full">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={dashboardData?.historicalHealthData || []} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
-                          <XAxis dataKey="month" stroke="#ffffff50" tick={{ fill: '#ffffff50', fontSize: 12 }} tickLine={false} axisLine={false} />
-                          <YAxis stroke="#ffffff50" tick={{ fill: '#ffffff50', fontSize: 12 }} tickLine={false} axisLine={false} />
-                          <RechartsTooltip content={<CustomTooltip />} cursor={{ stroke: '#ffffff20', strokeWidth: 1, strokeDasharray: '4 4' }} />
-                          <Line type="monotone" dataKey="heartRate" name="Heart Rate (bpm)" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, fill: '#ef4444', strokeWidth: 2, stroke: '#1e293b' }} activeDot={{ r: 6 }} />
-                          <Line type="monotone" dataKey="activity" name="Activity Score" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: '#1e293b' }} />
+                          <CartesianGrid strokeDasharray="3 3" stroke="#262626" vertical={false} />
+                          <XAxis dataKey="month" stroke="#737373" tick={{ fill: '#a3a3a3', fontSize: 12 }} tickLine={false} axisLine={false} />
+                          <YAxis stroke="#737373" tick={{ fill: '#a3a3a3', fontSize: 12 }} tickLine={false} axisLine={false} />
+                          <RechartsTooltip content={<CustomTooltip />} cursor={{ stroke: '#525252', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                          <Line type="monotone" dataKey="heartRate" name="Heart Rate (bpm)" stroke="#ffffff" strokeWidth={2.5} dot={{ r: 4, fill: '#ffffff', strokeWidth: 2, stroke: '#000000' }} activeDot={{ r: 6 }} />
+                          <Line type="monotone" dataKey="activity" name="Activity Score" stroke="#737373" strokeDasharray="4 4" strokeWidth={2} dot={{ r: 4, fill: '#737373', strokeWidth: 2, stroke: '#000000' }} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -340,13 +340,13 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="lg:col-span-2 glass-card p-6 border border-white/5"
+                  className="lg:col-span-2 glass-card p-6 border border-neutral-800"
                 >
                   <h3 className="text-lg font-bold text-white mb-6">Recent Biomarker Analysis</h3>
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
-                        <tr className="border-b border-white/10 text-white/50 text-xs uppercase tracking-wider">
+                        <tr className="border-b border-neutral-800 text-neutral-400 text-xs uppercase tracking-wider">
                           <th className="pb-3 font-medium">Biomarker</th>
                           <th className="pb-3 font-medium">Value</th>
                           <th className="pb-3 font-medium">Target</th>
@@ -356,19 +356,19 @@ export default function DashboardPage() {
                       </thead>
                       <tbody>
                         {(dashboardData?.biomarkerData || []).map((marker: any, idx: number) => (
-                          <tr key={idx} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <tr key={idx} className="border-b border-neutral-800/60 hover:bg-white/[0.02] transition-colors">
                             <td className="py-4 text-white font-medium">{marker.name}</td>
-                            <td className="py-4 text-white font-bold">{marker.value} <span className="text-xs text-white/40 font-normal">{marker.unit}</span></td>
-                            <td className="py-4 text-white/60">{marker.target}</td>
+                            <td className="py-4 text-white font-bold">{marker.value} <span className="text-xs text-neutral-500 font-normal">{marker.unit}</span></td>
+                            <td className="py-4 text-neutral-400">{marker.target}</td>
                             <td className="py-4">
-                              <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${marker.status === 'optimal' ? 'bg-risk-low/20 text-risk-low' : 'bg-risk-high/20 text-risk-high'}`}>
+                              <span className={`px-2.5 py-1 text-xs font-semibold rounded-full border ${marker.status === 'optimal' ? 'bg-white/10 text-white border-white/20' : 'bg-neutral-900 text-neutral-300 border-neutral-700'}`}>
                                 {marker.status.toUpperCase()}
                               </span>
                             </td>
                             <td className="py-4 hidden sm:table-cell w-32">
-                              <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                              <div className="w-full h-1.5 bg-neutral-800 rounded-full overflow-hidden">
                                 <div 
-                                  className={`h-full rounded-full ${marker.status === 'optimal' ? 'bg-risk-low' : 'bg-risk-high'}`}
+                                  className={`h-full rounded-full ${marker.status === 'optimal' ? 'bg-white' : 'bg-neutral-500'}`}
                                   style={{ width: `${Math.min((marker.value / (marker.target * 1.5)) * 100, 100)}%` }}
                                 ></div>
                               </div>
@@ -385,10 +385,10 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.7 }}
-                  className="glass-card p-6 border border-white/5 flex flex-col"
+                  className="glass-card p-6 border border-neutral-800 flex flex-col"
                 >
                   <h3 className="text-lg font-bold text-white mb-2">Health Risk Profile</h3>
-                  <p className="text-white/50 text-sm mb-6">Distribution across disease categories</p>
+                  <p className="text-neutral-400 text-sm mb-6">Distribution across disease categories</p>
                   
                   <div className="flex-1 min-h-[200px] relative flex items-center justify-center">
                     <ResponsiveContainer width="100%" height="100%">
@@ -401,31 +401,37 @@ export default function DashboardPage() {
                           outerRadius={90}
                           paddingAngle={5}
                           dataKey="value"
-                          stroke="none"
+                          stroke="#000000"
                         >
-                          {(dashboardData?.riskDistribution || []).map((entry: any, index: number) => (
-                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                          ))}
+                          {(dashboardData?.riskDistribution || []).map((entry: any, index: number) => {
+                            const monoFills = ['#ffffff', '#a3a3a3', '#525252', '#737373', '#d4d4d4'];
+                            const fill = monoFills[index % monoFills.length];
+                            return <Cell key={`cell-${index}`} fill={fill} />;
+                          })}
                         </Pie>
                         <RechartsTooltip content={<CustomTooltip />} />
                       </PieChart>
                     </ResponsiveContainer>
                     <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                       <span className="text-3xl font-bold text-white">3</span>
-                      <span className="text-xs text-white/50">Risks Monitored</span>
+                      <span className="text-xs text-neutral-400">Risks Monitored</span>
                     </div>
                   </div>
                   
                   <div className="mt-4 flex flex-col gap-2">
-                    {(dashboardData?.riskDistribution || []).map((item: any, idx: number) => (
-                      <div key={idx} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.fill }}></div>
-                          <span className="text-white/80 text-sm">{item.name}</span>
+                    {(dashboardData?.riskDistribution || []).map((item: any, idx: number) => {
+                      const monoFills = ['#ffffff', '#a3a3a3', '#525252', '#737373', '#d4d4d4'];
+                      const fill = monoFills[idx % monoFills.length];
+                      return (
+                        <div key={idx} className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: fill }}></div>
+                            <span className="text-neutral-300 text-sm">{item.name}</span>
+                          </div>
+                          <span className="text-white font-medium">{item.value}%</span>
                         </div>
-                        <span className="text-white font-medium">{item.value}%</span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </motion.div>
               </div>
@@ -435,7 +441,7 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-bold text-white">Specific Disease Risks</h3>
                   {hasRiskData && (
-                    <span className="text-sm text-primary-400 font-medium">Based on latest blood report</span>
+                    <span className="text-sm text-neutral-400 font-medium">Based on latest blood report</span>
                   )}
                 </div>
                 
@@ -461,17 +467,17 @@ export default function DashboardPage() {
                       <h4 className="font-bold text-white text-lg mb-1">{getRiskTitle(card.disease)}</h4>
                       <div className="mb-4">
                         <span className="text-4xl font-black text-white tracking-tighter">{(card.risk_score * 100).toFixed(0)}</span>
-                        <span className="text-white/50 text-sm font-medium ml-1">% Risk</span>
+                        <span className="text-neutral-400 text-sm font-medium ml-1">% Risk</span>
                       </div>
-                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden mb-3">
+                      <div className="w-full h-1.5 bg-neutral-800 rounded-full overflow-hidden mb-3">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${card.risk_score * 100}%` }}
                           transition={{ delay: 1 + index * 0.1, duration: 1 }}
-                          className={`h-full rounded-full ${card.risk_band === 'low' ? 'bg-risk-low' : card.risk_band === 'moderate' ? 'bg-risk-moderate' : 'bg-risk-high'}`}
+                          className={`h-full rounded-full ${card.risk_band === 'low' ? 'bg-neutral-500' : card.risk_band === 'moderate' ? 'bg-neutral-300' : 'bg-white'}`}
                         />
                       </div>
-                      <p className="text-white/50 text-xs leading-relaxed mb-4">{getRiskDescription(card.disease)}</p>
+                      <p className="text-neutral-400 text-xs leading-relaxed mb-4">{getRiskDescription(card.disease)}</p>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.97 }}
@@ -479,7 +485,7 @@ export default function DashboardPage() {
                           const d = getDiseaseById(card.disease)
                           if (d) setActiveDiseaseViewer(d)
                         }}
-                        className="mt-auto flex items-center justify-center gap-2 w-full py-2 rounded-xl text-xs font-semibold border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all"
+                        className="mt-auto flex items-center justify-center gap-2 w-full py-2 rounded-xl text-xs font-semibold border border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white transition-all"
                       >
                         <Zap className="w-3.5 h-3.5" />
                         View Body Impact
@@ -487,13 +493,13 @@ export default function DashboardPage() {
                     </motion.div>
                   )) : (
                     // Mock Risk Cards if API has no data
-                    <div className="col-span-full glass-card p-10 flex flex-col items-center justify-center text-center border-dashed border-2 border-white/10">
-                      <div className="w-16 h-16 rounded-full bg-primary-500/10 flex items-center justify-center mb-4">
-                        <FileText className="w-8 h-8 text-primary-500" />
+                    <div className="col-span-full glass-card p-10 flex flex-col items-center justify-center text-center border-dashed border-2 border-neutral-800">
+                      <div className="w-16 h-16 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center mb-4">
+                        <FileText className="w-8 h-8 text-white" />
                       </div>
                       <h3 className="text-xl text-white font-bold mb-2">No Verified Risk Data Available</h3>
-                      <p className="text-white/60 max-w-md mb-6">Upload a recent blood report to generate accurate disease risk predictions for your digital twin.</p>
-                      <Link href="/reports" className="btn-primary py-2.5 px-8 font-semibold rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all">
+                      <p className="text-neutral-400 max-w-md mb-6">Upload a recent blood report to generate accurate disease risk predictions for your digital twin.</p>
+                      <Link href="/reports" className="btn-primary py-2.5 px-8 font-semibold rounded-xl transition-all">
                         Upload Medical Report
                       </Link>
                     </div>
@@ -506,119 +512,119 @@ export default function DashboardPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
-                className="glass-card p-6 border border-white/10 mt-8 relative overflow-hidden"
+                className="glass-card p-6 border border-neutral-800 mt-8 relative overflow-hidden"
               >
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                   <div>
                     <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                      <Brain className="w-5 h-5 text-primary-400" />
+                      <Brain className="w-5 h-5 text-white" />
                       Population Cohort Benchmarking
                     </h3>
-                    <p className="text-white/50 text-sm">Compare your biometrics against standard clinical and lifestyle datasets (70K+ subjects)</p>
+                    <p className="text-neutral-400 text-sm">Compare your biometrics against standard clinical and lifestyle datasets (70K+ subjects)</p>
                   </div>
-                  <span className="text-xs px-2.5 py-1 bg-white/5 rounded-full border border-white/10 text-white/70">
+                  <span className="text-xs px-2.5 py-1 bg-neutral-900 rounded-full border border-neutral-700 text-neutral-300">
                     Real-time dataset sync
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {/* Glucose Comparison */}
-                  <div className="bg-slate-950/40 border border-white/5 rounded-2xl p-5">
-                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase text-primary-300">Blood Glucose (Diabetes Dataset)</h4>
+                  <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-5">
+                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase">Blood Glucose (Diabetes Dataset)</h4>
                     <div className="space-y-4">
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">Your Level</span>
-                          <span className="text-primary-400 font-bold">95 mg/dL</span>
+                          <span className="text-neutral-400">Your Level</span>
+                          <span className="text-white font-bold">95 mg/dL</span>
                         </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-primary-500 rounded-full" style={{ width: '66.6%' }} />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">Healthy Cohort (Avg)</span>
-                          <span className="text-white font-medium">111.0 mg/dL</span>
-                        </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-risk-low rounded-full" style={{ width: '77.8%' }} />
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-white rounded-full" style={{ width: '66.6%' }} />
                         </div>
                       </div>
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">Diabetic Cohort (Avg)</span>
-                          <span className="text-white font-medium text-risk-high">142.6 mg/dL</span>
+                          <span className="text-neutral-400">Healthy Cohort (Avg)</span>
+                          <span className="text-neutral-300 font-medium">111.0 mg/dL</span>
                         </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-risk-high rounded-full" style={{ width: '100%' }} />
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-neutral-400 rounded-full" style={{ width: '77.8%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-neutral-400">Diabetic Cohort (Avg)</span>
+                          <span className="text-neutral-400 font-medium">142.6 mg/dL</span>
+                        </div>
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-neutral-600 rounded-full" style={{ width: '100%' }} />
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* BP Comparison */}
-                  <div className="bg-slate-950/40 border border-white/5 rounded-2xl p-5">
-                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase text-primary-300">Blood Pressure (Cardio Dataset)</h4>
+                  <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-5">
+                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase">Blood Pressure (Cardio Dataset)</h4>
                     <div className="space-y-4">
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">Your Level (Systolic)</span>
-                          <span className="text-primary-400 font-bold">118 mmHg</span>
+                          <span className="text-neutral-400">Your Level (Systolic)</span>
+                          <span className="text-white font-bold">118 mmHg</span>
                         </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-primary-500 rounded-full" style={{ width: '88.1%' }} />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">Cardio Negative (Healthy)</span>
-                          <span className="text-white font-medium">119.6 mmHg</span>
-                        </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-risk-low rounded-full" style={{ width: '89.3%' }} />
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-white rounded-full" style={{ width: '88.1%' }} />
                         </div>
                       </div>
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">Cardio Positive (High Risk)</span>
-                          <span className="text-white font-medium text-risk-high">133.8 mmHg</span>
+                          <span className="text-neutral-400">Cardio Negative (Healthy)</span>
+                          <span className="text-neutral-300 font-medium">119.6 mmHg</span>
                         </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-risk-high rounded-full" style={{ width: '100%' }} />
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-neutral-400 rounded-full" style={{ width: '89.3%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-neutral-400">Cardio Positive (High Risk)</span>
+                          <span className="text-neutral-400 font-medium">133.8 mmHg</span>
+                        </div>
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-neutral-600 rounded-full" style={{ width: '100%' }} />
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Sleep Comparison */}
-                  <div className="bg-slate-950/40 border border-white/5 rounded-2xl p-5">
-                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase text-primary-300">Sleep (Sleep & Lifestyle Dataset)</h4>
+                  <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-5">
+                    <h4 className="font-semibold text-white mb-4 text-sm tracking-wide uppercase">Sleep (Sleep & Lifestyle Dataset)</h4>
                     <div className="space-y-4">
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">Your Sleep Duration</span>
-                          <span className="text-primary-400 font-bold">7.9 hrs</span>
+                          <span className="text-neutral-400">Your Sleep Duration</span>
+                          <span className="text-white font-bold">7.9 hrs</span>
                         </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-primary-500 rounded-full" style={{ width: '92.9%' }} />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">No Disorder Group (Avg)</span>
-                          <span className="text-white font-medium">7.36 hrs</span>
-                        </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-risk-low rounded-full" style={{ width: '86.5%' }} />
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-white rounded-full" style={{ width: '92.9%' }} />
                         </div>
                       </div>
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-white/60">Insomnia Cohort (Avg)</span>
-                          <span className="text-white font-medium text-risk-high">6.59 hrs</span>
+                          <span className="text-neutral-400">No Disorder Group (Avg)</span>
+                          <span className="text-neutral-300 font-medium">7.36 hrs</span>
                         </div>
-                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                          <div className="h-full bg-risk-high rounded-full" style={{ width: '77.5%' }} />
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-neutral-400 rounded-full" style={{ width: '86.5%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-neutral-400">Insomnia Cohort (Avg)</span>
+                          <span className="text-neutral-400 font-medium">6.59 hrs</span>
+                        </div>
+                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-neutral-600 rounded-full" style={{ width: '77.5%' }} />
                         </div>
                       </div>
                     </div>
@@ -633,28 +639,28 @@ export default function DashboardPage() {
                 transition={{ delay: 1 }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8"
               >
-                <Link href="/simulator" className="glass-card p-5 hover:border-primary-500/50 hover:bg-primary-500/5 transition-all cursor-pointer group rounded-xl">
-                  <TrendingUp className="w-8 h-8 text-primary-400 mb-3 group-hover:scale-110 transition-transform" />
+                <Link href="/simulator" className="glass-card p-5 hover:border-white hover:bg-neutral-900 transition-all cursor-pointer group rounded-xl">
+                  <TrendingUp className="w-8 h-8 text-white mb-3 group-hover:scale-110 transition-transform" />
                   <h3 className="font-semibold text-white mb-1">What-If Simulator</h3>
-                  <p className="text-white/50 text-sm">See how lifestyle changes affect your health trajectory</p>
+                  <p className="text-neutral-400 text-sm">See how lifestyle changes affect your health trajectory</p>
                 </Link>
 
-                <Link href="/coach" className="glass-card p-5 hover:border-biotech-500/50 hover:bg-biotech-500/5 transition-all cursor-pointer group rounded-xl">
-                  <MessageCircle className="w-8 h-8 text-biotech-400 mb-3 group-hover:scale-110 transition-transform" />
+                <Link href="/coach" className="glass-card p-5 hover:border-white hover:bg-neutral-900 transition-all cursor-pointer group rounded-xl">
+                  <MessageCircle className="w-8 h-8 text-neutral-300 mb-3 group-hover:scale-110 transition-transform" />
                   <h3 className="font-semibold text-white mb-1">AI Health Coach</h3>
-                  <p className="text-white/50 text-sm">Chat with your personalized AI medical assistant</p>
+                  <p className="text-neutral-400 text-sm">Chat with your personalized AI medical assistant</p>
                 </Link>
 
-                <Link href="/reports" className="glass-card p-5 hover:border-risk-moderate/50 hover:bg-risk-moderate/5 transition-all cursor-pointer group rounded-xl">
-                  <FileText className="w-8 h-8 text-risk-moderate mb-3 group-hover:scale-110 transition-transform" />
+                <Link href="/reports" className="glass-card p-5 hover:border-white hover:bg-neutral-900 transition-all cursor-pointer group rounded-xl">
+                  <FileText className="w-8 h-8 text-neutral-300 mb-3 group-hover:scale-110 transition-transform" />
                   <h3 className="font-semibold text-white mb-1">Blood Reports</h3>
-                  <p className="text-white/50 text-sm">Upload and analyze new blood work results</p>
+                  <p className="text-neutral-400 text-sm">Upload and analyze new blood work results</p>
                 </Link>
 
-                <Link href="/calendar" className="glass-card p-5 hover:border-risk-high/50 hover:bg-risk-high/5 transition-all cursor-pointer group rounded-xl">
-                  <Calendar className="w-8 h-8 text-risk-high mb-3 group-hover:scale-110 transition-transform" />
+                <Link href="/calendar" className="glass-card p-5 hover:border-white hover:bg-neutral-900 transition-all cursor-pointer group rounded-xl">
+                  <Calendar className="w-8 h-8 text-neutral-300 mb-3 group-hover:scale-110 transition-transform" />
                   <h3 className="font-semibold text-white mb-1">Health Calendar</h3>
-                  <p className="text-white/50 text-sm">Track appointments, meds, and reminders</p>
+                  <p className="text-neutral-400 text-sm">Track appointments, meds, and reminders</p>
                 </Link>
               </motion.div>
             </>
@@ -664,13 +670,13 @@ export default function DashboardPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
-            className="mt-8 p-5 rounded-xl bg-warning/10 border border-warning/20 flex gap-4 items-start"
+            className="mt-8 p-5 rounded-xl bg-neutral-900 border border-neutral-700 flex gap-4 items-start"
           >
-            <div className="p-2 bg-warning/20 rounded-full shrink-0">
-              <Shield className="w-5 h-5 text-warning" />
+            <div className="p-2 bg-neutral-800 rounded-full shrink-0">
+              <Shield className="w-5 h-5 text-white" />
             </div>
-            <p className="text-warning text-sm leading-relaxed">
-              <strong>Disclaimer:</strong> BioTwin AI provides wellness risk estimates based on the data you provide. It is not a diagnostic tool and does not replace professional medical evaluation. Always consult a licensed healthcare provider for diagnosis, treatment, or any urgent symptoms.
+            <p className="text-neutral-300 text-sm leading-relaxed">
+              <strong className="text-white">Disclaimer:</strong> BioTwin AI provides wellness risk estimates based on the data you provide. It is not a diagnostic tool and does not replace professional medical evaluation. Always consult a licensed healthcare provider for diagnosis, treatment, or any urgent symptoms.
             </p>
           </motion.div>
         </div>

@@ -425,12 +425,12 @@ export default function ClinicianDashboard() {
     return (
       <div className="min-h-screen bg-black text-white p-6 font-sans">
         {/* Banner */}
-        <div className="bg-gradient-to-r from-blue-900/40 via-purple-900/30 to-blue-900/40 border border-blue-500/30 rounded-xl p-3 mb-6 flex justify-between items-center text-xs">
+        <div className="bg-neutral-950 border border-white/20 rounded-xl p-3 mb-6 flex justify-between items-center text-xs">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold border border-blue-400/30">SANDBOX VERIFIED</span>
+            <span className="px-2 py-0.5 rounded bg-white text-black font-bold">SANDBOX VERIFIED</span>
             <span className="text-gray-300">100% Synthetic Data conforming to <strong>DPDP Act 2023</strong> &amp; HIPAA principles. Decision support tool for clinical review.</span>
           </div>
-          <Link href="/clinician/model-transparency" className="text-blue-400 hover:underline">
+          <Link href="/clinician/model-transparency" className="text-white hover:underline underline-offset-4">
             View Compliance &amp; Model Card →
           </Link>
         </div>
@@ -439,7 +439,7 @@ export default function ClinicianDashboard() {
           <div>
             <div className="flex items-center gap-3">
               <span className="text-3xl">🧬</span>
-              <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
+              <h1 className="text-3xl font-extrabold text-white tracking-tight">
                 BioTwin AI - Clinician Portal
               </h1>
             </div>
@@ -455,17 +455,17 @@ export default function ClinicianDashboard() {
             <Link href="/clinician/model-transparency" className="px-3.5 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-700 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
               <span>🧠</span> Model Transparency
             </Link>
-            <div className="px-3 py-2 bg-emerald-950/60 rounded-lg text-xs border border-emerald-500/40 text-emerald-400 font-mono flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <div className="px-3 py-2 bg-neutral-900 rounded-lg text-xs border border-white/20 text-white font-mono flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
               Dr. Demo (Audit Active)
             </div>
           </div>
         </header>
 
         {/* Hero Quick-Launch for Evaluators */}
-        <div className="mb-8 p-6 bg-gradient-to-r from-blue-950/60 via-purple-950/40 to-black border border-purple-500/30 rounded-2xl flex flex-wrap justify-between items-center gap-4">
+        <div className="mb-8 p-6 bg-neutral-950 border border-white/20 rounded-2xl flex flex-wrap justify-between items-center gap-4">
           <div>
-            <span className="text-xs uppercase font-mono tracking-widest text-purple-400 bg-purple-900/30 px-2.5 py-1 rounded-full border border-purple-500/20">
+            <span className="text-xs uppercase font-mono tracking-widest text-white bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
               One-Click Judge Evaluation Shortcut
             </span>
             <h2 className="text-xl font-bold text-white mt-2">Evaluate Live Real-Time Digital Twin</h2>
@@ -475,7 +475,7 @@ export default function ClinicianDashboard() {
           </div>
           <button 
             onClick={() => setSelectedPatient(patients[0] || { id: 'synthetic_1', name: 'Rajesh Sharma', age: 55, has_t2d: true, last_glucose: 195, risk_tier: 'high' })}
-            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold rounded-xl shadow-[0_0_25px_rgba(147,51,234,0.4)] transition transform hover:scale-105 flex items-center gap-2"
+            className="px-6 py-3 bg-white hover:bg-neutral-200 text-black font-bold rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.2)] transition transform hover:scale-105 flex items-center gap-2"
           >
             <span>⚡</span> Launch Demo Twin (Rajesh Sharma) →
           </button>
@@ -488,7 +488,7 @@ export default function ClinicianDashboard() {
               <button
                 key={tier}
                 onClick={() => setCohortFilter(tier)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${cohortFilter === tier ? 'bg-purple-600 text-white' : 'bg-gray-900 text-gray-400 border border-gray-800 hover:text-white'}`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${cohortFilter === tier ? 'bg-white text-black font-bold' : 'bg-gray-900 text-gray-400 border border-gray-800 hover:text-white'}`}
               >
                 {tier === 'all' ? 'All Patients' : `${tier} Risk`}
               </button>
@@ -523,29 +523,29 @@ export default function ClinicianDashboard() {
                   </td>
                   <td className="p-4 text-gray-300">{p.age} / {p.gender || 'M'}</td>
                   <td className="p-4">
-                    <span className="text-xs text-blue-300 font-medium block">{p.region || 'North'}</span>
-                    <span className="text-xs text-gray-400">{p.diet || 'Vegetarian'}</span>
+                    <span className="text-xs text-gray-300 font-medium block">{p.region || 'North'}</span>
+                    <span className="text-xs text-gray-500">{p.diet || 'Vegetarian'}</span>
                   </td>
                   <td className="p-4 font-mono font-bold text-gray-200">{p.hba1c ? `${p.hba1c}%` : '8.2%'}</td>
                   <td className="p-4 font-mono">
-                    <span className={`font-bold ${p.last_glucose > 180 ? 'text-red-400' : 'text-blue-300'}`}>
+                    <span className={`font-bold ${p.last_glucose > 180 ? 'text-white' : 'text-gray-400'}`}>
                       {p.last_glucose} mg/dL
                     </span>
                     <span className="ml-1 text-xs text-gray-500">{p.trend_arrow === 'UP' ? '↗' : '→'}</span>
                   </td>
                   <td className="p-4">
                     <span className={`px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider ${
-                      p.risk_tier === 'high' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
-                      p.risk_tier === 'moderate' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
-                      'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      p.risk_tier === 'high' ? 'bg-white text-black border border-white' :
+                      p.risk_tier === 'moderate' ? 'bg-neutral-800 text-neutral-200 border border-neutral-600' :
+                      'bg-neutral-950 text-neutral-400 border border-neutral-800'
                     }`}>
                       {p.risk_tier}
                     </span>
                   </td>
                   <td className="p-4">
                     {p.active_alerts && p.active_alerts.length > 0 ? (
-                      <span className="text-xs text-red-400 flex items-center gap-1.5 font-medium">
-                        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                      <span className="text-xs text-white flex items-center gap-1.5 font-medium">
+                        <span className="w-2 h-2 rounded-full bg-white animate-ping"></span>
                         {p.active_alerts[0]}
                       </span>
                     ) : (
@@ -555,7 +555,7 @@ export default function ClinicianDashboard() {
                   <td className="p-4 text-right">
                     <button 
                       onClick={() => setSelectedPatient(p)} 
-                      className="px-3.5 py-1.5 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 border border-blue-500/30 rounded-lg text-xs font-bold transition"
+                      className="px-3.5 py-1.5 bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 rounded-lg text-xs font-bold transition"
                     >
                       Inspect Twin →
                     </button>
@@ -577,9 +577,9 @@ export default function ClinicianDashboard() {
       <div className={`flex-1 transition-all duration-300 pr-6 overflow-y-auto ${chatOpen ? 'mr-[400px]' : ''}`}>
         
         {/* Persistent Sandbox Compliance Banner */}
-        <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/20 rounded-xl p-2.5 mb-5 flex justify-between items-center text-xs">
+        <div className="bg-neutral-950 border border-white/20 rounded-xl p-2.5 mb-5 flex justify-between items-center text-xs">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">DPDP ACT 2023 COMPLIANT</span>
+            <span className="px-2 py-0.5 rounded bg-white text-black font-bold">DPDP ACT 2023 COMPLIANT</span>
             <span className="text-gray-300">100% Synthetic Digital Twin Sandbox. Decision support only. Not a medical diagnostic device.</span>
           </div>
           <span className="text-gray-400 font-mono text-[11px]">Stream: {isPlaying ? '● LIVE REPLAY (60x)' : '❚❚ PAUSED'}</span>
@@ -597,7 +597,7 @@ export default function ClinicianDashboard() {
             </button>
             <div>
               <h1 className="text-2xl font-bold flex items-center gap-2 text-white">
-                Virtual Patient: <span className="font-mono text-blue-400">{selectedPatient.name || selectedPatient.id}</span>
+                Virtual Patient: <span className="font-mono text-white underline underline-offset-4 decoration-white/30">{selectedPatient.name || selectedPatient.id}</span>
               </h1>
               <div className="flex items-center gap-3 text-xs text-gray-400 mt-0.5">
                 <span>ID: <code className="font-mono text-gray-300">{selectedPatient.id}</code></span>
@@ -628,7 +628,7 @@ export default function ClinicianDashboard() {
             </a>
             <button 
               onClick={() => setChatOpen(!chatOpen)} 
-              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 rounded-lg text-xs font-bold flex items-center gap-2 shadow-[0_0_15px_rgba(147,51,234,0.3)] transition"
+              className="px-4 py-2 bg-white hover:bg-neutral-200 text-black rounded-lg text-xs font-bold flex items-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.2)] transition"
             >
               <span>{chatOpen ? '✕ Close Copilot' : '✨ AI Clinician Copilot'}</span>
             </button>
@@ -642,10 +642,10 @@ export default function ClinicianDashboard() {
           <div className="space-y-6">
             
             {/* EHR Demographics Card */}
-            <div className="bg-gray-900/90 rounded-xl p-5 border border-gray-800">
+            <div className="bg-neutral-950 rounded-xl p-5 border border-white/20">
               <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-3 flex items-center justify-between">
                 <span>EHR Baseline</span>
-                <span className="text-[10px] font-mono bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30">STATIC STREAM</span>
+                <span className="text-[10px] font-mono bg-white/10 text-white px-2 py-0.5 rounded border border-white/20">STATIC STREAM</span>
               </h2>
               <div className="space-y-2 text-sm text-gray-300">
                 <div className="flex justify-between py-1 border-b border-gray-800/60">
@@ -658,7 +658,7 @@ export default function ClinicianDashboard() {
                 </div>
                 <div className="flex justify-between py-1 border-b border-gray-800/60">
                   <span className="text-gray-400">Baseline HbA1c:</span> 
-                  <span className="text-red-400 font-bold font-mono">{selectedPatient.hba1c || 8.2}%</span>
+                  <span className="text-white font-bold font-mono">{selectedPatient.hba1c || 8.2}%</span>
                 </div>
                 <div className="flex justify-between py-1 border-b border-gray-800/60">
                   <span className="text-gray-400">Medications:</span> 
@@ -666,7 +666,7 @@ export default function ClinicianDashboard() {
                 </div>
                 <div className="flex justify-between py-1 border-b border-gray-800/60">
                   <span className="text-gray-400">Polygenic Risk (PRS):</span> 
-                  <span className="text-orange-400 font-mono font-bold">{selectedPatient.prs_score || '0.75'} (High)</span>
+                  <span className="text-gray-200 font-mono font-bold">{selectedPatient.prs_score || '0.75'} (High)</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-gray-400">Comorbidities:</span> 
@@ -676,25 +676,25 @@ export default function ClinicianDashboard() {
             </div>
             
             {/* Interactive Alert Panel */}
-            <div className={`bg-gray-900 rounded-xl p-5 border relative overflow-hidden transition ${
-              activeAlert?.status === 'acknowledged' ? 'border-yellow-500/40 bg-yellow-950/10' :
-              activeAlert?.status === 'acting' ? 'border-emerald-500/40 bg-emerald-950/10' :
+            <div className={`bg-neutral-950 rounded-xl p-5 border relative overflow-hidden transition ${
+              activeAlert?.status === 'acknowledged' ? 'border-neutral-500 bg-neutral-900' :
+              activeAlert?.status === 'acting' ? 'border-white bg-neutral-900' :
               activeAlert?.status === 'dismissed' ? 'border-gray-800 opacity-60' :
-              'border-red-900/60 shadow-[0_0_20px_rgba(239,68,68,0.15)]'
+              'border-white/50 shadow-[0_0_20px_rgba(255,255,255,0.1)]'
             }`}>
               <div className={`absolute top-0 left-0 w-1.5 h-full ${
-                activeAlert?.status === 'acting' ? 'bg-emerald-500' :
-                activeAlert?.status === 'acknowledged' ? 'bg-yellow-500' :
-                activeAlert?.status === 'dismissed' ? 'bg-gray-600' :
-                'bg-red-500'
+                activeAlert?.status === 'acting' ? 'bg-white' :
+                activeAlert?.status === 'acknowledged' ? 'bg-neutral-400' :
+                activeAlert?.status === 'dismissed' ? 'bg-neutral-700' :
+                'bg-white'
               }`}></div>
               
               <div className="flex justify-between items-center mb-2">
-                <h2 className="text-sm font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                   Active Adverse Event Alert
                 </h2>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded font-bold bg-red-500/20 text-red-300">
+                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded font-bold bg-white text-black">
                   {activeAlert?.status || 'NEW'}
                 </span>
               </div>
@@ -704,12 +704,12 @@ export default function ClinicianDashboard() {
               </p>
               
               <div className="flex justify-between items-center text-xs text-gray-400 mt-2 font-mono">
-                <span>Model Risk P: <strong className="text-red-400 font-bold">{(latestPayload?.probability || 0.88).toFixed(2)}</strong></span>
+                <span>Model Risk P: <strong className="text-white font-bold">{(latestPayload?.probability || 0.88).toFixed(2)}</strong></span>
                 <span>Lead Time: <strong>45 min</strong></span>
               </div>
 
               {alertFeedbackNotice && (
-                <div className="mt-3 p-2 bg-emerald-900/40 border border-emerald-500/40 text-emerald-300 text-xs rounded text-center">
+                <div className="mt-3 p-2 bg-neutral-900 border border-white/20 text-white text-xs rounded text-center">
                   {alertFeedbackNotice}
                 </div>
               )}
@@ -719,13 +719,13 @@ export default function ClinicianDashboard() {
                 <div className="grid grid-cols-2 gap-2">
                   <button 
                     onClick={() => handleAlertAction('acknowledge')}
-                    className="py-1.5 px-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/30 rounded text-xs font-semibold transition"
+                    className="py-1.5 px-2 bg-neutral-800 hover:bg-neutral-700 text-white border border-neutral-600 rounded text-xs font-semibold transition"
                   >
                     ✓ Acknowledge
                   </button>
                   <button 
                     onClick={() => handleAlertAction('acting', 'prescribed_walk')}
-                    className="py-1.5 px-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 rounded text-xs font-semibold transition"
+                    className="py-1.5 px-2 bg-white hover:bg-neutral-200 text-black rounded text-xs font-bold transition"
                   >
                     🚶 Mark as Acting
                   </button>
@@ -740,46 +740,46 @@ export default function ClinicianDashboard() {
             </div>
             
             {/* Explainable AI: SHAP Contributing Drivers */}
-            <div className="bg-gray-900/90 rounded-xl p-5 border border-gray-800">
+            <div className="bg-neutral-950 rounded-xl p-5 border border-white/20">
               <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider mb-3 flex items-center justify-between">
                 <span>Top SHAP Drivers (XAI)</span>
-                <span className="text-[10px] font-mono text-purple-400">SHAP FUSION</span>
+                <span className="text-[10px] font-mono text-white bg-white/10 px-2 py-0.5 rounded border border-white/20">SHAP FUSION</span>
               </h2>
               <ul className="space-y-3 text-xs">
                 <li className="space-y-1">
                   <div className="flex justify-between text-gray-300">
                     <span>Glucose Rising Slope (+2.4 mg/dL/m)</span>
-                    <span className="text-red-400 font-mono font-bold">+0.42</span>
+                    <span className="text-white font-mono font-bold">+0.42</span>
                   </div>
                   <div className="w-full h-1.5 bg-gray-800 rounded overflow-hidden">
-                    <div className="h-full bg-red-500 rounded" style={{ width: '84%' }}></div>
+                    <div className="h-full bg-white rounded" style={{ width: '84%' }}></div>
                   </div>
                 </li>
                 <li className="space-y-1">
                   <div className="flex justify-between text-gray-300">
                     <span>Recent Meal Carbs (~85g, High GI)</span>
-                    <span className="text-red-400 font-mono font-bold">+0.28</span>
+                    <span className="text-gray-200 font-mono font-bold">+0.28</span>
                   </div>
                   <div className="w-full h-1.5 bg-gray-800 rounded overflow-hidden">
-                    <div className="h-full bg-red-500 rounded" style={{ width: '56%' }}></div>
+                    <div className="h-full bg-neutral-300 rounded" style={{ width: '56%' }}></div>
                   </div>
                 </li>
                 <li className="space-y-1">
                   <div className="flex justify-between text-gray-300">
                     <span>Poor Sleep Duration (5.2 hrs)</span>
-                    <span className="text-orange-400 font-mono font-bold">+0.16</span>
+                    <span className="text-gray-300 font-mono font-bold">+0.16</span>
                   </div>
                   <div className="w-full h-1.5 bg-gray-800 rounded overflow-hidden">
-                    <div className="h-full bg-orange-500 rounded" style={{ width: '32%' }}></div>
+                    <div className="h-full bg-neutral-400 rounded" style={{ width: '32%' }}></div>
                   </div>
                 </li>
                 <li className="space-y-1">
                   <div className="flex justify-between text-gray-300">
                     <span>Medication Adherence (Metformin)</span>
-                    <span className="text-emerald-400 font-mono font-bold">-0.12</span>
+                    <span className="text-gray-400 font-mono font-bold">-0.12</span>
                   </div>
                   <div className="w-full h-1.5 bg-gray-800 rounded overflow-hidden">
-                    <div className="h-full bg-emerald-500 rounded" style={{ width: '24%' }}></div>
+                    <div className="h-full bg-neutral-600 rounded" style={{ width: '24%' }}></div>
                   </div>
                 </li>
               </ul>
@@ -814,12 +814,12 @@ export default function ClinicianDashboard() {
           <div className="lg:col-span-3 space-y-6">
             
             {/* Primary Real-Time CGM Trajectory Chart */}
-            <div className="bg-gray-900/90 rounded-xl p-5 border border-gray-800 flex flex-col">
+            <div className="bg-neutral-950 rounded-xl p-5 border border-white/20 flex flex-col">
               <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
                 <div>
                   <h2 className="text-lg font-bold text-white flex items-center gap-2">
                     <span>Live Continuous Glucose Monitoring (CGM) &amp; Forecast</span>
-                    <span className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span>
+                    <span className="w-2 h-2 rounded-full bg-white animate-ping"></span>
                   </h2>
                   <p className="text-xs text-gray-400">5-minute interval streaming | Target Safe Range: 70 – 180 mg/dL</p>
                 </div>
@@ -831,7 +831,7 @@ export default function ClinicianDashboard() {
                       <button
                         key={s}
                         onClick={() => changeSpeed(s)}
-                        className={`px-2 py-1 rounded ${streamSpeed === s ? 'bg-purple-600 text-white font-bold' : 'text-gray-400 hover:text-white'}`}
+                        className={`px-2 py-1 rounded ${streamSpeed === s ? 'bg-white text-black font-bold' : 'text-gray-400 hover:text-white'}`}
                       >
                         {s}x
                       </button>
@@ -840,11 +840,7 @@ export default function ClinicianDashboard() {
 
                   <button 
                     onClick={togglePlayPause} 
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
-                      isPlaying 
-                        ? 'bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30' 
-                        : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30'
-                    }`}
+                    className="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-neutral-900 text-white border border-white/20 hover:bg-neutral-800"
                   >
                     <span>{isPlaying ? '❚❚ PAUSE STREAM' : '▶ RESUME STREAM'}</span>
                   </button>
@@ -858,44 +854,44 @@ export default function ClinicianDashboard() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#222" />
                     <XAxis dataKey="time" stroke="#666" tick={{ fontSize: 10 }} />
                     <YAxis domain={[40, 300]} stroke="#666" tick={{ fontSize: 10 }} />
-                    <Tooltip contentStyle={{ backgroundColor: '#111', borderColor: '#333', fontSize: 12 }} />
+                    <Tooltip contentStyle={{ backgroundColor: '#000', borderColor: '#444', fontSize: 12 }} />
                     <Legend wrapperStyle={{ fontSize: 11 }} />
                     {/* Safe Range Area */}
-                    <ReferenceArea y1={70} y2={180} fill="#22c55e" fillOpacity={0.08} label={{ value: 'Target Range (70-180)', fill: '#22c55e', fontSize: 10, position: 'insideTopLeft' }} />
-                    <ReferenceArea y1={180} y2={300} fill="#ef4444" fillOpacity={0.06} />
-                    <ReferenceArea y1={40} y2={70} fill="#ef4444" fillOpacity={0.06} />
-                    <Line type="monotone" dataKey="glucose" stroke="#3b82f6" strokeWidth={3} dot={false} name="Glucose (mg/dL)" />
+                    <ReferenceArea y1={70} y2={180} fill="#ffffff" fillOpacity={0.06} label={{ value: 'Target Range (70-180)', fill: '#ffffff', fontSize: 10, position: 'insideTopLeft' }} />
+                    <ReferenceArea y1={180} y2={300} fill="#000000" fillOpacity={0.3} />
+                    <ReferenceArea y1={40} y2={70} fill="#000000" fillOpacity={0.3} />
+                    <Line type="monotone" dataKey="glucose" stroke="#ffffff" strokeWidth={2.5} dot={false} name="Glucose (mg/dL)" />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
 
               {/* Projected Horizon Ticker */}
               <div className="grid grid-cols-4 gap-3 mt-3 pt-3 border-t border-gray-800 text-center font-mono">
-                <div className="bg-black/50 p-2 rounded border border-gray-800">
+                <div className="bg-black/80 p-2 rounded border border-gray-800">
                   <span className="text-[10px] text-gray-500 block">+30 min Forecast</span>
-                  <span className="text-sm font-bold text-yellow-400">198 mg/dL</span>
+                  <span className="text-sm font-bold text-white">198 mg/dL</span>
                 </div>
-                <div className="bg-black/50 p-2 rounded border border-gray-800">
+                <div className="bg-black/80 p-2 rounded border border-gray-800">
                   <span className="text-[10px] text-gray-500 block">+60 min Forecast</span>
-                  <span className="text-sm font-bold text-red-400">214 mg/dL</span>
+                  <span className="text-sm font-bold text-white">214 mg/dL</span>
                 </div>
-                <div className="bg-black/50 p-2 rounded border border-gray-800">
+                <div className="bg-black/80 p-2 rounded border border-gray-800">
                   <span className="text-[10px] text-gray-500 block">+90 min Forecast</span>
-                  <span className="text-sm font-bold text-red-400">202 mg/dL</span>
+                  <span className="text-sm font-bold text-white">202 mg/dL</span>
                 </div>
-                <div className="bg-black/50 p-2 rounded border border-gray-800">
+                <div className="bg-black/80 p-2 rounded border border-gray-800">
                   <span className="text-[10px] text-gray-500 block">+120 min Forecast</span>
-                  <span className="text-sm font-bold text-yellow-400">178 mg/dL</span>
+                  <span className="text-sm font-bold text-white">178 mg/dL</span>
                 </div>
               </div>
             </div>
 
             {/* 24-Hour Clinical Grounded Summary Card */}
             {summary24h && (
-              <div className="bg-gradient-to-r from-gray-900 to-gray-950 rounded-xl p-5 border border-gray-800 flex flex-wrap justify-between items-center gap-4">
+              <div className="bg-neutral-950 rounded-xl p-5 border border-white/20 flex flex-wrap justify-between items-center gap-4">
                 <div className="space-y-1 max-w-xl">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs uppercase font-mono font-bold text-blue-400 bg-blue-900/30 px-2 py-0.5 rounded border border-blue-500/20">
+                    <span className="text-xs uppercase font-mono font-bold text-black bg-white px-2 py-0.5 rounded">
                       24-Hour ADA Clinical Grounded Summary
                     </span>
                     <span className="text-[11px] text-gray-400 font-mono">Clinician Certified</span>
@@ -905,35 +901,35 @@ export default function ClinicianDashboard() {
                   </p>
                 </div>
                 <div className="flex gap-3 font-mono text-center">
-                  <div className="bg-black/60 px-3.5 py-2 rounded-lg border border-gray-800">
+                  <div className="bg-black px-3.5 py-2 rounded-lg border border-gray-800">
                     <span className="text-[10px] text-gray-400 block">TIR (70-180)</span>
-                    <span className="text-base font-bold text-emerald-400">{summary24h.metrics?.tir}%</span>
+                    <span className="text-base font-bold text-white">{summary24h.metrics?.tir}%</span>
                   </div>
-                  <div className="bg-black/60 px-3.5 py-2 rounded-lg border border-gray-800">
+                  <div className="bg-black px-3.5 py-2 rounded-lg border border-gray-800">
                     <span className="text-[10px] text-gray-400 block">TAR (&gt;180)</span>
-                    <span className="text-base font-bold text-red-400">{summary24h.metrics?.tar}%</span>
+                    <span className="text-base font-bold text-gray-300">{summary24h.metrics?.tar}%</span>
                   </div>
-                  <div className="bg-black/60 px-3.5 py-2 rounded-lg border border-gray-800">
+                  <div className="bg-black px-3.5 py-2 rounded-lg border border-gray-800">
                     <span className="text-[10px] text-gray-400 block">TBR (&lt;70)</span>
-                    <span className="text-base font-bold text-yellow-400">{summary24h.metrics?.tbr}%</span>
+                    <span className="text-base font-bold text-gray-500">{summary24h.metrics?.tbr}%</span>
                   </div>
                 </div>
               </div>
             )}
 
             {/* Indian Diet Prescriptive "What-If" Simulator */}
-            <div className="bg-gray-900/90 rounded-xl p-5 border border-purple-900/30">
+            <div className="bg-neutral-950 rounded-xl p-5 border border-white/20">
               <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
                 <div>
-                  <h2 className="text-lg font-bold text-purple-400 flex items-center gap-2">
+                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
                     <span>Prescriptive Indian What-If Simulator</span>
-                    <span className="text-xs px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-normal border border-purple-500/30">Bergman Minimal ODE</span>
+                    <span className="text-xs px-2 py-0.5 rounded bg-white/10 text-white font-normal border border-white/20">Bergman Minimal ODE</span>
                   </h2>
                   <p className="text-xs text-gray-400">Simulate dietary carbohydrate perturbations and post-meal exercise counterfactuals.</p>
                 </div>
                 <button 
                   onClick={handleOptimize} 
-                  className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 px-4 py-2 rounded-lg text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] transition"
+                  className="bg-white hover:bg-neutral-200 text-black px-4 py-2 rounded-lg text-xs font-bold shadow-[0_0_15px_rgba(255,255,255,0.2)] transition"
                 >
                   ✨ Find Counterfactual Regimen
                 </button>
@@ -1065,24 +1061,24 @@ export default function ClinicianDashboard() {
       </div>
 
       {/* AI Clinician Copilot Drawer */}
-      <div className={`fixed top-0 right-0 h-full w-[400px] bg-gray-900 border-l border-gray-800 transform transition-transform duration-300 ease-in-out z-50 flex flex-col ${chatOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="p-4 border-b border-gray-800 flex justify-between items-center bg-black/40">
-          <h2 className="font-bold text-base flex items-center gap-2">
+      <div className={`fixed top-0 right-0 h-full w-[400px] bg-neutral-950 border-l border-white/20 transform transition-transform duration-300 ease-in-out z-50 flex flex-col ${chatOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="p-4 border-b border-gray-800 flex justify-between items-center bg-black/60">
+          <h2 className="font-bold text-base flex items-center gap-2 text-white">
             <span className="text-xl">🤖</span> AI Clinician Copilot
           </h2>
           <button onClick={() => setChatOpen(false)} className="text-gray-500 hover:text-white">✕</button>
         </div>
         
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          <div className="bg-blue-900/20 border border-blue-500/20 p-3 rounded-xl rounded-tl-none">
-            <p className="text-xs text-blue-100 leading-relaxed">
+          <div className="bg-neutral-900 border border-white/20 p-3 rounded-xl rounded-tl-none">
+            <p className="text-xs text-white leading-relaxed">
               Hello Dr. Demo! I&apos;m your BioTwin AI Copilot. Ask clinical questions, test meal swaps, or command simulations directly.
             </p>
           </div>
           
           {chatMessages.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[85%] p-3 rounded-xl text-xs leading-relaxed ${msg.role === 'user' ? 'bg-purple-600 rounded-tr-none text-white' : 'bg-gray-800 rounded-tl-none text-gray-200 border border-gray-700'}`}>
+              <div className={`max-w-[85%] p-3 rounded-xl text-xs leading-relaxed ${msg.role === 'user' ? 'bg-white rounded-tr-none text-black font-medium' : 'bg-neutral-900 rounded-tl-none text-white border border-neutral-700'}`}>
                 <p>{msg.text}</p>
               </div>
             </div>
@@ -1090,16 +1086,16 @@ export default function ClinicianDashboard() {
           <div ref={endOfMessagesRef} />
         </div>
         
-        <div className="p-4 border-t border-gray-800 bg-black/40">
+        <div className="p-4 border-t border-gray-800 bg-black/60">
           <form onSubmit={handleChatSubmit} className="flex gap-2">
             <input 
               type="text" 
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               placeholder="Ask e.g. 'What if we swap Biryani for Roti + Dal?'"
-              className="flex-1 bg-gray-950 border border-gray-700 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-purple-500 text-white"
+              className="flex-1 bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-white text-white"
             />
-            <button type="submit" className="bg-purple-600 hover:bg-purple-700 px-3.5 rounded-lg font-bold text-xs">
+            <button type="submit" className="bg-white hover:bg-neutral-200 text-black px-3.5 rounded-lg font-bold text-xs">
               →
             </button>
           </form>

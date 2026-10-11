@@ -138,9 +138,9 @@ async def get_dashboard_summary(
 
     # Risk Distribution (calculate from risk summaries)
     risk_distribution = [
-        {"name": "Low Risk", "value": 0, "fill": "#22c55e"},
-        {"name": "Moderate Risk", "value": 0, "fill": "#eab308"},
-        {"name": "High Risk", "value": 0, "fill": "#ef4444"}
+        {"name": "Low Risk", "value": 0, "fill": "#ffffff"},
+        {"name": "Moderate Risk", "value": 0, "fill": "#a3a3a3"},
+        {"name": "High Risk", "value": 0, "fill": "#525252"}
     ]
     for r in risk_summaries:
         if r.risk_band == "low":
@@ -153,7 +153,7 @@ async def get_dashboard_summary(
     # Filter out zeros
     risk_distribution = [r for r in risk_distribution if r["value"] > 0]
     if not risk_distribution:
-        risk_distribution = [{"name": "Low Risk", "value": 1, "fill": "#22c55e"}]
+        risk_distribution = [{"name": "Low Risk", "value": 1, "fill": "#ffffff"}]
 
     return DashboardSummaryResponse(
         user_id=str(current_user.id),
