@@ -27,6 +27,7 @@ INDIAN_MEAL_CATALOG = [
 ]
 
 @simulate_router.get("/meals")
+@router.get("/meals")
 async def get_indian_meals():
     """Returns curated Indian food database for What-If simulator"""
     return {"meals": INDIAN_MEAL_CATALOG}

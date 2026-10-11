@@ -1,5 +1,7 @@
-"""AI Health Coach service"""
-import google.generativeai as genai
+try:
+    import google.generativeai as genai
+except ImportError:
+    genai = None
 from typing import List, AsyncGenerator
 from app.core.config import settings
 
@@ -21,9 +23,12 @@ class HealthCoach:
     """LLM-powered health coach with RAG grounding using Gemini"""
 
     def __init__(self):
-        self.enabled = bool(settings.GEMINI_API_KEY or settings.GROQ_API_KEY)
-        if settings.GEMINI_API_KEY:
-            genai.configure(api_key=settings.GEMINI_API_KEY)
+        self.enabled = bool((settings.GEMINI_API_KEY and genai is not None) or settings.GROQ_API_KEY)
+        if settings.GEMINI_API_KEY and genai is not None:
+            try:
+                genai.configure(api_key=settings.GEMINI_API_KEY)
+            except Exception:
+                pass
 
     async def stream_response(
         self,

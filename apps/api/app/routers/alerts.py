@@ -52,6 +52,7 @@ async def get_patient_alerts(patient_id: str):
     return {"alerts": patient_alerts}
 
 @router.post("/action")
+@router.post("/feedback")
 async def take_alert_action(req: AlertActionRequest):
     """
     Clinician feedback loop:
