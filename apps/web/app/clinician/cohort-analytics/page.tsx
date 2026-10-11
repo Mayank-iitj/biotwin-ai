@@ -6,11 +6,15 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend
 } from 'recharts';
 
+const getApiBase = () => {
+  return process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '') : '';
+};
+
 export default function CohortAnalyticsPage() {
   const [analytics, setAnalytics] = useState<any>(null);
 
   useEffect(() => {
-    fetch('/api/v1/cohort/analytics')
+    fetch(`${getApiBase()}/api/v1/cohort/analytics`)
       .then(res => res.json())
       .then(data => setAnalytics(data))
       .catch(console.error);

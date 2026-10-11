@@ -3,6 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
+const getApiBase = () => {
+  return process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, '') : '';
+};
+
 export default function MonitoringOpsPage() {
   const [driftInjected, setDriftInjected] = useState(false);
   const [driftStatus, setDriftStatus] = useState<any>(null);
@@ -10,12 +14,12 @@ export default function MonitoringOpsPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch('/api/v1/monitoring/drift')
+    fetch(`${getApiBase()}/api/v1/monitoring/drift`)
       .then(res => res.json())
       .then(data => setDriftStatus(data))
       .catch(console.error);
 
-    fetch('/api/v1/monitoring/latency')
+    fetch(`${getApiBase()}/api/v1/monitoring/latency`)
       .then(res => res.json())
       .then(data => setLatency(data))
       .catch(console.error);
@@ -25,7 +29,7 @@ export default function MonitoringOpsPage() {
     setLoading(true);
     const nextState = !driftInjected;
     try {
-      await fetch('/api/v1/monitoring/inject-drift', {
+      await fetch(`${getApiBase()}/api/v1/monitoring/inject-drift`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inject: nextState })
