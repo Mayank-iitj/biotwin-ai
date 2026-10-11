@@ -548,3 +548,14 @@ export default function HumanBodyViewer({
     </div>
   )
 }
+
+export function HumanBodyViewerSkeleton() {
+  return (
+    <div className="w-full h-full min-h-[300px] flex items-center justify-center bg-neutral-950/80 border border-neutral-800 rounded-xl animate-pulse">
+      <div className="text-center text-xs text-neutral-500 font-mono">
+        <div className="w-12 h-12 mx-auto mb-2 rounded-full border-2 border-neutral-700 border-t-white animate-spin" />
+        <span>Rendering Anatomical Digital Twin...</span>
+      </div>
+    </div>
+  )
+}
